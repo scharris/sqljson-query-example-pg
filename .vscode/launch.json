@@ -1,0 +1,40 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+      {
+          "type": "node",
+          "request": "launch",
+          "name": "Run Query Generator",
+          "skipFiles": [
+              "<node_internals>/**"
+          ],
+          "program": "${workspaceFolder}/query-gen/run.ts",
+          "cwd": "${workspaceFolder}/query-gen",
+          "args":  [
+            "--dbmd",           "dbmd.json",
+            "--types-header",   "types-header",
+            "--ts-output-dir",  "../src/generated/lib",
+            "--sql-output-dir", "../src/generated/sql"
+          ],
+          "outFiles": [
+            "${workspaceFolder}/query-gen/build/**/*.js"
+          ],
+          "preLaunchTask": "Compile Query Generator"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Run App",
+        "skipFiles": [
+            "<node_internals>/**"
+        ],
+        "program": "${workspaceFolder}/src/app.ts",
+        "cwd": "${workspaceFolder}",
+        "args":  ["src/generated/sql", "db/connection.env"],
+        "outFiles": [
+          "${workspaceFolder}/dist/**/*.js"
+        ],
+        "preLaunchTask": "Build App"
+    }
+  ]
+}

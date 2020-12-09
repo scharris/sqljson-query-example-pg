@@ -1,0 +1,56 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+    {
+      "label": "Build App",
+      "type": "npm",
+      "script": "build",
+      "path": "${workspaceFolder}",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "detail": "'npm run build'"
+    },
+    {
+      "label": "Compile Query Generator",
+      "type": "npm",
+      "script": "compile-qgen",
+      "path": "${workspaceFolder}",
+      "group": "build",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "detail": "'npm run compile-qgen'"
+    },
+    {
+      "label": "Build Postgres Docker Image",
+      "type": "docker-build",
+      "dockerBuild": {
+        "dockerfile": "${workspaceFolder}/db/Dockerfile",
+        "context": "${workspaceFolder}/db",
+        "tag": "drugs-pg"
+      }
+    },
+    {
+      "label": "Run Postgres Docker Image",
+      "type": "docker-run",
+      "dependsOn": "Build Postgres Docker Image",
+      "dockerRun": {
+        "containerName": "drugs-pg",
+        "remove": true,
+        "ports": [{"containerPort": 5432, "hostPort": 5432}],
+        "env": {
+          "POSTGRES_USER": "drugs",
+          "POSTGRES_PASSWORD": "drugs",
+          "POSTGRES_DB": "drugs"
+        },
+        "customOptions": "-d --shm-size=256MB",
+        "image": "drugs-pg"
+      }
+    }
+  ]
+}
