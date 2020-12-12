@@ -61,7 +61,8 @@ from (
           'nctrIsisId', q."nctrIsisId",
           'cas', q.cas,
           'entered', q.entered,
-          'enteredByAnalyst', q."enteredByAnalyst"
+          'enteredByAnalyst', q."enteredByAnalyst",
+          'approvedByAnalyst', q."approvedByAnalyst"
         ) json
       from (
         -- base query for table 'compound'
@@ -89,7 +90,27 @@ from (
                 c.entered_by = a.id
               )
             ) q
-          ) "enteredByAnalyst"
+          ) "enteredByAnalyst",
+          -- parent table 'analyst' referenced as 'approvedByAnalyst'
+          (
+            select
+              -- row object builder for table 'analyst'
+              jsonb_build_object(
+                'id', q.id,
+                'shortName', q."shortName"
+              ) json
+            from (
+              -- base query for table 'analyst'
+              select
+                a.id as id,
+                a.short_name "shortName"
+              from
+                analyst a
+              where (
+                c.approved_by = a.id
+              )
+            ) q
+          ) "approvedByAnalyst"
         from
           compound c
         where (

@@ -49,6 +49,7 @@ export interface Compound
    cas: string | null;
    entered: TimestampTZ | null;
    enteredByAnalyst: Analyst;
+   approvedByAnalyst: Analyst | null;
 }
 
 export interface Brand

@@ -28,6 +28,7 @@ export const drugs = { // schema 'drugs'
       "mol_weight": { type: "numeric", nullable: true, pkPart: null, len: null, prec: null, precRadix: 10, scale: null },
       "entered": { type: "timestamptz", nullable: true, pkPart: null, len: null, prec: null, precRadix: null, scale: null },
       "entered_by": { type: "int4", nullable: false, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
+      "approved_by": { type: "int4", nullable: true, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
    },
    
    "advisory_type": { // relation 'advisory_type'

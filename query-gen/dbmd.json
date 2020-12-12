@@ -197,6 +197,16 @@
           "precision": 32,
           "precisionRadix": 2,
           "fractionalDigits": 0
+        },
+        {
+          "name": "approved_by",
+          "databaseType": "int4",
+          "nullable": true,
+          "primaryKeyPartNumber": null,
+          "length": null,
+          "precision": 32,
+          "precisionRadix": 2,
+          "fractionalDigits": 0
         }
       ]
     },
@@ -749,7 +759,24 @@
       ]
     },
     {
-      "constraintName": "compound_analyst_fk",
+      "constraintName": "compound_approvedby_analyst_fk",
+      "foreignKeyRelationId": {
+        "schema": "drugs",
+        "name": "compound"
+      },
+      "primaryKeyRelationId": {
+        "schema": "drugs",
+        "name": "analyst"
+      },
+      "foreignKeyComponents": [
+        {
+          "foreignKeyFieldName": "approved_by",
+          "primaryKeyFieldName": "id"
+        }
+      ]
+    },
+    {
+      "constraintName": "compound_enteredby_analyst_fk",
       "foreignKeyRelationId": {
         "schema": "drugs",
         "name": "compound"

@@ -116,3 +116,4 @@ insert into advisory(id, drug_id, advisory_type_id, text)
  select 123*n, n, 3, 'Heard this might be bad -anon' || n
  from generate_series(1,5) n
 ;
+

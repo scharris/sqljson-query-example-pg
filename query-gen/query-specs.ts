@@ -121,7 +121,16 @@ function drugQuery
                 tableJson: {
                   table: "analyst",
                   fieldExpressions: ["id", "short_name"]
-                }
+                },
+                viaForeignKeyFields: ["entered_by"]
+              },
+              {
+                referenceName: "approvedByAnalyst",
+                tableJson: {
+                  table: "analyst",
+                  fieldExpressions: ["id", "short_name"]
+                },
+                viaForeignKeyFields: ["approved_by"]
               }
             ]
           }
