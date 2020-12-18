@@ -1,6 +1,7 @@
 node_modules
 dist
 build
+NOTES
 .idea
 *.iml
 .DS_Store
