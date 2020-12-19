@@ -1,3 +1,4 @@
+import { fstat } from 'fs';
 import { QueryGroupSpec, QuerySpec, RecordCondition, CustomPropertyTypeFn, SimpleTableFieldProperty, ResultType } from 'sqljson-query';
 
 function drugQuery
@@ -25,13 +26,13 @@ function drugQuery
         "therapeutic_indications",
         { expression: "$$.cid + 1000", jsonProperty: "cidPlus1000", fieldTypeInGeneratedSource: "number | null" },
       ],
-      childTableCollections: [
+      childTables: [
         {
           collectionName: "brands",
           tableJson: {
             table: "brand",
             fieldExpressions: ["brand_name"],
-            inlineParentTables: [
+            parentTables: [
               {
                 tableJson: {
                   table: "manufacturer",
@@ -46,7 +47,7 @@ function drugQuery
           tableJson: {
             table: "advisory",
             fieldExpressions: [{ field: "text", jsonProperty: "advisoryText" }],
-            inlineParentTables: [
+            parentTables: [
               {
                 tableJson: {
                   table: "advisory_type",
@@ -54,7 +55,7 @@ function drugQuery
                     { field: "name", jsonProperty: "advisoryType" },
                     { expression: "(1 + 1)", jsonProperty: "exprYieldingTwo", fieldTypeInGeneratedSource: "number" },
                   ],
-                  inlineParentTables: [
+                  parentTables: [
                     {
                       tableJson: {
                         table: "authority",
@@ -75,7 +76,7 @@ function drugQuery
           collectionName: "functionalCategories",
           tableJson: {
             table: "drug_functional_category",
-            inlineParentTables: [
+            parentTables: [
               {
                 tableJson: {
                   table: "functional_category",
@@ -99,7 +100,7 @@ function drugQuery
           }
         }
       ],
-      referencedParentTables: [
+      parentTables: [
         {
           referenceName: "registeredByAnalyst",
           tableJson: {
@@ -115,7 +116,7 @@ function drugQuery
           tableJson: {
             table: "compound",
             fieldExpressions: ["display_name", "nctr_isis_id", "cas", "entered"],
-            referencedParentTables: [
+            parentTables: [
               {
                 referenceName: "enteredByAnalyst",
                 tableJson: {
