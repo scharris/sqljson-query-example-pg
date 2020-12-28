@@ -1,4 +1,4 @@
-import * as fs from 'fs/promises';
+import {promises as fs} from 'fs'; // for some older node versions (e.g. v10)
 import * as path from 'path';
 import * as dotenv from 'dotenv';
 import {Client as PgClient, QueryResult} from 'pg';
@@ -31,9 +31,9 @@ async function runAll(): Promise<void>
   try
   {
     await runExampleQueries(pgClient);
-  
+
     await runExampleModifications(pgClient);
-  
+
     console.log('\nAll statements executed successfully, detailed results are printed above.\n');
   }
   finally
