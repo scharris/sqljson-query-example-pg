@@ -34,7 +34,7 @@
       "@types/pg": "^7.14.5",
       "@types/pg-pool": "^2.0.2",
       "copyfiles": "^2.4.1",
-      "dbmd-pg": "^1.0.1",
+      "dbmd-pg": "^1.1.1",
       "rimraf": "^3.0.2",
       "typescript": "^4.1.3"
    }
