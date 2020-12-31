@@ -1,5 +1,4 @@
-import { fstat } from 'fs';
-import { QueryGroupSpec, QuerySpec, RecordCondition, CustomPropertyTypeFn, SimpleTableFieldProperty, ResultType } from 'sqljson-query';
+import {QueryGroupSpec, QuerySpec, RecordCondition, SimpleTableFieldProperty, ResultType } from 'sqljson-query';
 
 function drugQuery
   (
@@ -143,7 +142,7 @@ function drugQuery
   };
 }
 
-export const queryGroupSpec: QueryGroupSpec = {
+const queryGroupSpec: QueryGroupSpec = {
   defaultSchema: "drugs",
   generateUnqualifiedNamesForSchemas: ["drugs"],
   outputFieldNameDefault: "CAMELCASE",
@@ -153,21 +152,4 @@ export const queryGroupSpec: QueryGroupSpec = {
   ]
 };
 
-export function propertyTypeCustomizer
-  (
-    prop: SimpleTableFieldProperty,
-    resType: ResultType
-  )
-  : string | null
-{
-  if (resType.table === 'drug' && prop.name === 'category')
-  {
-    return 'CategoryCode' + (prop.nullable ? ' | null' : '');
-  }
-  else if (prop.databaseType === 'timestamptz')
-  {
-    return 'TimestampTZ' + (prop.nullable ? ' | null' : '');
-  }
-
-  return null; // no customization,
-}
+export default queryGroupSpec;

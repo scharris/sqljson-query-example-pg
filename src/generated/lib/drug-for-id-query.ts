@@ -22,10 +22,10 @@ export interface Drug
    id: number;
    name: string;
    description: string | null;
-   category: CategoryCode;
+   category: string;
    meshId: string | null;
    cid: number | null;
-   registered: TimestampTZ | null;
+   registered: string | null;
    marketEntryDate: string | null;
    therapeuticIndications: string | null;
    cidPlus1000: number | null;
@@ -47,7 +47,7 @@ export interface Compound
    displayName: string | null;
    nctrIsisId: string | null;
    cas: string | null;
-   entered: TimestampTZ | null;
+   entered: string | null;
    enteredByAnalyst: Analyst;
    approvedByAnalyst: Analyst | null;
 }

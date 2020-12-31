@@ -1,3 +1,4 @@
+query-gen/*.js
 node_modules
 dist
 build
