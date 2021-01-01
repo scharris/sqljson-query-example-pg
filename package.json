@@ -11,8 +11,9 @@
    "author": "Stephen C. Harris",
    "license": "MIT",
    "scripts": {
-      "build-example-db": "docker build -t drugs-pg db",
-      "example-db": "docker run -d --name drugs-pg --rm -p 5432:5432 --shm-size=256MB -e POSTGRES_USER=drugs -e POSTGRES_PASSWORD=drugs -e POSTGRES_DB=drugs drugs-pg",
+      "build-db": "docker build -t drugs-pg db",
+      "start-db": "npm run build-db && docker run -d --name drugs-pg --rm -p 5432:5432 --shm-size=256MB -e POSTGRES_USER=drugs -e POSTGRES_PASSWORD=drugs -e POSTGRES_DB=drugs drugs-pg",
+      "psql": "docker exec -it drugs-pg psql -U drugs",
       "generate-dbmd": "dbmd-gen-pg --conn-env db/connection.env query-gen/dbmd.json",
       "generate-queries": "npm run compile-qspecs && npm run sjq-gen",
       "compile-qspecs": "cd query-gen && tsc --strict query-specs.ts",
@@ -21,8 +22,7 @@
       "build": "npm run clean && tsc && copyfiles --flat src/generated/sql/*.sql dist/generated/sql",
       "preapp": "npm run build",
       "app": "node dist/app.js dist/generated/sql db/connection.env",
-      "clean": "rimraf dist",
-      "clean-all": "npm run clean && cd query-gen && npm run clean"
+      "clean": "rimraf dist"
    },
    "dependencies": {
       "dotenv": "^8.2.0",
