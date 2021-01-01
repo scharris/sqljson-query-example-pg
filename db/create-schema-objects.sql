@@ -21,7 +21,7 @@ create table compound
             references analyst,
     approved_by         integer
         constraint compound_approvedby_analyst_fk
-            references analyst  
+            references analyst
 );
 
 create table drug
