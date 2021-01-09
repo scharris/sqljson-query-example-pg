@@ -2,7 +2,7 @@ $dbInit = "$PSScriptRoot"
 
 docker build -t drugs-pg $dbInit
 
-docker run -d --name drugs-pg --rm -p 5432:5432 --shm-size=256MB `
+docker run -d --name drugs-pg --rm -p 127.0.0.1:5432:5432 --shm-size=256MB `
   -e POSTGRES_USER=drugs -e POSTGRES_PASSWORD=drugs -e POSTGRES_DB=drugs `
   drugs-pg
 

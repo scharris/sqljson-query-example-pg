@@ -12,7 +12,7 @@
    "license": "MIT",
    "scripts": {
       "build-db": "docker build -t drugs-pg db",
-      "start-db": "npm run build-db && docker run -d --name drugs-pg --rm -p 5432:5432 --shm-size=256MB -e POSTGRES_USER=drugs -e POSTGRES_PASSWORD=drugs -e POSTGRES_DB=drugs drugs-pg",
+      "start-db": "npm run build-db && docker run -d --name drugs-pg --rm -p 127.0.0.1:5432:5432 --shm-size=256MB -e POSTGRES_USER=drugs -e POSTGRES_PASSWORD=drugs -e POSTGRES_DB=drugs drugs-pg",
       "psql": "docker exec -it drugs-pg psql -U drugs",
       "generate-dbmd": "dbmd-gen-pg --conn-env db/connection.env query-gen/dbmd.json",
       "generate-queries": "npm run compile-qspecs && npm run sjq-gen",
