@@ -4,6 +4,7 @@
 
 
 export const drugs = { // schema 'drugs'
+
    "authority": { // relation 'authority'
       "id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
       "name": { type: "varchar", nullable: false, pkPart: null, len: 200, prec: null, precRadix: null, scale: null },

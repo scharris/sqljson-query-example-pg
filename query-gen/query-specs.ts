@@ -1,4 +1,4 @@
-import {QueryGroupSpec, QuerySpec, RecordCondition, SimpleTableFieldProperty, ResultType } from 'sqljson-query';
+import {QueryGroupSpec, QuerySpec, RecordCondition} from 'sqljson-query';
 
 function drugQuery
   (
@@ -23,7 +23,9 @@ function drugQuery
         "registered",
         "market_entry_date",
         "therapeutic_indications",
-        { expression: "$$.cid + 1000", jsonProperty: "cidPlus1000", fieldTypeInGeneratedSource: "number | null" },
+        { expression: "$$.cid + 1000",
+          jsonProperty: "cidPlus1000",
+          fieldTypeInGeneratedSource: {"TS": "number | null", "Java": "@Nullable Long"} },
       ],
       childTables: [
         {
@@ -52,7 +54,9 @@ function drugQuery
                   table: "advisory_type",
                   fieldExpressions: [
                     { field: "name", jsonProperty: "advisoryType" },
-                    { expression: "(1 + 1)", jsonProperty: "exprYieldingTwo", fieldTypeInGeneratedSource: "number" },
+                    { expression: "(1 + 1)",
+                      jsonProperty: "exprYieldingTwo",
+                      fieldTypeInGeneratedSource: {"TS": "number", "Java" : "int"} },
                   ],
                   parentTables: [
                     {
@@ -145,7 +149,7 @@ function drugQuery
 const queryGroupSpec: QueryGroupSpec = {
   defaultSchema: "drugs",
   generateUnqualifiedNamesForSchemas: ["drugs"],
-  outputFieldNameDefault: "CAMELCASE",
+  propertyNameDefault: "CAMELCASE",
   querySpecs: [
     drugQuery("drugs query", { sql: "$$.name ilike $1" }),
     drugQuery("drug for id query", { sql: "$$.id = $1" }),
