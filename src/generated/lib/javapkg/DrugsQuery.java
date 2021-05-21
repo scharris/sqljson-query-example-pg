@@ -1,8 +1,4 @@
-//////////////////////////////////////////////////////////////////////
-// This file was auto-generated, any changes made here may be lost. //
-//////////////////////////////////////////////////////////////////////
 package javapkg;
-
 
 
 import java.util.*;
@@ -24,6 +20,7 @@ public class DrugsQuery
 
   // Below are types representing the result data for the generated query, with top-level result type first.
 
+  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Drug
   {
     public BigDecimal id;
@@ -43,12 +40,14 @@ public class DrugsQuery
     public List<DrugFunctionalCategory> functionalCategories;
   }
   
+  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Analyst
   {
     public BigDecimal id;
     public String shortName;
   }
   
+  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Compound
   {
     public @Nullable String displayName;
@@ -59,12 +58,14 @@ public class DrugsQuery
     public @Nullable Analyst approvedByAnalyst;
   }
   
+  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Brand
   {
     public String brandName;
     public @Nullable String manufacturer;
   }
   
+  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Advisory
   {
     public String advisoryText;
@@ -75,6 +76,7 @@ public class DrugsQuery
     public int exprYieldingTwo;
   }
   
+  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class DrugFunctionalCategory
   {
     public String categoryName;
