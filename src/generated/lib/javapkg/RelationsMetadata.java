@@ -1,5 +1,5 @@
 // ---------------------------------------------------------------------------
-//   THIS SOURCE CODE WAS AUTO-GENERATED, ANY CHANGES MADE HERE MAY BE LOST.  
+//   THIS SOURCE CODE WAS AUTO-GENERATED, ANY CHANGES MADE HERE MAY BE LOST.
 // ---------------------------------------------------------------------------
 
 package javapkg;
@@ -8,7 +8,7 @@ package javapkg;
 
 public class RelationsMetadata
 {
-  public static class drugs // schema 'drugs'
+  public static class Schema_drugs
   {
     public static class authority // relation
     {

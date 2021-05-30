@@ -4,7 +4,7 @@
 //
 import * as path from 'https://deno.land/std@0.97.0/path/mod.ts';
 import {
-  generateQueries, QueryGroupSpec, QuerySpec, RecordCondition, SourceGenerationOptions
+  generateQueries, generateRelationsMetadataSource, QueryGroupSpec, QuerySpec, RecordCondition, SourceGenerationOptions
 } from 'https://raw.githubusercontent.com/scharris/sqljson-query/deno/src/mod.ts';
 
 function drugQuery
@@ -181,5 +181,7 @@ console.log(`Writing TypeScript source to '${srcOutputDir}'.`);
 console.log(`Writing SQL to '${sqlOutputDir}'.`);
 
 await generateQueries(queryGroupSpec, dbmdPath, srcOutputDir, sqlOutputDir, opts);
+await generateRelationsMetadataSource(dbmdPath, srcOutputDir, 'TS');
+await generateRelationsMetadataSource(dbmdPath, path.join(srcOutputDir, 'javapkg'), 'Java', 'javapkg');
 
 console.log(`Completing queries generation.`);
