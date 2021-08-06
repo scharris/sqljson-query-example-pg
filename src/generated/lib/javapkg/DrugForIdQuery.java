@@ -16,7 +16,7 @@ public class DrugForIdQuery
 {
   // The types defined in this file correspond to results of the following generated SQL queries.
      public static final String sqlResource = "drug-for-id-query.sql";
-  
+
 
   // Below are types representing the result data for the generated query, with top-level result type first.
 
@@ -39,14 +39,14 @@ public class DrugForIdQuery
     public List<Advisory> advisories;
     public List<DrugFunctionalCategory> functionalCategories;
   }
-  
+
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Analyst
   {
     public BigDecimal id;
     public String shortName;
   }
-  
+
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Compound
   {
@@ -57,14 +57,14 @@ public class DrugForIdQuery
     public Analyst enteredByAnalyst;
     public @Nullable Analyst approvedByAnalyst;
   }
-  
+
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Brand
   {
     public String brandName;
     public @Nullable String manufacturer;
   }
-  
+
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Advisory
   {
@@ -75,7 +75,7 @@ public class DrugForIdQuery
     public @Nullable String authorityDescription;
     public int exprYieldingTwo;
   }
-  
+
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class DrugFunctionalCategory
   {
@@ -85,5 +85,5 @@ public class DrugForIdQuery
     public @Nullable String authorityUrl;
     public @Nullable String authorityDescription;
   }
-  
+
 }

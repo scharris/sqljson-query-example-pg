@@ -3,7 +3,7 @@ import * as path from 'path';
 import * as dotenv from 'dotenv';
 import {Client as PgClient, QueryResult} from 'pg';
 import {verifiedFieldNames, verifiedTableName} from './tables-fields-verification';
-import {drugs as drugsSchema} from './generated/lib/relations-metadata';
+import {Schema_drugs as drugsSchema} from './generated/lib/relations-metadata';
 import * as DrugsQuery from './generated/lib/drugs-query';
 import * as DrugForIdQuery from './generated/lib/drug-for-id-query';
 

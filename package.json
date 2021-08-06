@@ -14,11 +14,9 @@
       "build-db": "docker build -t drugs-pg db",
       "start-db": "npm run build-db && docker run -d --name drugs-pg --rm -p 127.0.0.1:5432:5432 --shm-size=256MB drugs-pg",
       "psql": "docker exec -it drugs-pg psql -U drugs",
-      "generate-dbmd": "dbmd-gen-pg --conn-env db/connection.env query-gen/dbmd.json",
-      "compile-qspecs": "cd query-gen && tsc --strict query-specs-node.ts",
-      "sjq-gen-ts": "sqljson-query-gen --dbmd ./query-gen/dbmd.json --query-specs ./query-gen/query-specs.js --types-header query-gen/types-header-ts --src-output-dir src/generated/lib --sql-output-dir src/generated/sql",
-      "sjq-gen-java": "sqljson-query-gen --dbmd ./query-gen/dbmd.json --query-specs ./query-gen/query-specs.js --src-lang Java --java-pkg javapkg --src-output-dir src/generated/lib/javapkg --sql-output-dir src/generated/sql",
-      "prebuild": "npm run compile-qspecs && npm run sjq-gen-ts && npm run sjq-gen-java",
+      "gen-dbmd": "deno run --allow-read=. --allow-write=query-gen/dbmd.json --allow-net=localhost:5432 https://raw.githubusercontent.com/scharris/dbmd-pg/v1.1.2/src/cli.ts --conn-env db/connection.env query-gen/dbmd.json",
+      "gen-queries": "deno run --allow-read=query-gen,src/generated --allow-write=src/generated --unstable query-gen/generate-queries.ts",
+      "prebuild": "npm run gen-queries",
       "build": "npm run clean && tsc && copyfiles --flat src/generated/sql/*.sql dist/generated/sql",
       "preapp": "npm run build",
       "app": "node dist/app.js dist/generated/sql db/connection.env",
@@ -34,9 +32,7 @@
       "@types/pg": "^7.14.11",
       "@types/pg-pool": "^2.0.2",
       "copyfiles": "^2.4.1",
-      "dbmd-pg": "^1.1.1",
       "rimraf": "^3.0.2",
-      "sqljson-query": "1.1.0",
       "typescript": "^4.2.4"
    }
 }
