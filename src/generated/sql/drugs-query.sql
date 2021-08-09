@@ -141,7 +141,6 @@ from (
               m.name as manufacturer
             from
               manufacturer m
-            
           ) q on b.manufacturer_id = q."_id"
         where (
           b.drug_id = d.id
@@ -193,9 +192,7 @@ from (
                   a.description "authorityDescription"
                 from
                   authority a
-                
               ) q on at.authority_id = q."_id"
-            
           ) q on a.advisory_type_id = q."_id"
         where (
           a.drug_id = d.id
@@ -233,7 +230,6 @@ from (
               fc.description as description
             from
               functional_category fc
-            
           ) q on dfc.functional_category_id = q."_id"
           -- parent table 'authority', joined for inlined fields
           left join (
@@ -244,7 +240,6 @@ from (
               a.description "authorityDescription"
             from
               authority a
-            
           ) q1 on dfc.authority_id = q1."_id"
         where (
           dfc.drug_id = d.id

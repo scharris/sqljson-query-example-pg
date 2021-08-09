@@ -34,5 +34,5 @@ public class Field
       this.precisionRadix = precisionRadix;
       this.fractionalDigits = fractionalDigits;
    }
-
+   public String toString() { return this.name; }
 }
