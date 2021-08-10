@@ -20,7 +20,7 @@ async function go()
 
   console.log(parsedArgs);
 
-  const dbmdPath = path.join(__dirname, 'dbmd.json');
+  const dbmdPath = path.join(__dirname, 'dbmd', 'dbmd.json');
   const sqlOutputDir: string | null = parsedArgs['sqlDir'];
 
   console.log(`Using database metadata from '${dbmdPath}'`);

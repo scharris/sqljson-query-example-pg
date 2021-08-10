@@ -8,7 +8,7 @@ To run the example:
 
 - Install dependencies for the app and for the query-generation sub-project:
   ```
-  npm i && cd query-gen && npm i
+  npm i && cd query-gen && npm i && cd dbmd && mvn package
   ```
 
 - Next initialize the example (Postgres) database as described in `db`.
@@ -30,8 +30,8 @@ that all changes were rolled back.
 
 ## Enabling query generation in another project
 
-The `query-gen` folder in this example project is a self-contained NodeJS project which
-can be used from an enclosing project to generate SQL/JSON sql queries and source code
+The `query-gen` folder in this example project is a self-contained project which can be
+used from an enclosing project to generate SQL/JSON sql queries and source code
 for the corresponding result types in Java and/or TypesScript languages.
 The below describes how to incorporate parts of this example into any project to enable
 query generation. The outer project is also a NodeJS project in this example, but this is
@@ -40,30 +40,27 @@ queries via these instructions without trouble.
 
 - Copy the contents of `query-gen/` into your project.
 
-- Install query-gen dependencies:
+- Initialize the query-gen project:
   ```
-  cd query-gen
-  npm i
+  cd query-gen && npm i && cd dbmd && mvn package
   ```
+  This step only needs to be performed once to install npm dependencies and compile Java code for
+  fetching database metadata from the database.
 
-- Generate database metadata:
-  - Postgres
-    ```
-    npm run --prefix query-gen generate-dbmd -- --conn-env ../<connection env file> dbmd.json     
-    ```
-    where the connection environment file has format:
-    ```
-    PGHOST=...
-    PGDATABASE=...
-    PGUSER=...
-    PGPASSWORD=...
-    PGPORT=...
-    ```
-  - Oracle
-    
-    Execute the query in `ora-dbmd.sql` which will yield a single json value.
-    Store the json result in file `query-gen/dbmd.json`.
-
+- Generate database metadata
+  
+  Add a script or manually-triggered step to your build process to perform the following whenever database
+  metadata needs to be updated to reflect changes in the database:
+  ```
+  java -jar query-gen/dbmd/target/dbmd-fetcher.jar <jdbc.props> <pg|ora> '.*' query-gen/dbmd/dbmd.json
+  ```
+  where the connection properties file (here "jdbc.props") has format:
+  ```
+  jdbc.driverClassName=...
+  jdbc.url=...
+  jdbc.username=...
+  jdbc.password=...
+  ```
 
 - Define application queries
 
@@ -73,11 +70,13 @@ queries via these instructions without trouble.
 - Generate SQL and source files representing query result types:
 
   For Java result types:
+  
   ```
   npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --javaBaseDir=../src/generated/lib -javaPkg=javapkg # --javaResultTypesHeader=...
   ```
 
   For TypeScript result types:
+  
   ```
   npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --tsDir=../src/generated/lib --tsTypesHeader=queries/result-types-header-ts
   ```
