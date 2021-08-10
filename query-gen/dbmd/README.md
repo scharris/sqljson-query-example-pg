@@ -14,5 +14,5 @@ java -jar query-gen/dbmd/target/dbmd-fetcher.jar db/jdbc.props pg '.*' query-gen
 Fetching metadata for an Oracle database would be similar:
 
 ```
-java -jar query-gen/dbmd/target/dbmd-fetcher.jar someOraJdbc.props '.*' query-gen/dbmd/dbmd.json
+java -jar query-gen/dbmd/target/dbmd-fetcher.jar someOraJdbc.props ora '.*' query-gen/dbmd/dbmd.json
 ```
