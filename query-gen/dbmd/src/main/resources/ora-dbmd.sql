@@ -75,12 +75,14 @@ foreignKeys as (
 )
 -- main query
 select
-  json_object(
-    'dbmsName' value 'Oracle',
-    'dbmsVersion' value (select version_full from product_component_version where product like 'Oracle Database %'),
-    'caseSensitivity' value 'INSENSITIVE_STORED_UPPER',
-    'relationMetadatas' value (select tableMds from tableMetadatas),
-    'foreignKeys' value (select fks from foreignKeys)
-    returning clob
+  json_serialize(
+    json_object(
+      'dbmsName' value 'Oracle',
+      'dbmsVersion' value (select version_full from product_component_version where product like 'Oracle Database %'),
+      'caseSensitivity' value 'INSENSITIVE_STORED_UPPER',
+      'relationMetadatas' value (select tableMds from tableMetadatas),
+      'foreignKeys' value (select fks from foreignKeys)
+      returning clob
+    ) returning clob pretty
   ) dbmd
 from dual

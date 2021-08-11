@@ -10,6 +10,9 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.statement.SqlStatements;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DbmdFetcher
 {
@@ -42,11 +45,15 @@ public class DbmdFetcher
 
       Class.forName(props.getProperty("jdbc.driverClassName"));
 
-      return Jdbi.create(
+      Jdbi jdbi = Jdbi.create(
         props.getProperty("jdbc.url"),
         props.getProperty("jdbc.username"),
         props.getProperty("jdbc.password")
       );
+
+      jdbi.getConfig(SqlStatements.class).setUnusedBindingAllowed(true);
+
+      return jdbi;
     }
     catch(Exception e)
     {
@@ -77,6 +84,8 @@ public class DbmdFetcher
 
   public static void main(String[] args)
   {
+    Logger log = LoggerFactory.getLogger(DbmdFetcher.class);
+
     boolean helpRequested = args.length == 1 && (args[0].equals("-h") || args[0].equals("--help"));
     if ( helpRequested )
     {
@@ -86,7 +95,7 @@ public class DbmdFetcher
 
     if ( args.length != 4 )
     {
-      System.err.println("Expected arguments: " + usage());
+      log.error(usage());
       System.exit(1);
     }
 
@@ -94,6 +103,12 @@ public class DbmdFetcher
     String dbType = args[1];
     String relPat = args[2];
     Path outputFile = Paths.get(args[3]);
+
+    log.info("Generating database metadata.");
+    log.info("JDBC connection properties: " + jdbcPropsFile);
+    log.info("Database type: " + dbType);
+    log.info("Relations pattern: " + relPat);
+    log.info("Output file: " + outputFile);
 
     if ( !Files.isRegularFile(jdbcPropsFile) )
       throw new RuntimeException("File not found: " + jdbcPropsFile);
@@ -111,10 +126,12 @@ public class DbmdFetcher
       );
 
       Files.writeString(outputFile, resultJson);
+
+      log.info("Success");
     }
     catch(Throwable t)
     {
-      System.err.println(t.getMessage());
+      log.error(t.getMessage());
       System.exit(1);
     }
   }
