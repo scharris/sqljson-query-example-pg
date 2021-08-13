@@ -1,4 +1,4 @@
-# Metadata fetcher
+# Database metadata fetcher
 
 ## Build
 ```

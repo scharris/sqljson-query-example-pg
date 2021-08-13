@@ -8,6 +8,6 @@ mkShell {
     maven
   ];
   shellHook = ''
-    echo Welcome to the sqljson-query-example-pg project.
+    echo Welcome to the sqljson-query-dropin project.
   '';
 }
