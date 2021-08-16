@@ -11,17 +11,8 @@ import {generateQuerySources, generateRelationsMetadataSource} from 'sqljson-que
 
 import {queryGroupSpec} from './queries/query-specs';
 
-const optionNames = [
-  'sqlDir',
-  'tsQueriesDir', 'tsRelMdsDir', 'tsTypesHeader',
-  'javaBaseDir', 'javaQueriesPkg', 'javaRelMdsPkg', 'javaTypesHeader'
-];
-const parsedArgs = parseArgs(process.argv, [], optionNames, 0);
-
-async function go()
+async function generateQueries(parsedArgs: minimist.ParsedArgs)
 {
-  if ( typeof parsedArgs === 'string' ) { console.error(`Error: ${parsedArgs}`); throw new Error(parsedArgs); }
-
   const dbmdPath = path.join(__dirname, 'dbmd', 'dbmd.json');
   console.log(`Using database metadata from ${dbmdPath}.`);
 
@@ -35,13 +26,14 @@ async function go()
   // Only generate SQL here if it's not being generated with Java or TS source code below.
   // The Java/TS source generators need to generate the SQL when they are enabled, so that they can
   // reference the generated SQL resources within their source code.
-  if ( sqlOutputDir && !tsQueriesOutputDir && !javaQueriesOutputDir )
+  if ( sqlOutputDir )
   {
     await fs.mkdir(sqlOutputDir, {recursive: true});
 
     console.log(`Writing SQL files to ${sqlOutputDir}.`);
 
-    await generateQuerySources(queryGroupSpec, dbmdPath, null, sqlOutputDir, {});
+    if ( !tsQueriesOutputDir && !javaQueriesOutputDir )
+      await generateQuerySources(queryGroupSpec, dbmdPath, null, sqlOutputDir, {});
   }
 
   // Generate TS query/result-type source files if specified.
@@ -99,10 +91,24 @@ async function go()
   }
 }
 
-go().then(() => {
-  console.log("Query generation completed.");
-});
+const optionNames = [
+  'sqlDir',
+  'tsQueriesDir', 'tsRelMdsDir', 'tsTypesHeader',
+  'javaBaseDir', 'javaQueriesPkg', 'javaRelMdsPkg', 'javaTypesHeader'
+];
+const parsedArgs = parseArgs(process.argv, [], optionNames, 0);
 
+if ( typeof parsedArgs === 'string' ) // arg parsing error
+{
+  console.error(`Error: ${parsedArgs}`);
+  throw new Error(parsedArgs);
+}
+else
+{
+  generateQueries(parsedArgs).then(() => {
+    console.log("Query generation completed.");
+  });
+}
 
 function parseArgs
   (
