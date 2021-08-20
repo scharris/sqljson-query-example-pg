@@ -15,19 +15,21 @@ instructions.
 - Initialize the query-gen project:
   In the `query-gen` folder, 
   ```
-  npm i && cd dbmd && mvn package
+  npm i
   ```
-  This step only needs to be performed once to install npm dependencies and compile Java code for
-  fetching database metadata from the database.
+  This step only needs to be performed once to install npm dependencies.
 
 - Generate database metadata
   
   Add a script or manually-triggered step to your build process to perform the following whenever
   database metadata needs to be updated to reflect changes in the database:
   ```
-  java -jar query-gen/dbmd/target/dbmd-fetcher.jar <jdbc.props> <pg|ora> '^[^$].*' query-gen/dbmd/dbmd.json
+  mvn -f query-gen/dbmd/pom.xml compile exec:java "-DjdbcProps=<jdbc-props-file>" "-Ddb=<pg|ora>"
   ```
-  where the connection properties file (here "jdbc.props") has format:
+  
+  This will produce file `dbmd.json` in directory `query-gen/dbmd/`.
+- 
+  The expected format of the jdbc properties file is:
   ```
   jdbc.driverClassName=...
   jdbc.url=...

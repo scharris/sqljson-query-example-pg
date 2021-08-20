@@ -17,6 +17,7 @@
     <slf4j.version>1.7.32</slf4j.version>
     <ora.jdbc.version>21.1.0.0</ora.jdbc.version>
     <pg.jdbc.version>42.2.20</pg.jdbc.version>
+    <dbmd.table.pattern>^[^$].*</dbmd.table.pattern>
   </properties>
 
   <dependencyManagement>
@@ -72,6 +73,31 @@
           <encoding>${project.build.sourceEncoding}</encoding>
           <release>${java.release}</release>
           <showWarnings>true</showWarnings>
+        </configuration>
+      </plugin>
+      <!-- The execution below to generated database metadata is not tied to any phase.
+        Run it via:
+          mvn compile exec:java -DjdbcProps=<path> -Ddb=<ora|pg>
+      -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.0.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <mainClass>org.sqljson.DbmdFetcher</mainClass>
+          <arguments>
+            <argument>${jdbcProps}</argument>
+            <argument>${db}</argument>
+            <argument>${dbmd.table.pattern}</argument>
+            <argument>${project.basedir}/dbmd.json</argument>
+          </arguments>
         </configuration>
       </plugin>
       <plugin>

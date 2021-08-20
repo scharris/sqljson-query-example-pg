@@ -1,7 +1,7 @@
 -- [ THIS QUERY WAS AUTO-GENERATED, ANY CHANGES MADE HERE MAY BE LOST. ]
 -- JSON_OBJECT_ROWS results representation for drug for id query
 select
-  -- row object builder for table 'drug'
+  -- row object for table 'drug'
   jsonb_build_object(
     'id', q.id,
     'name', q.name,
@@ -35,7 +35,7 @@ from (
     -- parent table 'analyst' referenced as 'registeredByAnalyst'
     (
       select
-        -- row object builder for table 'analyst'
+        -- row object for table 'analyst'
         jsonb_build_object(
           'id', q.id,
           'shortName', q."shortName"
@@ -55,7 +55,7 @@ from (
     -- parent table 'compound' referenced as 'compound'
     (
       select
-        -- row object builder for table 'compound'
+        -- row object for table 'compound'
         jsonb_build_object(
           'displayName', q."displayName",
           'nctrIsisId', q."nctrIsisId",
@@ -74,7 +74,7 @@ from (
           -- parent table 'analyst' referenced as 'enteredByAnalyst'
           (
             select
-              -- row object builder for table 'analyst'
+              -- row object for table 'analyst'
               jsonb_build_object(
                 'id', q.id,
                 'shortName', q."shortName"
@@ -94,7 +94,7 @@ from (
           -- parent table 'analyst' referenced as 'approvedByAnalyst'
           (
             select
-              -- row object builder for table 'analyst'
+              -- row object for table 'analyst'
               jsonb_build_object(
                 'id', q.id,
                 'shortName', q."shortName"
@@ -121,7 +121,7 @@ from (
     -- records from child table 'brand' as collection 'brands'
     (
       select
-        -- aggregated row objects builder for table 'brand'
+        -- aggregated row objects for table 'brand'
         coalesce(jsonb_agg(jsonb_build_object(
           'brandName', q."brandName",
           'manufacturer', q.manufacturer
@@ -150,7 +150,7 @@ from (
     -- records from child table 'advisory' as collection 'advisories'
     (
       select
-        -- aggregated row objects builder for table 'advisory'
+        -- aggregated row objects for table 'advisory'
         coalesce(jsonb_agg(jsonb_build_object(
           'advisoryText', q."advisoryText",
           'advisoryType', q."advisoryType",
@@ -202,7 +202,7 @@ from (
     -- records from child table 'drug_functional_category' as collection 'functionalCategories'
     (
       select
-        -- aggregated row objects builder for table 'drug_functional_category'
+        -- aggregated row objects for table 'drug_functional_category'
         coalesce(jsonb_agg(jsonb_build_object(
           'categoryName', q."categoryName",
           'description', q.description,

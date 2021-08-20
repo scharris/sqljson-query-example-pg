@@ -115,8 +115,8 @@ public class DbmdFetcher
 
     try
     {
-      String sql = readResourceUtf8(dbType + "-dbmd.sql");
       Jdbi jdbi = createJdbi(jdbcPropsFile);
+      String sql = readResourceUtf8(dbType + "-dbmd.sql");
 
       String resultJson = jdbi.withHandle(db ->
         db.createQuery(sql)
@@ -128,6 +128,7 @@ public class DbmdFetcher
       Files.writeString(outputFile, resultJson);
 
       log.info("Success");
+      System.exit(0); // Added to keep Maven from complaining about lingering threads.
     }
     catch(Throwable t)
     {

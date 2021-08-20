@@ -45,7 +45,8 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
 
     await generateQuerySources(queryGroupSpec, dbmdPath, tsQueriesOutputDir, sqlOutputDir, {
       sourceLanguage: 'TS',
-      typesHeaderFile: parsedArgs['tsTypesHeader'] || undefined
+      typesHeaderFile: parsedArgs['tsTypesHeader'],
+      sqlResourcePathPrefix: parsedArgs['sqlResourcePath']
     });
   }
 
@@ -70,7 +71,8 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
     await generateQuerySources(queryGroupSpec, dbmdPath, javaQueriesOutputDir, sqlOutputDir, {
       sourceLanguage: 'Java',
       javaPackage: javaQueriesPackage,
-      typesHeaderFile: parsedArgs['javaTypesHeader']
+      typesHeaderFile: parsedArgs['javaTypesHeader'],
+      sqlResourcePathPrefix: parsedArgs['sqlResourcePath']
     });
   }
 
@@ -93,6 +95,7 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
 
 const optionNames = [
   'sqlDir',
+  'sqlResourcePath',
   'tsQueriesDir', 'tsRelMdsDir', 'tsTypesHeader',
   'javaBaseDir', 'javaQueriesPkg', 'javaRelMdsPkg', 'javaTypesHeader'
 ];
