@@ -1,6 +1,6 @@
 {
    "name": "example",
-   "version": "1.1.0",
+   "version": "1.2.0",
    "description": "Example usage of sqljson-query to generate SQL queries and TypeScript result types.",
    "repository": {},
    "keywords": [
@@ -14,7 +14,7 @@
       "build-db": "docker build -t drugs-pg db",
       "start-db": "npm run build-db && docker run -d --name drugs-pg --rm -p 127.0.0.1:5432:5432 --shm-size=256MB drugs-pg",
       "psql": "docker exec -it drugs-pg psql -U drugs",
-      "gen-dbmd": "java -jar query-gen/dbmd/target/dbmd-fetcher.jar db/jdbc.props pg '.*' query-gen/dbmd/dbmd.json",
+      "gen-dbmd": "mvn -f query-gen/dbmd/pom.xml compile exec:java \"-DjdbcProps=db/jdbc.props\" \"-Ddb=pg\"",
       "gen-queries-java": "npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --javaBaseDir=../src/generated/lib --javaQueriesPkg=javapkg --javaRelMdsPkg=javapkg",
       "gen-queries-ts": "npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib --tsRelMdsDir=../src/generated/lib --tsTypesHeader=queries/result-types-header-ts",
       "prebuild": "npm run gen-queries-ts && npm run gen-queries-java",
@@ -25,15 +25,15 @@
    },
    "dependencies": {
       "dotenv": "^8.6.0",
-      "pg": "^8.6.0",
-      "pg-pool": "^3.3.0"
+      "pg": "^8.7.1",
+      "pg-pool": "^3.4.1"
    },
    "devDependencies": {
-      "@types/node": "^14.17.0",
+      "@types/node": "^14.17.11",
       "@types/pg": "^7.14.11",
-      "@types/pg-pool": "^2.0.2",
+      "@types/pg-pool": "^2.0.3",
       "copyfiles": "^2.4.1",
       "rimraf": "^3.0.2",
-      "typescript": "^4.2.4"
+      "typescript": "^4.3.5"
    }
 }
