@@ -31,6 +31,18 @@ function drugQuery
          ],
          childTables: [
             {
+               collectionName: "prioritizedReferences",
+               table: "drug_reference",
+               fieldExpressions: ["priority"],
+               parentTables: [
+                  {
+                     table: "reference",
+                     fieldExpressions: ["publication"]
+                  }
+               ],
+               orderBy: "priority asc"
+            },
+            {
                collectionName: "brands",
                table: "brand",
                fieldExpressions: ["brand_name"],

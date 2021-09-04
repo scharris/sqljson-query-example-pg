@@ -23,18 +23,19 @@ public class DrugForIdQuery
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Drug
   {
-    public BigDecimal id;
+    public long id;
     public String name;
     public @Nullable String description;
     public String category;
     public @Nullable String meshId;
-    public @Nullable BigDecimal cid;
+    public @Nullable Long cid;
     public @Nullable String registered;
     public @Nullable String marketEntryDate;
     public @Nullable String therapeuticIndications;
     public @Nullable Long cidPlus1000;
     public Analyst registeredByAnalyst;
     public Compound compound;
+    public List<DrugReference> prioritizedReferences;
     public List<Brand> brands;
     public List<Advisory> advisories;
     public List<DrugFunctionalCategory> functionalCategories;
@@ -43,7 +44,7 @@ public class DrugForIdQuery
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
   public static class Analyst
   {
-    public BigDecimal id;
+    public long id;
     public String shortName;
   }
 
@@ -56,6 +57,13 @@ public class DrugForIdQuery
     public @Nullable String entered;
     public Analyst enteredByAnalyst;
     public @Nullable Analyst approvedByAnalyst;
+  }
+
+  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
+  public static class DrugReference
+  {
+    public @Nullable Long priority;
+    public String publication;
   }
 
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor

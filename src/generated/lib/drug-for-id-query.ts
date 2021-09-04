@@ -31,6 +31,7 @@ export interface Drug
   cidPlus1000: number | null;
   registeredByAnalyst: Analyst;
   compound: Compound;
+  prioritizedReferences: DrugReference[];
   brands: Brand[];
   advisories: Advisory[];
   functionalCategories: DrugFunctionalCategory[];
@@ -50,6 +51,12 @@ export interface Compound
   entered: string | null;
   enteredByAnalyst: Analyst;
   approvedByAnalyst: Analyst | null;
+}
+
+export interface DrugReference
+{
+  priority: number | null;
+  publication: string;
 }
 
 export interface Brand

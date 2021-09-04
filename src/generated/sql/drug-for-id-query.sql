@@ -15,6 +15,7 @@ select
     'cidPlus1000', q."cidPlus1000",
     'registeredByAnalyst', q."registeredByAnalyst",
     'compound', q.compound,
+    'prioritizedReferences', q."prioritizedReferences",
     'brands', q.brands,
     'advisories', q.advisories,
     'functionalCategories', q."functionalCategories"
@@ -118,6 +119,35 @@ from (
         )
       ) q
     ) as compound,
+    -- records from child table 'drug_reference' as collection 'prioritizedReferences'
+    (
+      select
+        -- aggregated row objects for table 'drug_reference'
+        coalesce(jsonb_agg(jsonb_build_object(
+          'priority', q.priority,
+          'publication', q.publication
+        ) order by priority asc),'[]'::jsonb) json
+      from (
+        -- base query for table 'drug_reference'
+        select
+          dr.priority as priority,
+          -- field(s) inlined from parent table 'reference'
+          q.publication as publication
+        from
+          drug_reference dr
+          -- parent table 'reference', joined for inlined fields
+          left join (
+            select
+              r.id "_id",
+              r.publication as publication
+            from
+              reference r
+          ) q on dr.reference_id = q."_id"
+        where (
+          dr.drug_id = d.id
+        )
+      ) q
+    ) "prioritizedReferences",
     -- records from child table 'brand' as collection 'brands'
     (
       select
