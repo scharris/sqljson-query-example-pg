@@ -4,7 +4,7 @@ This folder is a self-contained project which can be used from an enclosing proj
 generate SQL/JSON queries and source code for the corresponding query result types in
 Java and/or TypesScript languages. The below describes how to incorporate this
 capability into any project to enable query generation. Any build system which is able
-to call npm scripts and `java` 11+ should be able to generate queries via these
+to call npm scripts and `java` from JDK 11+ should be able to generate queries via these
 instructions.
 
 ## Instructions
@@ -27,9 +27,8 @@ instructions.
   mvn -f query-gen/dbmd/pom.xml compile exec:java "-DjdbcProps=<jdbc-props-file>" "-Ddb=<pg|ora>"
   ```
   
-  This will produce file `dbmd.json` in directory `query-gen/dbmd/`.
-- 
-  The expected format of the jdbc properties file is:
+  Here <jdbc-props-file> is the path to a properties file with JDBC connection information for
+  the database to be examined. The expected format of the jdbc properties file is:
   ```
   jdbc.driverClassName=...
   jdbc.url=...
@@ -37,15 +36,18 @@ instructions.
   jdbc.password=...
   ```
   
-  To remove unwanted tables from database metadata generation, you can adjust the third parameter
-  which is a regular expression used to filter relation names.
+  The above command will produce output file `dbmd.json` in directory `query-gen/dbmd/` containing
+  the database metadata.
+  
+  To remove unwanted tables from database metadata generation, add an additional property
+  definition `-Ddbmd.table.pattern=<regex>` to the `mvn` command to only include relations
+  whose name matches the given regular expression. The pattern defaults to `^[^$].*`.
 
 - Define application queries
 
   Edit `query-gen/queries/query-specs.ts` to define application queries. Any tables, views and
   fields used in the queries must exist in the database metadata, so database metadata should 
-  be generated before proceeding to query generation Example queries involving a drug-related
-  schema may be provided in this file, which if so should be replaced with your own queries.
+  be generated before proceeding to query generation.
 
 - Generate SQL and source files representing query result types:
 
