@@ -1,6 +1,23 @@
 import {QueryGroupSpec, QuerySpec, RecordCondition} from 'sqljson-query';
 
-function drugQuery
+const drugsQuery1: QuerySpec = {
+  queryName: 'drugs query 1',
+  tableJson: {
+     table: 'drug',
+     fieldExpressions: [
+        'name',
+        'category_code',
+        { field: 'descr', jsonProperty: 'description' },
+        { expression: '$$.cid + 1000',
+          jsonProperty: 'cidPlus1000',
+          fieldTypeInGeneratedSource: {TS: 'number | null', Java: '@Nullable Long'} },
+     ],
+     recordCondition: { sql: 'category_code = :catCode', paramNames: ['catCode'] }
+  }
+};
+
+
+function fullDrugsQuery
    (
       name: string,
       drugCond: RecordCondition | undefined
@@ -143,7 +160,8 @@ export const queryGroupSpec: QueryGroupSpec = {
    generateUnqualifiedNamesForSchemas: ["drugs"],
    propertyNameDefault: "CAMELCASE",
    querySpecs: [
-      drugQuery("drugs query", { sql: "$$.name ilike $1" }),
-      drugQuery("drug for id query", { sql: "$$.id = $1" }),
+      drugsQuery1,
+      fullDrugsQuery("drugs query", { sql: "$$.name ilike $1" }),
+      fullDrugsQuery("drug for id query", { sql: "$$.id = $1" }),
    ]
 };
