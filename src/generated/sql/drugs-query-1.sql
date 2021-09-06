@@ -3,17 +3,15 @@
 select
   -- row object for table 'drug'
   jsonb_build_object(
-    'name', q.name,
+    'drugName', q."drugName",
     'categoryCode', q."categoryCode",
-    'description', q.description,
     'cidPlus1000', q."cidPlus1000"
   ) json
 from (
   -- base query for table 'drug'
   select
-    d.name as name,
+    d.name "drugName",
     d.category_code "categoryCode",
-    d.descr as description,
     d.cid + 1000 "cidPlus1000"
   from
     drug d

@@ -4,16 +4,267 @@ const drugsQuery1: QuerySpec = {
   queryName: 'drugs query 1',
   tableJson: {
      table: 'drug',
+     recordCondition: { sql: 'category_code = :catCode', paramNames: ['catCode'] },
      fieldExpressions: [
-        'name',
-        'category_code',
-        { field: 'descr', jsonProperty: 'description' },
+        { field: 'name', jsonProperty: 'drugName' },
+        'category_code', // short for: { field: 'category_code', jsonProperty: 'categoryCode' }
         { expression: '$$.cid + 1000',
           jsonProperty: 'cidPlus1000',
           fieldTypeInGeneratedSource: {TS: 'number | null', Java: '@Nullable Long'} },
      ],
-     recordCondition: { sql: 'category_code = :catCode', paramNames: ['catCode'] }
   }
+};
+
+// Add compound parent table.
+const drugsQuery2: QuerySpec = {
+   queryName: 'drugs query 2',
+   tableJson: {
+      table: 'drug',
+      recordCondition: { sql: 'category_code = :catCode', paramNames: ['catCode'] },
+      fieldExpressions: [
+         { field: 'name', jsonProperty: 'drugName' },
+         'category_code',
+      ],
+      // + Add reference to compound parent table record via property "primaryCompound".
+      parentTables: [
+         {
+            referenceName: 'primaryCompound',
+            table: 'compound',
+            fieldExpressions: [
+               { field: 'id', jsonProperty: 'compoundId' },
+               { field: 'display_name', jsonProperty: 'compoundDisplayName' },
+            ],
+         }
+      ],
+   }
+};
+
+// Add employee entered-by/approved-by information from parent 'analyst' tables of compound.
+const drugsQuery3: QuerySpec = {
+   queryName: 'drugs query 3',
+   tableJson: {
+      table: 'drug',
+      recordCondition: { sql: 'category_code = :catCode', paramNames: ['catCode'] },
+      fieldExpressions: [
+         { field: 'name', jsonProperty: 'drugName' },
+         'category_code', // short for { field: 'category_code', jsonProperty: 'categoryCode' }
+      ],
+      parentTables: [
+         {
+            referenceName: 'primaryCompound',
+            table: 'compound',
+            fieldExpressions: [
+               { field: 'id', jsonProperty: 'compoundId' },
+               { field: 'display_name', jsonProperty: 'compoundDisplayName' },
+            ],
+            // + Add entered by and approved by fields "inline" via two different joins to analyst table
+            parentTables: [
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'enteredByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['entered_by'] // <- select on of two foreign keys to analyst
+               },
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'approvedByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['approved_by'] // <- select one of two foreign keys to analyst
+               }
+            ]
+         }
+      ],
+   }
+};
+
+// Add advisories child collection.
+const drugsQuery4: QuerySpec = {
+   queryName: 'drugs query 4',
+   tableJson: {
+      table: 'drug',
+      recordCondition: { sql: 'category_code = :catCode', paramNames: ['catCode'] },
+      fieldExpressions: [
+         { field: 'name', jsonProperty: 'drugName' },
+         'category_code',
+      ],
+      parentTables: [
+         {
+            referenceName: 'primaryCompound',
+            table: 'compound',
+            fieldExpressions: [
+               { field: 'id', jsonProperty: 'compoundId' },
+               { field: 'display_name', jsonProperty: 'compoundDisplayName' },
+            ],
+            parentTables: [
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'enteredByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['entered_by'] // <- select on of two foreign keys to analyst
+               },
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'approvedByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['approved_by'] // <- select one of two foreign keys to analyst
+               }
+            ]
+         }
+      ],
+      // + Add advisories child collection.
+      childTables: [
+         {
+            collectionName: 'advisories',
+            table: 'advisory',
+            fieldExpressions: [
+               'advisory_type_id',
+               { field: 'text', jsonProperty: 'advisoryText' },
+            ]
+         }
+      ]
+   }
+};
+
+
+// + Add advisory type and authority information via advisory parent and grandparent.
+const drugsQuery5: QuerySpec = {
+   queryName: 'drugs query 5',
+   tableJson: {
+      table: 'drug',
+      recordCondition: { sql: 'category_code = :catCode', paramNames: ['catCode'] },
+      fieldExpressions: [
+         { field: 'name', jsonProperty: 'drugName' },
+         'category_code', // short for { field: 'category_code', jsonProperty: 'categoryCode' }
+      ],
+      parentTables: [
+         {
+            referenceName: 'primaryCompound',
+            table: 'compound',
+            fieldExpressions: [
+               { field: 'id', jsonProperty: 'compoundId' },
+               { field: 'display_name', jsonProperty: 'compoundDisplayName' },
+            ],
+            parentTables: [
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'enteredByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['entered_by'] // <- select on of two foreign keys to analyst
+               },
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'approvedByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['approved_by'] // <- select one of two foreign keys to analyst
+               }
+            ]
+         }
+      ],
+      childTables: [
+         {
+            collectionName: 'advisories',
+            table: 'advisory',
+            fieldExpressions: [
+               'advisory_type_id',
+               { field: 'text', jsonProperty: 'advisoryText' },
+            ],
+            // + Add advisory type and authority information via advisory parent and grandparent.
+            parentTables: [
+               {
+                  table: 'advisory_type',
+                  fieldExpressions: [ { field: 'name', jsonProperty: 'advisoryTypeName' } ],
+                  parentTables: [
+                     {
+                        table: 'authority',
+                        fieldExpressions: [ { field: 'name', jsonProperty: 'advisoryTypeAuthorityName' } ]
+                     }
+                  ]
+               }
+            ]
+         }
+      ]
+   }
+};
+
+// Add references from far side of a many-many relationship.
+const drugsQuery6: QuerySpec = {
+   queryName: 'drugs query 6',
+   tableJson: {
+      table: 'drug',
+      recordCondition: { sql: 'category_code = :catCode', paramNames: ['catCode'] },
+      fieldExpressions: [
+         { field: 'name', jsonProperty: 'drugName' },
+         'category_code', // short for { field: 'category_code', jsonProperty: 'categoryCode' }
+      ],
+      parentTables: [
+         {
+            referenceName: 'primaryCompound',
+            table: 'compound',
+            fieldExpressions: [
+               { field: 'id', jsonProperty: 'compoundId' },
+               { field: 'display_name', jsonProperty: 'compoundDisplayName' },
+            ],
+            parentTables: [
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'enteredByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['entered_by'] // <- select on of two foreign keys to analyst
+               },
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'approvedByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['approved_by'] // <- select one of two foreign keys to analyst
+               }
+            ]
+         }
+      ],
+      childTables: [
+         {
+            collectionName: 'advisories',
+            table: 'advisory',
+            fieldExpressions: [
+               'advisory_type_id',
+               { field: 'text', jsonProperty: 'advisoryText' },
+            ],
+            // + Add advisory type and authority information via advisory parent and grandparent.
+            parentTables: [
+               {
+                  table: 'advisory_type',
+                  fieldExpressions: [ { field: 'name', jsonProperty: 'advisoryTypeName' } ],
+                  parentTables: [
+                     {
+                        table: 'authority',
+                        fieldExpressions: [ { field: 'name', jsonProperty: 'advisoryTypeAuthorityName' } ]
+                     }
+                  ]
+               }
+            ]
+         },
+         // + Add items from far side of a many-many relationship.
+         {
+            collectionName: 'prioritizedReferences',
+            table: 'drug_reference',
+            fieldExpressions: [ 'priority' ],
+            parentTables: [
+               {
+                  table: "reference",
+                  fieldExpressions: [ 'publication' ]
+               }
+            ],
+            orderBy: 'priority asc'
+         }
+      ]
+   }
 };
 
 
@@ -26,72 +277,72 @@ function fullDrugsQuery
 {
    return {
       queryName: name,
-      resultRepresentations: ["JSON_OBJECT_ROWS"],
+      resultRepresentations: [ 'JSON_OBJECT_ROWS' ],
       generateResultTypes: true,
       tableJson: {
-         table: "drug",
+         table: 'drug',
          fieldExpressions: [
-            "id",
-            "name",
-            {field: "descr", jsonProperty: "description"},
-            {field: "category_code", jsonProperty: "category"},
-            "mesh_id",
-            "cid",
-            "registered",
-            "market_entry_date",
-            "therapeutic_indications",
+            'id',
+            'name',
+            { field: 'descr', jsonProperty: 'description' },
+            { field: 'category_code', jsonProperty: 'category' },
+            'mesh_id',
+            'cid',
+            'registered',
+            'market_entry_date',
+            'therapeutic_indications',
             {
-               expression: "$$.cid + 1000",
-               jsonProperty: "cidPlus1000",
-               fieldTypeInGeneratedSource: {"TS": "number | null", "Java": "@Nullable Long"}
+               expression: '$$.cid + 1000',
+               jsonProperty: 'cidPlus1000',
+               fieldTypeInGeneratedSource: {TS: 'number | null', Java: '@Nullable Long'}
             },
          ],
          childTables: [
             {
-               collectionName: "prioritizedReferences",
-               table: "drug_reference",
-               fieldExpressions: ["priority"],
+               collectionName: 'prioritizedReferences',
+               table: 'drug_reference',
+               fieldExpressions: [ 'priority' ],
                parentTables: [
                   {
-                     table: "reference",
-                     fieldExpressions: ["publication"]
+                     table: 'reference',
+                     fieldExpressions: [ 'publication' ]
                   }
                ],
-               orderBy: "priority asc"
+               orderBy: 'priority asc'
             },
             {
-               collectionName: "brands",
-               table: "brand",
-               fieldExpressions: ["brand_name"],
+               collectionName: 'brands',
+               table: 'brand',
+               fieldExpressions: [ 'brand_name' ],
                parentTables: [
                   {
-                     table: "manufacturer",
-                     fieldExpressions: [{field: "name", jsonProperty: "manufacturer"}]
+                     table: 'manufacturer',
+                     fieldExpressions: [{ field: 'name', jsonProperty: 'manufacturer' }]
                   }
                ]
             },
             {
-               collectionName: "advisories",
-               table: "advisory",
-               fieldExpressions: [{field: "text", jsonProperty: "advisoryText"}],
+               collectionName: 'advisories',
+               table: 'advisory',
+               fieldExpressions: [{ field: 'text', jsonProperty: 'advisoryText' }],
                parentTables: [
                   {
-                     table: "advisory_type",
+                     table: 'advisory_type',
                      fieldExpressions: [
-                        {field: "name", jsonProperty: "advisoryType"},
+                        { field: 'name', jsonProperty: 'advisoryType' },
                         {
-                           expression: "(1 + 1)",
-                           jsonProperty: "exprYieldingTwo",
-                           fieldTypeInGeneratedSource: {"TS": "number", "Java": "int"}
+                           expression: '(1 + 1)',
+                           jsonProperty: 'exprYieldingTwo',
+                           fieldTypeInGeneratedSource: {TS: 'number', Java: 'int'}
                         },
                      ],
                      parentTables: [
                         {
-                           table: "authority",
+                           table: 'authority',
                            fieldExpressions: [
-                              {field: "name", jsonProperty: "authorityName"},
-                              {field: "url", jsonProperty: "authorityUrl"},
-                              {field: "description", jsonProperty: "authorityDescription"},
+                              { field: 'name', jsonProperty: 'authorityName' },
+                              { field: 'url', jsonProperty: 'authorityUrl' },
+                              { field: 'description', jsonProperty: 'authorityDescription' },
                            ]
                         }
                      ]
@@ -99,22 +350,22 @@ function fullDrugsQuery
                ]
             },
             {
-               collectionName: "functionalCategories",
-               table: "drug_functional_category",
+               collectionName: 'functionalCategories',
+               table: 'drug_functional_category',
                parentTables: [
                   {
-                     table: "functional_category",
+                     table: 'functional_category',
                      fieldExpressions: [
-                        {field: "name", jsonProperty: "categoryName"},
-                        "description",
+                        { field: 'name', jsonProperty: 'categoryName' },
+                        'description',
                      ]
                   },
                   {
-                     table: "authority",
+                     table: 'authority',
                      fieldExpressions: [
-                        {field: "name", jsonProperty: "authorityName"},
-                        {field: "url", jsonProperty: "authorityUrl"},
-                        {field: "description", jsonProperty: "authorityDescription"},
+                        { field: 'name', jsonProperty: 'authorityName' },
+                        { field: 'url', jsonProperty: 'authorityUrl' },
+                        { field: 'description', jsonProperty: 'authorityDescription' },
                      ]
                   }
                ]
@@ -122,46 +373,51 @@ function fullDrugsQuery
          ],
          parentTables: [
             {
-               referenceName: "registeredByAnalyst",
-               table: "analyst",
-               fieldExpressions: ["id", "short_name"]
+               referenceName: 'registeredByAnalyst',
+               table: 'analyst',
+               fieldExpressions: [ 'id', 'short_name' ]
             },
             {
-               referenceName: "compound",
+               referenceName: 'compound',
                viaForeignKeyFields: [
-                  "compound_id"
+                  'compound_id'
                ],
-               table: "compound",
-               fieldExpressions: ["display_name", "nctr_isis_id", "cas", "entered"],
+               table: 'compound',
+               fieldExpressions: [ 'display_name', 'nctr_isis_id', 'cas', 'entered' ],
                parentTables: [
                   {
-                     referenceName: "enteredByAnalyst",
-                     table: "analyst",
-                     fieldExpressions: ["id", "short_name"],
-                     viaForeignKeyFields: ["entered_by"]
+                     referenceName: 'enteredByAnalyst',
+                     table: 'analyst',
+                     fieldExpressions: [ 'id', 'short_name' ],
+                     viaForeignKeyFields: [ 'entered_by' ]
                   },
                   {
-                     referenceName: "approvedByAnalyst",
-                     table: "analyst",
-                     fieldExpressions: ["id", "short_name"],
-                     viaForeignKeyFields: ["approved_by"]
+                     referenceName: 'approvedByAnalyst',
+                     table: 'analyst',
+                     fieldExpressions: [ 'id', 'short_name' ],
+                     viaForeignKeyFields: [ 'approved_by' ]
                   }
                ]
             }
          ],
          recordCondition: drugCond
       },
-      orderBy: "$$.name"
+      orderBy: '$$.name'
    };
 }
 
 export const queryGroupSpec: QueryGroupSpec = {
-   defaultSchema: "drugs",
-   generateUnqualifiedNamesForSchemas: ["drugs"],
-   propertyNameDefault: "CAMELCASE",
+   defaultSchema: 'drugs',
+   generateUnqualifiedNamesForSchemas: [ 'drugs' ],
+   propertyNameDefault: 'CAMELCASE',
    querySpecs: [
       drugsQuery1,
-      fullDrugsQuery("drugs query", { sql: "$$.name ilike $1" }),
-      fullDrugsQuery("drug for id query", { sql: "$$.id = $1" }),
+      drugsQuery2,
+      drugsQuery3,
+      drugsQuery4,
+      drugsQuery5,
+      drugsQuery6,
+      fullDrugsQuery('drugs query', { sql: '$$.name ilike $1' }),
+      fullDrugsQuery('drug for id query', { sql: '$$.id = $1' }),
    ]
 };

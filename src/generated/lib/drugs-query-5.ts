@@ -10,7 +10,7 @@ type CategoryCode = 'A' | 'B';
 
 
 // The types defined in this file correspond to results of the following generated SQL queries.
-export const sqlResource = "drugs-query-1.sql";
+export const sqlResource = "drugs-query-5.sql";
 
 
 // query parameters
@@ -21,5 +21,22 @@ export interface Drug
 {
   drugName: string;
   categoryCode: string;
-  cidPlus1000: number | null;
+  primaryCompound: Compound;
+  advisories: Advisory[];
+}
+
+export interface Compound
+{
+  compoundId: number;
+  compoundDisplayName: string | null;
+  enteredByAnalyst: string;
+  approvedByAnalyst: string | null;
+}
+
+export interface Advisory
+{
+  advisoryTypeId: number;
+  advisoryText: string;
+  advisoryTypeName: string;
+  advisoryTypeAuthorityName: string;
 }
