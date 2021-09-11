@@ -1,21 +1,19 @@
 -- [ THIS QUERY WAS AUTO-GENERATED, ANY CHANGES MADE HERE MAY BE LOST. ]
--- JSON_OBJECT_ROWS results representation for drugs query 5
+-- JSON_OBJECT_ROWS results representation for drug advisories references query
 select
   -- row object for table 'drug'
   jsonb_build_object(
     'drugName', q."drugName",
     'categoryCode', q."categoryCode",
-    'registeredByAnalyst', q."registeredByAnalyst",
     'primaryCompound', q."primaryCompound",
-    'advisories', q.advisories
+    'advisories', q.advisories,
+    'prioritizedReferences', q."prioritizedReferences"
   ) json
 from (
   -- base query for table 'drug'
   select
     d.name "drugName",
     d.category_code "categoryCode",
-    -- field(s) inlined from parent table 'analyst'
-    q."registeredByAnalyst" "registeredByAnalyst",
     -- parent table 'compound' referenced as 'primaryCompound'
     (
       select
@@ -23,8 +21,7 @@ from (
         jsonb_build_object(
           'compoundId', q."compoundId",
           'compoundDisplayName', q."compoundDisplayName",
-          'enteredByAnalyst', q."enteredByAnalyst",
-          'approvedByAnalyst', q."approvedByAnalyst"
+          'enteredByAnalyst', q."enteredByAnalyst"
         ) json
       from (
         -- base query for table 'compound'
@@ -32,9 +29,7 @@ from (
           c.id "compoundId",
           c.display_name "compoundDisplayName",
           -- field(s) inlined from parent table 'analyst'
-          q."enteredByAnalyst" "enteredByAnalyst",
-          -- field(s) inlined from parent table 'analyst'
-          q1."approvedByAnalyst" "approvedByAnalyst"
+          q."enteredByAnalyst" "enteredByAnalyst"
         from
           compound c
           -- parent table 'analyst', joined for inlined fields
@@ -45,14 +40,6 @@ from (
             from
               analyst a
           ) q on c.entered_by = q."_id"
-          -- parent table 'analyst', joined for inlined fields
-          left join (
-            select
-              a.id "_id",
-              a.short_name "approvedByAnalyst"
-            from
-              analyst a
-          ) q1 on c.approved_by = q1."_id"
         where (
           d.compound_id = c.id
         )
@@ -100,17 +87,38 @@ from (
           a.drug_id = d.id
         )
       ) q
-    ) as advisories
+    ) as advisories,
+    -- records from child table 'drug_reference' as collection 'prioritizedReferences'
+    (
+      select
+        -- aggregated row objects for table 'drug_reference'
+        coalesce(jsonb_agg(jsonb_build_object(
+          'priority', q.priority,
+          'publication', q.publication
+        ) order by priority asc),'[]'::jsonb) json
+      from (
+        -- base query for table 'drug_reference'
+        select
+          dr.priority as priority,
+          -- field(s) inlined from parent table 'reference'
+          q.publication as publication
+        from
+          drug_reference dr
+          -- parent table 'reference', joined for inlined fields
+          left join (
+            select
+              r.id "_id",
+              r.publication as publication
+            from
+              reference r
+          ) q on dr.reference_id = q."_id"
+        where (
+          dr.drug_id = d.id
+        )
+      ) q
+    ) "prioritizedReferences"
   from
     drug d
-    -- parent table 'analyst', joined for inlined fields
-    left join (
-      select
-        a.id "_id",
-        a.short_name "registeredByAnalyst"
-      from
-        analyst a
-    ) q on d.registered_by = q."_id"
   where (
     (category_code = :catCode)
   )

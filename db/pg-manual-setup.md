@@ -3,9 +3,10 @@ Note: If docker is available on your platform, it may be easier to just run the
 database via docker by calling the `example/db/init-pg.sh` script.
 
 ```
-# psql -U postgres
+# psql -U postgres template1
 create user drugs with password 'drugs';
 create database drugs owner drugs;
+\q
 ```
 
 ```

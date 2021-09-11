@@ -28,6 +28,7 @@ public class DrugsQuery6
   {
     public String drugName;
     public String categoryCode;
+    public String registeredByAnalyst;
     public Compound primaryCompound;
     public List<Advisory> advisories;
     public List<DrugReference> prioritizedReferences;

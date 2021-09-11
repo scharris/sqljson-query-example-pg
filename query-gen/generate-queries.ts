@@ -2,7 +2,7 @@
    It generates SQL, TS and/or Java sources for the queries specified in the query-specs.ts file,
    with options and output file locations as specified by the input arguments.
    Example usage generating SQL and both Java and TS source files:
-      node generate-queries --sqlDir=../src/generated/sql --tsDir=../src/generated/lib --tsTypesHeader=result-types-header-ts --javaBaseDir=../src/generated/lib --javaQueriesPkg=my.queries--javaRelMdsPkg=my.relmds",
+      node generate-queries --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib --javaBaseDir=../src/generated/lib --javaQueriesPkg=my.queries--javaRelMdsPkg=my.relmds",
  */
 import * as minimist from 'minimist';
 import * as path from 'path';
@@ -13,10 +13,8 @@ import {queryGroupSpec} from './queries/query-specs';
 
 async function generateQueries(parsedArgs: minimist.ParsedArgs)
 {
-  const dbmdPath = path.join(__dirname, 'dbmd', 'dbmd.json');
-  console.log(`Using database metadata from ${dbmdPath}.`);
-
   // Generate SQL source files if specified.
+  const dbmdPath = parsedArgs['dbmd'] || path.join(__dirname, 'dbmd', 'dbmd.json');
   const sqlOutputDir = parsedArgs['sqlDir'];
   const tsQueriesOutputDir = parsedArgs['tsQueriesDir'];
   const javaBaseDir = parsedArgs['javaBaseDir'];
@@ -94,6 +92,7 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
 }
 
 const optionNames = [
+  'dbmd', // database metadata json file path
   'sqlDir',
   'sqlResourcePath',
   'tsQueriesDir', 'tsRelMdsDir', 'tsTypesHeader',

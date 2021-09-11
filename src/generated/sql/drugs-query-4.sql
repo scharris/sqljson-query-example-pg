@@ -5,6 +5,7 @@ select
   jsonb_build_object(
     'drugName', q."drugName",
     'categoryCode', q."categoryCode",
+    'registeredByAnalyst', q."registeredByAnalyst",
     'primaryCompound', q."primaryCompound",
     'advisories', q.advisories
   ) json
@@ -13,6 +14,8 @@ from (
   select
     d.name "drugName",
     d.category_code "categoryCode",
+    -- field(s) inlined from parent table 'analyst'
+    q."registeredByAnalyst" "registeredByAnalyst",
     -- parent table 'compound' referenced as 'primaryCompound'
     (
       select
@@ -77,6 +80,14 @@ from (
     ) as advisories
   from
     drug d
+    -- parent table 'analyst', joined for inlined fields
+    left join (
+      select
+        a.id "_id",
+        a.short_name "registeredByAnalyst"
+      from
+        analyst a
+    ) q on d.registered_by = q."_id"
   where (
     (category_code = :catCode)
   )

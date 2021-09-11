@@ -18,6 +18,7 @@
     <ora.jdbc.version>21.1.0.0</ora.jdbc.version>
     <pg.jdbc.version>42.2.20</pg.jdbc.version>
     <dbmd.table.pattern>^[^$].*</dbmd.table.pattern>
+    <dbmd.file>${project.basedir}/dbmd.json</dbmd.file>
   </properties>
 
   <dependencyManagement>
@@ -96,7 +97,7 @@
             <argument>${jdbcProps}</argument>
             <argument>${db}</argument>
             <argument>${dbmd.table.pattern}</argument>
-            <argument>${project.basedir}/dbmd.json</argument>
+            <argument>${dbmd.file}</argument>
           </arguments>
         </configuration>
       </plugin>

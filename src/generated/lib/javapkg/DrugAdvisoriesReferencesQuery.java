@@ -12,10 +12,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.*;
 
 
-public class DrugsQuery4
+public class DrugAdvisoriesReferencesQuery
 {
   // The types defined in this file correspond to results of the following generated SQL queries.
-  public static final String sqlResource = "drugs-query-4.sql";
+  public static final String sqlResource = "drug-advisories-references-query.sql";
 
 
   // query parameters
@@ -28,9 +28,9 @@ public class DrugsQuery4
   {
     public String drugName;
     public String categoryCode;
-    public String registeredByAnalyst;
     public Compound primaryCompound;
     public List<Advisory> advisories;
+    public List<DrugReference> prioritizedReferences;
   }
 
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
@@ -39,7 +39,6 @@ public class DrugsQuery4
     public long compoundId;
     public @Nullable String compoundDisplayName;
     public String enteredByAnalyst;
-    public @Nullable String approvedByAnalyst;
   }
 
   @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
@@ -47,6 +46,15 @@ public class DrugsQuery4
   {
     public long advisoryTypeId;
     public String advisoryText;
+    public String advisoryTypeName;
+    public String advisoryTypeAuthorityName;
+  }
+
+  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
+  public static class DrugReference
+  {
+    public @Nullable Long priority;
+    public String publication;
   }
 
 }

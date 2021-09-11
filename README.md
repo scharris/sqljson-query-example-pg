@@ -67,6 +67,5 @@ which is why a leading `..` is needed to prefix the output paths.
 npm run --prefix query-gen generate-queries -- \
   --sqlDir=../src/generated/sql \
   --tsQueriesDir=../src/generated/lib \
-  --tsRelMdsDir=../src/generated/lib \
-  --tsTypesHeader=queries/result-types-header-ts
+  --tsRelMdsDir=../src/generated/lib
 ```

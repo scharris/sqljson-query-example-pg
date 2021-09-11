@@ -1,7 +1,7 @@
 
 
 // The types defined in this file correspond to results of the following generated SQL queries.
-export const sqlResource = "drugs-query-3.sql";
+export const sqlResource = "drug-advisories-references-query.sql";
 
 
 // query parameters
@@ -12,8 +12,9 @@ export interface Drug
 {
   drugName: string;
   categoryCode: string;
-  registeredByAnalyst: string;
   primaryCompound: Compound;
+  advisories: Advisory[];
+  prioritizedReferences: DrugReference[];
 }
 
 export interface Compound
@@ -21,5 +22,18 @@ export interface Compound
   compoundId: number;
   compoundDisplayName: string | null;
   enteredByAnalyst: string;
-  approvedByAnalyst: string | null;
+}
+
+export interface Advisory
+{
+  advisoryTypeId: number;
+  advisoryText: string;
+  advisoryTypeName: string;
+  advisoryTypeAuthorityName: string;
+}
+
+export interface DrugReference
+{
+  priority: number | null;
+  publication: string;
 }
