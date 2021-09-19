@@ -37,6 +37,15 @@ public class RelationsMetadata
       public static final Field approved_by = new Field("approved_by", "int4", true, null, null, 32, 2, 0);
     }
 
+    public static class drug_reference // relation
+    {
+      public static String tableId() { return "drugs.drug_reference"; }
+      public static String tableName() { return "drug_reference"; }
+      public static final Field drug_id = new Field("drug_id", "int4", false, 1, null, 32, 2, 0);
+      public static final Field reference_id = new Field("reference_id", "int4", false, 2, null, 32, 2, 0);
+      public static final Field priority = new Field("priority", "int4", true, null, null, 32, 2, 0);
+    }
+
     public static class drug // relation
     {
       public static String tableId() { return "drugs.drug"; }
@@ -61,25 +70,6 @@ public class RelationsMetadata
       public static String tableName() { return "reference"; }
       public static final Field id = new Field("id", "int4", false, 1, null, 32, 2, 0);
       public static final Field publication = new Field("publication", "varchar", false, null, 2000, null, null, null);
-    }
-
-    public static class drug_reference // relation
-    {
-      public static String tableId() { return "drugs.drug_reference"; }
-      public static String tableName() { return "drug_reference"; }
-      public static final Field drug_id = new Field("drug_id", "int4", false, 1, null, 32, 2, 0);
-      public static final Field reference_id = new Field("reference_id", "int4", false, 2, null, 32, 2, 0);
-      public static final Field priority = new Field("priority", "int4", true, null, null, 32, 2, 0);
-    }
-
-    public static class drug_functional_category // relation
-    {
-      public static String tableId() { return "drugs.drug_functional_category"; }
-      public static String tableName() { return "drug_functional_category"; }
-      public static final Field drug_id = new Field("drug_id", "int4", false, 1, null, 32, 2, 0);
-      public static final Field functional_category_id = new Field("functional_category_id", "int4", false, 2, null, 32, 2, 0);
-      public static final Field authority_id = new Field("authority_id", "int4", false, 3, null, 32, 2, 0);
-      public static final Field seq = new Field("seq", "int4", true, null, null, 32, 2, 0);
     }
 
     public static class authority // relation
@@ -120,6 +110,16 @@ public class RelationsMetadata
       public static final Field name = new Field("name", "varchar", false, null, 500, null, null, null);
       public static final Field description = new Field("description", "varchar", true, null, 2000, null, null, null);
       public static final Field parent_functional_category_id = new Field("parent_functional_category_id", "int4", true, null, null, 32, 2, 0);
+    }
+
+    public static class drug_functional_category // relation
+    {
+      public static String tableId() { return "drugs.drug_functional_category"; }
+      public static String tableName() { return "drug_functional_category"; }
+      public static final Field drug_id = new Field("drug_id", "int4", false, 1, null, 32, 2, 0);
+      public static final Field functional_category_id = new Field("functional_category_id", "int4", false, 2, null, 32, 2, 0);
+      public static final Field authority_id = new Field("authority_id", "int4", false, 3, null, 32, 2, 0);
+      public static final Field seq = new Field("seq", "int4", true, null, null, 32, 2, 0);
     }
 
     public static class brand // relation

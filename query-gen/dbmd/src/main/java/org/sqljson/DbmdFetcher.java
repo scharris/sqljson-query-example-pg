@@ -22,7 +22,7 @@ public class DbmdFetcher
       "Expected arguments: <jdbc-props-file> <database-type> <rel-pattern> <output-file>\n" +
       "  jdbc-props-file: JDBC properties file, with properties jdbc.driverClassName, jdbc.url, " +
       "jdbc.username, jdbc.password.\n" +
-      "  database-type: 'pg' or 'ora', for a PostgreSQL or Oracle database, respectively\n" +
+      "  database-type: database type, one of 'pg', 'ora', 'mysql'\n" +
       "  rel-pattern: Table/view name pattern.\n" +
       "  output-file: File to which to write query result json value.\n";
   }

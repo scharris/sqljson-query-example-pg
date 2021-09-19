@@ -1,20 +1,22 @@
 {
    "name": "query-sources-generator",
-   "version": "1.0.0",
+   "version": "1.1.0",
    "license": "MIT",
    "description": "Generate SQL queries and TypeScript result types for enclosing app.",
    "repository": {},
    "scripts": {
-      "pregenerate-queries": "tsc",
-      "generate-queries": "node generate-queries.js"
+      "pregenerate-queries": "tsc generate-queries.ts",
+      "generate-queries": "node generate-queries.js",
+      "pregenerate-relations-metadata": "tsc generate-relations-metadata.ts",
+      "generate-relations-metadata": "node generate-relations-metadata.js"
    },
    "devDependencies": {
       "@types/minimist": "^1.2.1",
-      "@types/node": "^14.17.14",
-      "typescript": "^4.4.2"
+      "@types/node": "^14.17.17",
+      "typescript": "^4.4.3"
    },
    "dependencies": {
       "minimist": "^1.2.5",
-      "sqljson-query": "1.4.2"
+      "sqljson-query": "1.4.6"
    }
 }

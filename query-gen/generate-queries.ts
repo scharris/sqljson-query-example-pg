@@ -2,24 +2,28 @@
    It generates SQL, TS and/or Java sources for the queries specified in the query-specs.ts file,
    with options and output file locations as specified by the input arguments.
    Example usage generating SQL and both Java and TS source files:
-      node generate-queries --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib --javaBaseDir=../src/generated/lib --javaQueriesPkg=my.queries--javaRelMdsPkg=my.relmds",
+      node generate-queries --sqlDir=../src/generated/sql --tsDir=../src/generated/lib --tsTypesHeader=result-types-header-ts --javaBaseDir=../src/generated/lib --javaQueriesPkg=my.queries",
  */
 import * as minimist from 'minimist';
 import * as path from 'path';
 import {promises as fs} from 'fs';
-import {generateQuerySources, generateRelationsMetadataSource} from 'sqljson-query';
+import {generateQuerySources} from 'sqljson-query';
 
 import {queryGroupSpec} from './queries/query-specs';
 
 async function generateQueries(parsedArgs: minimist.ParsedArgs)
 {
   // Generate SQL source files if specified.
-  const dbmdPath = parsedArgs['dbmd'] || path.join(__dirname, 'dbmd', 'dbmd.json');
+  const internalDbmdDir = path.join(__dirname, 'dbmd');
+  const dbmdPath = parsedArgs['dbmd'] || path.join(internalDbmdDir, 'dbmd.json');
   const sqlOutputDir = parsedArgs['sqlDir'];
   const tsQueriesOutputDir = parsedArgs['tsQueriesDir'];
   const javaBaseDir = parsedArgs['javaBaseDir'];
   const javaQueriesPackage = parsedArgs['javaQueriesPkg'];
   const javaQueriesOutputDir = javaBaseDir ? `${javaBaseDir}/${replaceAll(javaQueriesPackage, '.','/')}` : null;
+
+  if ( !(sqlOutputDir || tsQueriesOutputDir || javaQueriesOutputDir) )
+    throw new Error('No query-related outputs were specified - one or more of "sqlDir", "tsQueriesDir", "javaBaseDir"+"javaQueriesPkg" are required');
 
   // Only generate SQL here if it's not being generated with Java or TS source code below.
   // The Java/TS source generators need to generate the SQL when they are enabled, so that they can
@@ -48,14 +52,6 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
     });
   }
 
-  const tsRelMdsOutputDir = parsedArgs['tsRelMdsDir'];
-  if ( tsRelMdsOutputDir )
-  {
-    console.log(`Writing TS relation metadatas source file to ${tsRelMdsOutputDir}.`);
-
-    await generateRelationsMetadataSource(dbmdPath, tsRelMdsOutputDir, 'TS');
-  }
-
   // Generate Java sources if specified.
   if ( javaQueriesOutputDir )
   {
@@ -73,30 +69,14 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
       sqlResourcePathPrefix: parsedArgs['sqlResourcePath']
     });
   }
-
-  // Write Java relation metadatas if specified.
-  const javaRelMdsPackage = parsedArgs['javaRelMdsPkg'];
-  if ( javaRelMdsPackage )
-  {
-    if ( !javaBaseDir )
-      throw new Error('javaBaseDir is required for Java source generation');
-
-    const javaRelMdsOutputDir = `${javaBaseDir}/${replaceAll(javaRelMdsPackage, '.','/')}`;
-
-    await fs.mkdir(javaRelMdsOutputDir, {recursive: true});
-
-    console.log(`Writing Java relations metadata file to ${javaRelMdsOutputDir}.`);
-
-    await generateRelationsMetadataSource(dbmdPath, javaRelMdsOutputDir, 'Java', javaRelMdsPackage);
-  }
 }
 
 const optionNames = [
   'dbmd', // database metadata json file path
   'sqlDir',
   'sqlResourcePath',
-  'tsQueriesDir', 'tsRelMdsDir', 'tsTypesHeader',
-  'javaBaseDir', 'javaQueriesPkg', 'javaRelMdsPkg', 'javaTypesHeader'
+  'tsQueriesDir', 'tsTypesHeader',
+  'javaBaseDir', 'javaQueriesPkg', 'javaTypesHeader'
 ];
 const parsedArgs = parseArgs(process.argv, [], optionNames, 0);
 

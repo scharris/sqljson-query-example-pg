@@ -17,6 +17,8 @@ relationMetadatasQuery as (
               select kcu.ordinal_position
               from information_schema.key_column_usage kcu
               where
+                kcu.table_schema = col.table_schema and
+                kcu.table_name = col.table_name and
                 kcu.column_name = col.column_name and
                 kcu.constraint_name = (
                   select constraint_name
@@ -34,13 +36,13 @@ relationMetadatasQuery as (
         from information_schema.columns col
         where col.table_schema = t.schemaname and col.table_name = t.tablename
       ) -- fields property
-    )), '[]'::json)
+    )), '[]'::json) json
   from pg_tables t
   where t.schemaname not in (select * from ignoreSchemasQuery)
     and t.schemaname || '.' || t.tablename ~ :relPat
 ),
 foreignKeysQuery as (
-  select coalesce(json_agg(fk.obj), '[]'::json)
+  select coalesce(json_agg(fk.obj), '[]'::json) json
   from (
     select
       json_build_object(
@@ -99,6 +101,6 @@ select jsonb_pretty(jsonb_build_object(
   'dbmsName', 'PostgreSQL',
   'dbmsVersion', split_part(version(), ' ', 2),
   'caseSensitivity', 'INSENSITIVE_STORED_LOWER',
-  'relationMetadatas', (select * from relationMetadatasQuery),
-  'foreignKeys', (select * from foreignKeysQuery)
+  'relationMetadatas', (select json from relationMetadatasQuery),
+  'foreignKeys', (select json from foreignKeysQuery)
 ))

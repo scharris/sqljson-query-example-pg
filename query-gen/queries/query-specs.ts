@@ -1,4 +1,5 @@
 import {QueryGroupSpec, QuerySpec, RecordCondition} from 'sqljson-query';
+import {Schema_drugs as drugs, verifiedFieldNames} from '../dbmd/relations-metadata';
 
 const drugAdvisoriesReferencesQuery: QuerySpec = {
   queryName: 'drug advisories references query',
@@ -366,6 +367,87 @@ const drugsQuery6: QuerySpec = {
   }
 };
 
+const {category_code} = verifiedFieldNames(drugs.drug); // category_code === 'category_code'
+
+const drugsQuery7: QuerySpec = {
+   queryName: 'drugs query 7',
+   tableJson: {
+      table: 'drug',
+      // (Modified) -->
+      recordCondition: { sql: `${category_code} = :catCode`, paramNames: ['catCode'] },
+      // <-- (Modified)
+      fieldExpressions: [
+         { field: 'name', jsonProperty: 'drugName' },
+         'category_code',
+      ],
+      parentTables: [
+         {
+            referenceName: 'primaryCompound',
+            table: 'compound',
+            fieldExpressions: [
+               { field: 'id', jsonProperty: 'compoundId' },
+               { field: 'display_name', jsonProperty: 'compoundDisplayName' },
+            ],
+            parentTables: [
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'enteredByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['entered_by'] // <- select on of two foreign keys to analyst
+               },
+               {
+                  table: 'analyst',
+                  fieldExpressions: [
+                     { field: 'short_name', jsonProperty: 'approvedByAnalyst' }
+                  ],
+                  viaForeignKeyFields: ['approved_by'] // <- select one of two foreign keys to analyst
+               }
+            ]
+         },
+         {
+            table: 'analyst',
+            fieldExpressions: [
+               { field: 'short_name', jsonProperty: 'registeredByAnalyst' },
+            ],
+         }
+      ],
+      childTables: [
+         {
+            collectionName: 'advisories',
+            table: 'advisory',
+            fieldExpressions: [
+               'advisory_type_id',
+               { field: 'text', jsonProperty: 'advisoryText' },
+            ],
+            parentTables: [
+               {
+                  table: 'advisory_type',
+                  fieldExpressions: [ { field: 'name', jsonProperty: 'advisoryTypeName' } ],
+                  parentTables: [
+                     {
+                        table: 'authority',
+                        fieldExpressions: [ { field: 'name', jsonProperty: 'advisoryTypeAuthorityName' } ]
+                     }
+                  ]
+               }
+            ]
+         },
+         {
+            collectionName: 'prioritizedReferences',
+            table: 'drug_reference',
+            fieldExpressions: [ 'priority' ],
+            parentTables: [
+               {
+                  table: "reference",
+                  fieldExpressions: [ 'publication' ]
+               }
+            ],
+            // orderBy: 'priority asc' // Omit orderBy if using MySQL database - OK for pg / ora.
+         }
+      ]
+   }
+};
 
 function fullDrugsQuery
 (

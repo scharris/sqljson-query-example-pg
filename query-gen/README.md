@@ -61,7 +61,7 @@ instructions.
   To generate SQL and matching TypeScript result types:
   
   ```
-  npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib --tsRelMdsDir=../src/generated/lib
+  npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib --tsRelMdsDir=../src/generated/lib --tsTypesHeader=queries/result-types-header-ts
   ```
 
   The java/tsTypesHeader parameters are not required, but can be used in case additional imports
