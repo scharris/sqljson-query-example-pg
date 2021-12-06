@@ -13,5 +13,6 @@ SCRIPTDIR="$(cd "$(dirname "$0")"; pwd)";
 JDBC_PROPS=$1
 DBTYPE=$2
 
-mvn -f "$SCRIPTDIR"/dbmd/pom.xml compile exec:java "-DjdbcProps=$JDBC_PROPS" "-Ddb=$DBTYPE"
-npm run --prefix "$SCRIPTDIR" generate-relations-metadata
+mvn -f "$SCRIPTDIR"/../dbmd/pom.xml compile exec:java "-DjdbcProps=$JDBC_PROPS" "-Ddb=$DBTYPE"
+
+npm run --prefix "$SCRIPTDIR/.." generate-relations-metadata -- --tsRelsMdDir "$SCRIPTDIR/../dbmd"

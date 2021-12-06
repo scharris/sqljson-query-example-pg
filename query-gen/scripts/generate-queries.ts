@@ -9,7 +9,7 @@ import * as path from 'path';
 import {promises as fs} from 'fs';
 import {generateQuerySources} from 'sqljson-query';
 
-import {queryGroupSpec} from './queries/query-specs';
+import {queryGroupSpec} from '../query-specs';
 
 async function generateQueries(parsedArgs: minimist.ParsedArgs)
 {
@@ -83,12 +83,16 @@ const parsedArgs = parseArgs(process.argv, [], optionNames, 0);
 if ( typeof parsedArgs === 'string' ) // arg parsing error
 {
   console.error(`Error: ${parsedArgs}`);
-  throw new Error(parsedArgs);
+  process.exit(1);
 }
 else
 {
-  generateQueries(parsedArgs).then(() => {
-    console.log("Query generation completed.");
+  generateQueries(parsedArgs)
+  .then(() => { console.log("Query generation completed."); })
+  .catch((e) => {
+    console.error(e);
+    console.error("Query generation failed due to error - see error detail above.");
+    process.exit(1);
   });
 }
 
@@ -139,4 +143,3 @@ function escapeRegExp(s: string)
 {
   return s.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
 }
-

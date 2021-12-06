@@ -19,14 +19,14 @@ queries via these instructions.
   This step only needs to be performed once to install npm dependencies.
 
   - Generate database metadata
-  
+
     Add a script or manually-triggered step to your build process to perform the following whenever
     database metadata needs to be updated to reflect changes in the database:
     ```console
-    query-gen/generate-dbmd.sh <jdbc-props> <pg|mysql|ora>
+    query-gen/scripts/generate-dbmd.sh <jdbc-props> <pg|mysql|ora>
     ```
-    If on Windows, call `query-gen/generated-dbmd.ps1` with the same arguments via PowerShell.
-  
+    If on Windows, call `query-gen/scripts/generated-dbmd.ps1` with the same arguments via PowerShell.
+
     Here `<jdbc-props>` is the path to a properties file with JDBC connection information for
     the database to be examined. The expected format of the jdbc properties file is:
     ```
@@ -36,26 +36,21 @@ queries via these instructions.
     jdbc.password=...
     ```
 
-    The metadata files are generated at `query-gen/dbmd/dbmd.json` and `query-gen/dbmd/relations-metadata.ts`,
-    which is where they are expected to be for the query generator. It's good to glance at its contents when
-    you're getting started just to make sure that the tool found the tables and views you expected it to.
-  
+    The metadata files are generated at `query-gen/dbmd/dbmd.json` and
+    `query-gen/dbmd/relations-metadata.ts`, which is where they are expected to be for the query
+    generator. It's good to glance at its contents when you're getting started just to make sure
+    that the tool found the tables and views you expected it to.
+
 - Define application queries
 
-  Edit `query-gen/queries/query-specs.ts` to define application queries. Any tables, views and fields used in
-  the queries must exist in the database metadata, so database metadata should be generated before proceeding
-  to query generation.
+  Edit `query-gen/query-specs.ts` to define application queries. Any tables, views and fields used in
+  the queries must exist in the database metadata, so database metadata should be generated before
+  proceeding to query generation.
 
 - Generate SQL and source files representing query result types:
 
-  To generate SQL and matching Java result types:
-  
-  ```
-  npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --javaBaseDir=../src/generated/lib --javaQueriesPkg=gen.queries
-  ```
-
   To generate SQL and matching TypeScript result types:
-  
+
   ```
-  npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib
+  npm run --prefix query-gen gen-queries -- --sqlDir=../gen-sql --tsQueriesDir=../gen-types
   ```

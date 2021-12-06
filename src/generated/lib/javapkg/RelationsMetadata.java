@@ -152,7 +152,7 @@ public class RelationsMetadata
      public @Nullable Integer precision;
      public @Nullable Integer precisionRadix;
      public @Nullable Integer fractionalDigits;
-     
+
      public Field
         (
            String name,

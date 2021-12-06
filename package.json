@@ -14,19 +14,14 @@
       "build-db": "docker build -t drugs-pg db",
       "start-db": "npm run build-db && docker run -d --name drugs-pg --rm -p 127.0.0.1:5432:5432 --shm-size=256MB drugs-pg",
       "psql": "docker exec -it drugs-pg psql -U drugs",
-
-      "gen-dbmd": "query-gen/generate-dbmd.sh db/jdbc.props pg",
-      "pregen-queries-java": "npm run --prefix query-gen generate-relations-metadata -- --javaBaseDir=../src/generated/lib --javaRelMdsPkg=javapkg",
-      "gen-queries-java": "npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --javaBaseDir=../src/generated/lib --javaQueriesPkg=javapkg",
-      "pregen-queries-ts": "npm run --prefix query-gen generate-relations-metadata -- --tsRelMdsDir=../src/generated/lib",
-      "gen-queries-ts": "npm run --prefix query-gen generate-queries -- --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib",
-
-      "prebuild": "npm run gen-queries-ts && npm run gen-queries-java",
+      "pregen-queries-java": "npm run --prefix query-gen gen-rels-md -- --javaBaseDir=../src/generated/lib --javaRelsMdPkg=javapkg",
+      "gen-queries-java": "npm run --prefix query-gen gen-queries -- --sqlDir=../src/generated/sql --javaBaseDir=../src/generated/lib --javaQueriesPkg=javapkg",
+      "pregen-queries-ts": "npm run --prefix query-gen gen-rels-md -- --tsRelsMdDir=../src/generated/lib",
+      "gen-queries-ts": "npm run --prefix query-gen gen-queries -- --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib",
+      "prebuild": "npm run gen-queries-ts",
       "build": "npm run clean && tsc && copyfiles --flat src/generated/sql/*.sql dist/generated/sql",
-
       "preapp": "npm run build",
       "app": "node dist/app.js dist/generated/sql db/connection.env",
-
       "clean": "rimraf dist"
    },
    "dependencies": {
@@ -35,11 +30,11 @@
       "pg-pool": "^3.4.1"
    },
    "devDependencies": {
-      "@types/node": "^14.17.17",
+      "@types/node": "^14.18.0",
       "@types/pg": "^7.14.11",
       "@types/pg-pool": "^2.0.3",
       "copyfiles": "^2.4.1",
       "rimraf": "^3.0.2",
-      "typescript": "^4.4.3"
+      "typescript": "^4.5.2"
    }
 }

@@ -1,5 +1,5 @@
 import {QueryGroupSpec, QuerySpec, RecordCondition} from 'sqljson-query';
-import {Schema_drugs as drugs, verifiedFieldNames} from '../dbmd/relations-metadata';
+import {Schema_drugs as drugs, verifiedFieldNames} from './dbmd/relations-metadata';
 
 const drugAdvisoriesReferencesQuery: QuerySpec = {
   queryName: 'drug advisories references query',
