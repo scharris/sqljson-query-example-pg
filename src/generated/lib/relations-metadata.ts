@@ -4,6 +4,14 @@
 
 
 export const Schema_drugs = {
+  "authority": { // relation authority
+     "id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
+     "name": { type: "varchar", nullable: false, pkPart: null, len: 200, prec: null, precRadix: null, scale: null },
+     "url": { type: "varchar", nullable: true, pkPart: null, len: 500, prec: null, precRadix: null, scale: null },
+     "description": { type: "varchar", nullable: true, pkPart: null, len: 2000, prec: null, precRadix: null, scale: null },
+     "weight": { type: "int4", nullable: true, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
+  },
+
   "analyst": { // relation analyst
      "id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
      "short_name": { type: "varchar", nullable: false, pkPart: null, len: 50, prec: null, precRadix: null, scale: null },
@@ -23,10 +31,10 @@ export const Schema_drugs = {
      "approved_by": { type: "int4", nullable: true, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
   },
 
-  "drug_reference": { // relation drug_reference
-     "drug_id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
-     "reference_id": { type: "int4", nullable: false, pkPart: 2, len: null, prec: 32, precRadix: 2, scale: 0 },
-     "priority": { type: "int4", nullable: true, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
+  "advisory_type": { // relation advisory_type
+     "id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
+     "name": { type: "varchar", nullable: false, pkPart: null, len: 50, prec: null, precRadix: null, scale: null },
+     "authority_id": { type: "int4", nullable: false, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
   },
 
   "drug": { // relation drug
@@ -44,23 +52,15 @@ export const Schema_drugs = {
      "market_entry_date": { type: "date", nullable: true, pkPart: null, len: null, prec: null, precRadix: null, scale: null },
   },
 
+  "drug_reference": { // relation drug_reference
+     "drug_id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
+     "reference_id": { type: "int4", nullable: false, pkPart: 2, len: null, prec: 32, precRadix: 2, scale: 0 },
+     "priority": { type: "int4", nullable: true, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
+  },
+
   "reference": { // relation reference
      "id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
      "publication": { type: "varchar", nullable: false, pkPart: null, len: 2000, prec: null, precRadix: null, scale: null },
-  },
-
-  "authority": { // relation authority
-     "id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
-     "name": { type: "varchar", nullable: false, pkPart: null, len: 200, prec: null, precRadix: null, scale: null },
-     "url": { type: "varchar", nullable: true, pkPart: null, len: 500, prec: null, precRadix: null, scale: null },
-     "description": { type: "varchar", nullable: true, pkPart: null, len: 2000, prec: null, precRadix: null, scale: null },
-     "weight": { type: "int4", nullable: true, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
-  },
-
-  "advisory_type": { // relation advisory_type
-     "id": { type: "int4", nullable: false, pkPart: 1, len: null, prec: 32, precRadix: 2, scale: 0 },
-     "name": { type: "varchar", nullable: false, pkPart: null, len: 50, prec: null, precRadix: null, scale: null },
-     "authority_id": { type: "int4", nullable: false, pkPart: null, len: null, prec: 32, precRadix: 2, scale: 0 },
   },
 
   "advisory": { // relation advisory

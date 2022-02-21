@@ -14,6 +14,7 @@
       "build-db": "docker build -t drugs-pg db",
       "start-db": "npm run build-db && docker run -d --name drugs-pg --rm -p 127.0.0.1:5432:5432 --shm-size=256MB drugs-pg",
       "psql": "docker exec -it drugs-pg psql -U drugs",
+      "gen-dbmd": "mvn -f query-gen/dbmd/pom.xml compile exec:java -DjdbcProps=db/jdbc.props -Ddb=pg && npm run --prefix query-gen gen-rels-md -- --tsRelsMdDir dbmd",
       "pregen-queries-java": "npm run --prefix query-gen gen-rels-md -- --javaBaseDir=../src/generated/lib --javaRelsMdPkg=javapkg",
       "gen-queries-java": "npm run --prefix query-gen gen-queries -- --sqlDir=../src/generated/sql --javaBaseDir=../src/generated/lib --javaQueriesPkg=javapkg",
       "pregen-queries-ts": "npm run --prefix query-gen gen-rels-md -- --tsRelsMdDir=../src/generated/lib",

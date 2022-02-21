@@ -1,6 +1,6 @@
 {
     "dbmsName": "PostgreSQL",
-    "dbmsVersion": "13.2",
+    "dbmsVersion": "14.2",
     "foreignKeys": [
         {
             "constraintName": "advisory_advisory_type_fk",
@@ -273,6 +273,65 @@
                     "primaryKeyPartNumber": 1
                 },
                 {
+                    "name": "name",
+                    "length": 200,
+                    "nullable": false,
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "url",
+                    "length": 500,
+                    "nullable": true,
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "description",
+                    "length": 2000,
+                    "nullable": true,
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
+                },
+                {
+                    "name": "weight",
+                    "length": null,
+                    "nullable": true,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": null
+                }
+            ],
+            "relationId": {
+                "name": "authority",
+                "schema": "drugs"
+            },
+            "relationType": "Table"
+        },
+        {
+            "fields": [
+                {
+                    "name": "id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 1
+                },
+                {
                     "name": "short_name",
                     "length": 50,
                     "nullable": false,
@@ -411,7 +470,7 @@
         {
             "fields": [
                 {
-                    "name": "drug_id",
+                    "name": "id",
                     "length": null,
                     "nullable": false,
                     "precision": 32,
@@ -421,19 +480,19 @@
                     "primaryKeyPartNumber": 1
                 },
                 {
-                    "name": "reference_id",
-                    "length": null,
+                    "name": "name",
+                    "length": 50,
                     "nullable": false,
-                    "precision": 32,
-                    "databaseType": "int4",
-                    "precisionRadix": 2,
-                    "fractionalDigits": 0,
-                    "primaryKeyPartNumber": 2
+                    "precision": null,
+                    "databaseType": "varchar",
+                    "precisionRadix": null,
+                    "fractionalDigits": null,
+                    "primaryKeyPartNumber": null
                 },
                 {
-                    "name": "priority",
+                    "name": "authority_id",
                     "length": null,
-                    "nullable": true,
+                    "nullable": false,
                     "precision": 32,
                     "databaseType": "int4",
                     "precisionRadix": 2,
@@ -442,7 +501,7 @@
                 }
             ],
             "relationId": {
-                "name": "drug_reference",
+                "name": "advisory_type",
                 "schema": "drugs"
             },
             "relationType": "Table"
@@ -579,6 +638,45 @@
         {
             "fields": [
                 {
+                    "name": "drug_id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 1
+                },
+                {
+                    "name": "reference_id",
+                    "length": null,
+                    "nullable": false,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": 2
+                },
+                {
+                    "name": "priority",
+                    "length": null,
+                    "nullable": true,
+                    "precision": 32,
+                    "databaseType": "int4",
+                    "precisionRadix": 2,
+                    "fractionalDigits": 0,
+                    "primaryKeyPartNumber": null
+                }
+            ],
+            "relationId": {
+                "name": "drug_reference",
+                "schema": "drugs"
+            },
+            "relationType": "Table"
+        },
+        {
+            "fields": [
+                {
                     "name": "id",
                     "length": null,
                     "nullable": false,
@@ -601,104 +699,6 @@
             ],
             "relationId": {
                 "name": "reference",
-                "schema": "drugs"
-            },
-            "relationType": "Table"
-        },
-        {
-            "fields": [
-                {
-                    "name": "id",
-                    "length": null,
-                    "nullable": false,
-                    "precision": 32,
-                    "databaseType": "int4",
-                    "precisionRadix": 2,
-                    "fractionalDigits": 0,
-                    "primaryKeyPartNumber": 1
-                },
-                {
-                    "name": "name",
-                    "length": 200,
-                    "nullable": false,
-                    "precision": null,
-                    "databaseType": "varchar",
-                    "precisionRadix": null,
-                    "fractionalDigits": null,
-                    "primaryKeyPartNumber": null
-                },
-                {
-                    "name": "url",
-                    "length": 500,
-                    "nullable": true,
-                    "precision": null,
-                    "databaseType": "varchar",
-                    "precisionRadix": null,
-                    "fractionalDigits": null,
-                    "primaryKeyPartNumber": null
-                },
-                {
-                    "name": "description",
-                    "length": 2000,
-                    "nullable": true,
-                    "precision": null,
-                    "databaseType": "varchar",
-                    "precisionRadix": null,
-                    "fractionalDigits": null,
-                    "primaryKeyPartNumber": null
-                },
-                {
-                    "name": "weight",
-                    "length": null,
-                    "nullable": true,
-                    "precision": 32,
-                    "databaseType": "int4",
-                    "precisionRadix": 2,
-                    "fractionalDigits": 0,
-                    "primaryKeyPartNumber": null
-                }
-            ],
-            "relationId": {
-                "name": "authority",
-                "schema": "drugs"
-            },
-            "relationType": "Table"
-        },
-        {
-            "fields": [
-                {
-                    "name": "id",
-                    "length": null,
-                    "nullable": false,
-                    "precision": 32,
-                    "databaseType": "int4",
-                    "precisionRadix": 2,
-                    "fractionalDigits": 0,
-                    "primaryKeyPartNumber": 1
-                },
-                {
-                    "name": "name",
-                    "length": 50,
-                    "nullable": false,
-                    "precision": null,
-                    "databaseType": "varchar",
-                    "precisionRadix": null,
-                    "fractionalDigits": null,
-                    "primaryKeyPartNumber": null
-                },
-                {
-                    "name": "authority_id",
-                    "length": null,
-                    "nullable": false,
-                    "precision": 32,
-                    "databaseType": "int4",
-                    "precisionRadix": 2,
-                    "fractionalDigits": 0,
-                    "primaryKeyPartNumber": null
-                }
-            ],
-            "relationId": {
-                "name": "advisory_type",
                 "schema": "drugs"
             },
             "relationType": "Table"
