@@ -23,12 +23,10 @@ public class DrugsQuery1
 
   // Below are types representing the result data for the generated query, with top-level result type first.
 
-  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
-  public static class Drug
-  {
-    public String drugName;
-    public String categoryCode;
-    public @Nullable Long cidPlus1000;
-  }
+  public record Drug(
+    String drugName,
+    String categoryCode,
+    @Nullable Long cidPlus1000
+  ){}
 
 }

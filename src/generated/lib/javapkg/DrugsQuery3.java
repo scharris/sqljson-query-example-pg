@@ -23,22 +23,18 @@ public class DrugsQuery3
 
   // Below are types representing the result data for the generated query, with top-level result type first.
 
-  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
-  public static class Drug
-  {
-    public String drugName;
-    public String categoryCode;
-    public String registeredByAnalyst;
-    public Compound primaryCompound;
-  }
+  public record Drug(
+    String drugName,
+    String categoryCode,
+    String registeredByAnalyst,
+    Compound primaryCompound
+  ){}
 
-  @SuppressWarnings("nullness") // because fields will be set directly by the deserializer not by constructor
-  public static class Compound
-  {
-    public long compoundId;
-    public @Nullable String compoundDisplayName;
-    public String enteredByAnalyst;
-    public @Nullable String approvedByAnalyst;
-  }
+  public record Compound(
+    long compoundId,
+    @Nullable String compoundDisplayName,
+    String enteredByAnalyst,
+    @Nullable String approvedByAnalyst
+  ){}
 
 }
