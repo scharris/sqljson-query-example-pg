@@ -15,4 +15,4 @@ DBTYPE=$2
 
 mvn -f "$SCRIPTDIR"/../dbmd/pom.xml compile exec:java "-DjdbcProps=$JDBC_PROPS" "-Ddb=$DBTYPE"
 
-npm run --prefix "$SCRIPTDIR/.." generate-relations-metadata -- --tsRelsMdDir "$SCRIPTDIR/../dbmd"
+npm run --prefix "$SCRIPTDIR/.." gen-rels-md -- --tsRelsMdDir "$SCRIPTDIR/../dbmd"

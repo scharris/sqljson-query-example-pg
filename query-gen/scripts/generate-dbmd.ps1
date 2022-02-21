@@ -8,4 +8,4 @@ $scriptDir = $PSScriptRoot
 
 mvn -f $scriptDir/../dbmd/pom.xml compile exec:java "-DjdbcProps=$jdbcProps" "-Ddb=$dbType"
 
-npm run --prefix $scriptDir/.. generate-relations-metadata -- --tsRelsMdDir $scriptDir/../dbmd
+npm run --prefix $scriptDir/.. gen-rels-md -- --tsRelsMdDir $scriptDir/../dbmd

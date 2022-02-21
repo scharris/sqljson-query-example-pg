@@ -48,9 +48,9 @@ In a new project (but not this one), the database metadata must be generated bef
 generate SQL and result types. After initial metadata generation, the metadata only needs to be refreshed
 when the database has changes that need to be incorporated into the app, which is why its npm run script is
 not run automatically in the normal build/run process. The database metadata can be generated at the proper
-location (`query-gen/dbmd/dbmd.json`) by running `npm run gen-dbmd`. This implementation of metadata generation
-requires Maven and Java. You can however avoid the Java and Maven dependencies for generating database metadata
-as implemented here, by following instructions in the
+location (`query-gen/dbmd/dbmd.json` and `query-gen/dbmd/relations-metadata.ts`) by running `npm run gen-dbmd`.
+This implementation of metadata generation requires Maven and Java. You can however avoid the Java and Maven
+dependencies for generating database metadata as implemented here, by following instructions in the
 [Generating Database Metadata without Maven and Java](https://scharris.github.io/sqljson-query/tutorial.html#generating-database-metadata-without-maven-and-java)
 section in the SQL/JSON tutorial.
 
