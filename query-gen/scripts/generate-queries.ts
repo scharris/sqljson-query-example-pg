@@ -17,83 +17,49 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
   const internalDbmdDir = path.join(__dirname, 'dbmd');
   const dbmdPath = parsedArgs['dbmd'] || path.join(internalDbmdDir, 'dbmd.json');
   const sqlOutputDir = parsedArgs['sqlDir'];
-  const tsQueriesOutputDir = parsedArgs['tsQueriesDir'];
+  const tsOutputDir = parsedArgs['tsQueriesDir'];
   const javaBaseDir = parsedArgs['javaBaseDir'];
-  const javaQueriesPackage = parsedArgs['javaQueriesPkg'];
-  const javaQueriesOutputDir = javaBaseDir ? `${javaBaseDir}/${replaceAll(javaQueriesPackage, '.','/')}` : null;
+  const javaPackage = parsedArgs['javaQueriesPkg'] ?? '';
+  const javaOutputDir = javaBaseDir ? `${javaBaseDir}/${replaceAll(javaPackage, '.','/')}` : null;
+  const javaEmitRecords = parseBoolOption(parsedArgs['javaEmitRecords'] ?? 'true', 'javaEmitRecords');
 
-  if ( !(sqlOutputDir || tsQueriesOutputDir || javaQueriesOutputDir) )
-    throw new Error('No query-related outputs were specified - one or more of "sqlDir", "tsQueriesDir", "javaBaseDir"+"javaQueriesPkg" are required');
-
-  // Only generate SQL here if it's not being generated with Java or TS source code below.
-  // The Java/TS source generators need to generate the SQL when they are enabled, so that they can
-  // reference the generated SQL resources within their source code.
-  if ( sqlOutputDir )
-  {
-    await fs.mkdir(sqlOutputDir, {recursive: true});
-
-    console.log(`Writing SQL files to ${sqlOutputDir}.`);
-
-    if ( !tsQueriesOutputDir && !javaQueriesOutputDir )
-      await generateQuerySources(queryGroupSpec, dbmdPath, null, sqlOutputDir, {});
-  }
+  if ( sqlOutputDir == null )
+    throw new Error('SQL output directory is required.');
+  if ( tsOutputDir == null && javaOutputDir == null )
+    throw new Error('An output directory argument for result types is required.');
 
   // Generate TS query/result-type source files if specified.
-  if ( tsQueriesOutputDir )
+  if ( tsOutputDir )
   {
-    await fs.mkdir(tsQueriesOutputDir, {recursive: true});
+    await fs.mkdir(tsOutputDir, {recursive: true});
 
-    console.log(`Writing TS source files to ${tsQueriesOutputDir}.`);
+    console.log(`Writing TS source files to ${tsOutputDir}.`);
 
-    await generateQuerySources(queryGroupSpec, dbmdPath, tsQueriesOutputDir, sqlOutputDir, {
+    await generateQuerySources(queryGroupSpec, dbmdPath, {
       sourceLanguage: 'TS',
+      resultTypesOutputDir: tsOutputDir,
+      sqlOutputDir,
       typesHeaderFile: parsedArgs['tsTypesHeader'],
       sqlResourcePathPrefix: parsedArgs['sqlResourcePath']
     });
   }
 
   // Generate Java sources if specified.
-  if ( javaQueriesOutputDir )
+  if ( javaOutputDir )
   {
-    if ( !javaBaseDir )
-      throw new Error('javaBaseDir is required for Java source generation');
+    await fs.mkdir(javaOutputDir, {recursive: true});
 
-    await fs.mkdir(javaQueriesOutputDir, {recursive: true});
+    console.log(`Writing Java query source files to ${javaOutputDir}.`);
 
-    console.log(`Writing Java query source files to ${javaQueriesOutputDir}.`);
-
-    await generateQuerySources(queryGroupSpec, dbmdPath, javaQueriesOutputDir, sqlOutputDir, {
+    await generateQuerySources(queryGroupSpec, dbmdPath, {
       sourceLanguage: 'Java',
-      javaPackage: javaQueriesPackage,
+      resultTypesOutputDir: javaOutputDir,
+      sqlOutputDir,
+      javaOptions: { javaPackage, emitRecords: javaEmitRecords },
       typesHeaderFile: parsedArgs['javaTypesHeader'],
-      sqlResourcePathPrefix: parsedArgs['sqlResourcePath']
+      sqlResourcePathPrefix: parsedArgs['sqlResourcePath'],
     });
   }
-}
-
-const optionNames = [
-  'dbmd', // database metadata json file path
-  'sqlDir',
-  'sqlResourcePath',
-  'tsQueriesDir', 'tsTypesHeader',
-  'javaBaseDir', 'javaQueriesPkg', 'javaTypesHeader'
-];
-const parsedArgs = parseArgs(process.argv, [], optionNames, 0);
-
-if ( typeof parsedArgs === 'string' ) // arg parsing error
-{
-  console.error(`Error: ${parsedArgs}`);
-  process.exit(1);
-}
-else
-{
-  generateQueries(parsedArgs)
-  .then(() => { console.log("Query generation completed."); })
-  .catch((e) => {
-    console.error(e);
-    console.error("Query generation failed due to error - see error detail above.");
-    process.exit(1);
-  });
 }
 
 function parseArgs
@@ -142,4 +108,44 @@ function replaceAll(inString: string, replace: string, replacement: string)
 function escapeRegExp(s: string)
 {
   return s.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
+function parseBoolOption(valStr: string, optionName: string): boolean
+{
+  const valLc = valStr.toLowerCase();
+  if ( valLc === 'true' || valLc === 't' || valLc === '1' )
+    return true;
+  else if ( valLc === 'false' || valLc === 'f' || valLc === '0' )
+    return false;
+  else
+    throw new Error(`Could not parse value "${valStr}" for boolean option ${optionName}.`);
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+// Run
+//////////////////////////////////////////////////////////////////////////////////////
+
+const optionNames = [
+  'dbmd', // database metadata json file path
+  'sqlDir',
+  'sqlResourcePath',
+  'tsQueriesDir', 'tsTypesHeader',
+  'javaBaseDir', 'javaQueriesPkg', 'javaTypesHeader', 'javaEmitRecords'
+];
+const parsedArgs = parseArgs(process.argv, [], optionNames, 0);
+
+if ( typeof parsedArgs === 'string' ) // arg parsing error
+{
+  console.error(`Error: ${parsedArgs}`);
+  process.exit(1);
+}
+else
+{
+  generateQueries(parsedArgs)
+  .then(() => { console.log("Query generation completed."); })
+  .catch((e) => {
+    console.error(e);
+    console.error("Query generation failed due to error - see error detail above.");
+    process.exit(1);
+  });
 }
