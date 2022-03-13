@@ -1,0 +1,42 @@
+{
+  "propertySelectEntries": [
+    {
+      "entryType": "field",
+      "projectedName": "drugName",
+      "fieldName": "name",
+      "tableAlias": "d"
+    },
+    {
+      "entryType": "field",
+      "projectedName": "categoryCode",
+      "fieldName": "category_code",
+      "tableAlias": "d"
+    },
+    {
+      "entryType": "expr",
+      "projectedName": "cidPlus1000",
+      "expression": "$$.cid + 1000",
+      "tableAlias": "d"
+    }
+  ],
+  "hiddenPrimaryKeySelectEntries": [],
+  "fromEntries": [
+    {
+      "entryType": "table",
+      "table": {
+        "schema": "drugs",
+        "name": "drug"
+      },
+      "alias": "d"
+    }
+  ],
+  "whereEntries": [
+    {
+      "condType": "gen",
+      "condSql": "category_code = :catCode",
+      "tableAlias": "d"
+    }
+  ],
+  "orderBy": null,
+  "wrapPropertiesInJsonObject": true
+}

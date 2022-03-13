@@ -17,6 +17,7 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
   const internalDbmdDir = path.join(__dirname, 'dbmd');
   const dbmdPath = parsedArgs['dbmd'] || path.join(internalDbmdDir, 'dbmd.json');
   const sqlOutputDir = parsedArgs['sqlDir'];
+  const sqlSpecOutputDir = parsedArgs['sqlSpecDir'];
   const tsOutputDir = parsedArgs['tsQueriesDir'];
   const javaBaseDir = parsedArgs['javaBaseDir'];
   const javaPackage = parsedArgs['javaQueriesPkg'] ?? '';
@@ -27,6 +28,10 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
     throw new Error('SQL output directory is required.');
   if ( tsOutputDir == null && javaOutputDir == null )
     throw new Error('An output directory argument for result types is required.');
+
+  await fs.mkdir(sqlOutputDir, {recursive: true});
+  if ( sqlSpecOutputDir)
+    await fs.mkdir(sqlSpecOutputDir, {recursive: true});
 
   // Generate TS query/result-type source files if specified.
   if ( tsOutputDir )
@@ -39,6 +44,7 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
       sourceLanguage: 'TS',
       resultTypesOutputDir: tsOutputDir,
       sqlOutputDir,
+      sqlSpecOutputDir,
       typesHeaderFile: parsedArgs['tsTypesHeader'],
       sqlResourcePathPrefix: parsedArgs['sqlResourcePath']
     });
@@ -55,6 +61,7 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
       sourceLanguage: 'Java',
       resultTypesOutputDir: javaOutputDir,
       sqlOutputDir,
+      sqlSpecOutputDir,
       javaOptions: { javaPackage, emitRecords: javaEmitRecords },
       typesHeaderFile: parsedArgs['javaTypesHeader'],
       sqlResourcePathPrefix: parsedArgs['sqlResourcePath'],
@@ -128,6 +135,7 @@ function parseBoolOption(valStr: string, optionName: string): boolean
 const optionNames = [
   'dbmd', // database metadata json file path
   'sqlDir',
+  'sqlSpecDir',
   'sqlResourcePath',
   'tsQueriesDir', 'tsTypesHeader',
   'javaBaseDir', 'javaQueriesPkg', 'javaTypesHeader', 'javaEmitRecords'

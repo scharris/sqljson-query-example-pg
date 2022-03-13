@@ -14,8 +14,8 @@ from (
     d.name "drugName",
     d.category_code "categoryCode",
     -- field(s) inlined from parent table 'analyst'
-    q."registeredByAnalyst" "registeredByAnalyst",
-    -- parent table 'compound' referenced as 'primaryCompound'
+    q."registeredByAnalyst",
+    -- reference 'primaryCompound' to parent table 'compound'
     (
       select
         -- row object for table 'compound'
@@ -31,15 +31,15 @@ from (
           c.id "compoundId",
           c.display_name "compoundDisplayName",
           -- field(s) inlined from parent table 'analyst'
-          q."enteredByAnalyst" "enteredByAnalyst",
+          q."enteredByAnalyst",
           -- field(s) inlined from parent table 'analyst'
-          q1."approvedByAnalyst" "approvedByAnalyst"
+          q1."approvedByAnalyst"
         from
           compound c
           -- parent table 'analyst', joined for inlined fields
           left join (
             select
-              a.id "_id",
+              a.id as "_id",
               a.short_name "enteredByAnalyst"
             from
               analyst a
@@ -47,7 +47,7 @@ from (
           -- parent table 'analyst', joined for inlined fields
           left join (
             select
-              a.id "_id",
+              a.id as "_id",
               a.short_name "approvedByAnalyst"
             from
               analyst a
@@ -62,7 +62,7 @@ from (
     -- parent table 'analyst', joined for inlined fields
     left join (
       select
-        a.id "_id",
+        a.id as "_id",
         a.short_name "registeredByAnalyst"
       from
         analyst a

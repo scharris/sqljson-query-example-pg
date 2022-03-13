@@ -33,7 +33,7 @@ from (
     d.market_entry_date "marketEntryDate",
     d.therapeutic_indications "therapeuticIndications",
     d.cid + 1000 "cidPlus1000",
-    -- parent table 'analyst' referenced as 'registeredByAnalyst'
+    -- reference 'registeredByAnalyst' to parent table 'analyst'
     (
       select
         -- row object for table 'analyst'
@@ -53,7 +53,7 @@ from (
         )
       ) q
     ) "registeredByAnalyst",
-    -- parent table 'compound' referenced as 'compound'
+    -- reference 'compound' to parent table 'compound'
     (
       select
         -- row object for table 'compound'
@@ -72,7 +72,7 @@ from (
           c.nctr_isis_id "nctrIsisId",
           c.cas as cas,
           c.entered as entered,
-          -- parent table 'analyst' referenced as 'enteredByAnalyst'
+          -- reference 'enteredByAnalyst' to parent table 'analyst'
           (
             select
               -- row object for table 'analyst'
@@ -92,7 +92,7 @@ from (
               )
             ) q
           ) "enteredByAnalyst",
-          -- parent table 'analyst' referenced as 'approvedByAnalyst'
+          -- reference 'approvedByAnalyst' to parent table 'analyst'
           (
             select
               -- row object for table 'analyst'
@@ -118,11 +118,11 @@ from (
           d.compound_id = c.id
         )
       ) q
-    ) as compound,
-    -- records from child table 'drug_reference' as collection 'prioritizedReferences'
+    ) compound,
+    -- collection 'prioritizedReferences' of records from child table 'drug_reference'
     (
       select
-        -- aggregated row objects for table 'drug_reference'
+        -- aggregated rows from table 'drug_reference'
         coalesce(jsonb_agg(jsonb_build_object(
           'priority', q.priority,
           'publication', q.publication
@@ -132,13 +132,14 @@ from (
         select
           dr.priority as priority,
           -- field(s) inlined from parent table 'reference'
-          q.publication as publication
+          q.publication
         from
+          -- base query for table 'drug_reference'
           drug_reference dr
           -- parent table 'reference', joined for inlined fields
           left join (
             select
-              r.id "_id",
+              r.id as "_id",
               r.publication as publication
             from
               reference r
@@ -146,12 +147,13 @@ from (
         where (
           dr.drug_id = d.id
         )
+        order by priority asc
       ) q
     ) "prioritizedReferences",
-    -- records from child table 'brand' as collection 'brands'
+    -- collection 'brands' of records from child table 'brand'
     (
       select
-        -- aggregated row objects for table 'brand'
+        -- aggregated rows from table 'brand'
         coalesce(jsonb_agg(jsonb_build_object(
           'brandName', q."brandName",
           'manufacturer', q.manufacturer
@@ -161,13 +163,14 @@ from (
         select
           b.brand_name "brandName",
           -- field(s) inlined from parent table 'manufacturer'
-          q.manufacturer as manufacturer
+          q.manufacturer
         from
+          -- base query for table 'brand'
           brand b
           -- parent table 'manufacturer', joined for inlined fields
           left join (
             select
-              m.id "_id",
+              m.id as "_id",
               m.name as manufacturer
             from
               manufacturer m
@@ -176,11 +179,11 @@ from (
           b.drug_id = d.id
         )
       ) q
-    ) as brands,
-    -- records from child table 'advisory' as collection 'advisories'
+    ) brands,
+    -- collection 'advisories' of records from child table 'advisory'
     (
       select
-        -- aggregated row objects for table 'advisory'
+        -- aggregated rows from table 'advisory'
         coalesce(jsonb_agg(jsonb_build_object(
           'advisoryText', q."advisoryText",
           'advisoryType', q."advisoryType",
@@ -194,29 +197,30 @@ from (
         select
           a.text "advisoryText",
           -- field(s) inlined from parent table 'advisory_type'
-          q."advisoryType" "advisoryType",
-          q."exprYieldingTwo" "exprYieldingTwo",
-          q."authorityName" "authorityName",
-          q."authorityUrl" "authorityUrl",
-          q."authorityDescription" "authorityDescription"
+          q."advisoryType",
+          q."exprYieldingTwo",
+          q."authorityName",
+          q."authorityUrl",
+          q."authorityDescription"
         from
+          -- base query for table 'advisory'
           advisory a
           -- parent table 'advisory_type', joined for inlined fields
           left join (
             select
-              at.id "_id",
+              at.id as "_id",
               at.name "advisoryType",
               (1 + 1) "exprYieldingTwo",
               -- field(s) inlined from parent table 'authority'
-              q."authorityName" "authorityName",
-              q."authorityUrl" "authorityUrl",
-              q."authorityDescription" "authorityDescription"
+              q."authorityName",
+              q."authorityUrl",
+              q."authorityDescription"
             from
               advisory_type at
               -- parent table 'authority', joined for inlined fields
               left join (
                 select
-                  a.id "_id",
+                  a.id as "_id",
                   a.name "authorityName",
                   a.url "authorityUrl",
                   a.description "authorityDescription"
@@ -228,11 +232,11 @@ from (
           a.drug_id = d.id
         )
       ) q
-    ) as advisories,
-    -- records from child table 'drug_functional_category' as collection 'functionalCategories'
+    ) advisories,
+    -- collection 'functionalCategories' of records from child table 'drug_functional_category'
     (
       select
-        -- aggregated row objects for table 'drug_functional_category'
+        -- aggregated rows from table 'drug_functional_category'
         coalesce(jsonb_agg(jsonb_build_object(
           'categoryName', q."categoryName",
           'description', q.description,
@@ -244,18 +248,19 @@ from (
         -- base query for table 'drug_functional_category'
         select
           -- field(s) inlined from parent table 'functional_category'
-          q."categoryName" "categoryName",
-          q.description as description,
+          q."categoryName",
+          q.description,
           -- field(s) inlined from parent table 'authority'
-          q1."authorityName" "authorityName",
-          q1."authorityUrl" "authorityUrl",
-          q1."authorityDescription" "authorityDescription"
+          q1."authorityName",
+          q1."authorityUrl",
+          q1."authorityDescription"
         from
+          -- base query for table 'drug_functional_category'
           drug_functional_category dfc
           -- parent table 'functional_category', joined for inlined fields
           left join (
             select
-              fc.id "_id",
+              fc.id as "_id",
               fc.name "categoryName",
               fc.description as description
             from
@@ -264,7 +269,7 @@ from (
           -- parent table 'authority', joined for inlined fields
           left join (
             select
-              a.id "_id",
+              a.id as "_id",
               a.name "authorityName",
               a.url "authorityUrl",
               a.description "authorityDescription"
@@ -281,5 +286,6 @@ from (
   where (
     (d.name ilike $1)
   )
+  order by d.name
 ) q
 order by q.name

@@ -15,8 +15,8 @@ from (
     d.name "drugName",
     d.category_code "categoryCode",
     -- field(s) inlined from parent table 'analyst'
-    q."registeredByAnalyst" "registeredByAnalyst",
-    -- parent table 'compound' referenced as 'primaryCompound'
+    q."registeredByAnalyst",
+    -- reference 'primaryCompound' to parent table 'compound'
     (
       select
         -- row object for table 'compound'
@@ -32,15 +32,15 @@ from (
           c.id "compoundId",
           c.display_name "compoundDisplayName",
           -- field(s) inlined from parent table 'analyst'
-          q."enteredByAnalyst" "enteredByAnalyst",
+          q."enteredByAnalyst",
           -- field(s) inlined from parent table 'analyst'
-          q1."approvedByAnalyst" "approvedByAnalyst"
+          q1."approvedByAnalyst"
         from
           compound c
           -- parent table 'analyst', joined for inlined fields
           left join (
             select
-              a.id "_id",
+              a.id as "_id",
               a.short_name "enteredByAnalyst"
             from
               analyst a
@@ -48,7 +48,7 @@ from (
           -- parent table 'analyst', joined for inlined fields
           left join (
             select
-              a.id "_id",
+              a.id as "_id",
               a.short_name "approvedByAnalyst"
             from
               analyst a
@@ -58,10 +58,10 @@ from (
         )
       ) q
     ) "primaryCompound",
-    -- records from child table 'advisory' as collection 'advisories'
+    -- collection 'advisories' of records from child table 'advisory'
     (
       select
-        -- aggregated row objects for table 'advisory'
+        -- aggregated rows from table 'advisory'
         coalesce(jsonb_agg(jsonb_build_object(
           'advisoryTypeId', q."advisoryTypeId",
           'advisoryText', q."advisoryText",
@@ -74,23 +74,24 @@ from (
           a.advisory_type_id "advisoryTypeId",
           a.text "advisoryText",
           -- field(s) inlined from parent table 'advisory_type'
-          q."advisoryTypeName" "advisoryTypeName",
-          q."advisoryTypeAuthorityName" "advisoryTypeAuthorityName"
+          q."advisoryTypeName",
+          q."advisoryTypeAuthorityName"
         from
+          -- base query for table 'advisory'
           advisory a
           -- parent table 'advisory_type', joined for inlined fields
           left join (
             select
-              at.id "_id",
+              at.id as "_id",
               at.name "advisoryTypeName",
               -- field(s) inlined from parent table 'authority'
-              q."advisoryTypeAuthorityName" "advisoryTypeAuthorityName"
+              q."advisoryTypeAuthorityName"
             from
               advisory_type at
               -- parent table 'authority', joined for inlined fields
               left join (
                 select
-                  a.id "_id",
+                  a.id as "_id",
                   a.name "advisoryTypeAuthorityName"
                 from
                   authority a
@@ -100,13 +101,13 @@ from (
           a.drug_id = d.id
         )
       ) q
-    ) as advisories
+    ) advisories
   from
     drug d
     -- parent table 'analyst', joined for inlined fields
     left join (
       select
-        a.id "_id",
+        a.id as "_id",
         a.short_name "registeredByAnalyst"
       from
         analyst a

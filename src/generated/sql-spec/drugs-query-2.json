@@ -1,0 +1,137 @@
+{
+  "propertySelectEntries": [
+    {
+      "entryType": "field",
+      "projectedName": "drugName",
+      "fieldName": "name",
+      "tableAlias": "d"
+    },
+    {
+      "entryType": "field",
+      "projectedName": "categoryCode",
+      "fieldName": "category_code",
+      "tableAlias": "d"
+    },
+    {
+      "entryType": "inline-parent-prop",
+      "projectedName": "registeredByAnalyst",
+      "parentAlias": "q",
+      "comment": "field(s) inlined from parent table 'analyst'"
+    },
+    {
+      "entryType": "parent-ref",
+      "projectedName": "primaryCompound",
+      "parentRowObjectSql": {
+        "propertySelectEntries": [
+          {
+            "entryType": "field",
+            "projectedName": "compoundId",
+            "fieldName": "id",
+            "tableAlias": "c"
+          },
+          {
+            "entryType": "field",
+            "projectedName": "compoundDisplayName",
+            "fieldName": "display_name",
+            "tableAlias": "c"
+          }
+        ],
+        "hiddenPrimaryKeySelectEntries": [],
+        "fromEntries": [
+          {
+            "entryType": "table",
+            "table": {
+              "schema": "drugs",
+              "name": "compound"
+            },
+            "alias": "c"
+          }
+        ],
+        "whereEntries": [
+          {
+            "condType": "pk",
+            "childAlias": "d",
+            "matchedFields": [
+              {
+                "foreignKeyFieldName": "compound_id",
+                "primaryKeyFieldName": "id"
+              }
+            ],
+            "fromAlias": "c"
+          }
+        ],
+        "orderBy": null,
+        "wrapPropertiesInJsonObject": true
+      },
+      "comment": "reference 'primaryCompound' to parent table 'compound'"
+    }
+  ],
+  "hiddenPrimaryKeySelectEntries": [],
+  "fromEntries": [
+    {
+      "entryType": "table",
+      "table": {
+        "schema": "drugs",
+        "name": "drug"
+      },
+      "alias": "d"
+    },
+    {
+      "entryType": "query",
+      "query": {
+        "propertySelectEntries": [
+          {
+            "entryType": "field",
+            "projectedName": "registeredByAnalyst",
+            "fieldName": "short_name",
+            "tableAlias": "a"
+          }
+        ],
+        "hiddenPrimaryKeySelectEntries": [
+          {
+            "pkFieldName": "id",
+            "projectedName": "_id",
+            "tableAlias": "a"
+          }
+        ],
+        "fromEntries": [
+          {
+            "entryType": "table",
+            "table": {
+              "schema": "drugs",
+              "name": "analyst"
+            },
+            "alias": "a"
+          }
+        ],
+        "whereEntries": [],
+        "orderBy": null
+      },
+      "alias": "q",
+      "joinCondition": {
+        "joinType": "LEFT",
+        "parentChildCondition": {
+          "condType": "fk",
+          "fromAlias": "d",
+          "parentAlias": "q",
+          "matchedFields": [
+            {
+              "foreignKeyFieldName": "registered_by",
+              "primaryKeyFieldName": "_id"
+            }
+          ]
+        }
+      },
+      "comment": "parent table 'analyst', joined for inlined fields"
+    }
+  ],
+  "whereEntries": [
+    {
+      "condType": "gen",
+      "condSql": "category_code = :catCode",
+      "tableAlias": "d"
+    }
+  ],
+  "orderBy": null,
+  "wrapPropertiesInJsonObject": true
+}

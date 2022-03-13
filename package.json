@@ -18,7 +18,7 @@
       "pregen-queries-java": "npm run --prefix query-gen gen-rels-md -- --javaBaseDir=../src/generated/lib --javaRelsMdPkg=javapkg",
       "gen-queries-java": "npm run --prefix query-gen gen-queries -- --sqlDir=../src/generated/sql --javaBaseDir=../src/generated/lib --javaQueriesPkg=javapkg",
       "pregen-queries-ts": "npm run --prefix query-gen gen-rels-md -- --tsRelsMdDir=../src/generated/lib",
-      "gen-queries-ts": "npm run --prefix query-gen gen-queries -- --sqlDir=../src/generated/sql --tsQueriesDir=../src/generated/lib",
+      "gen-queries-ts": "npm run --prefix query-gen gen-queries -- --sqlDir=../src/generated/sql --sqlSpecDir=../src/generated/sql-spec --tsQueriesDir=../src/generated/lib",
       "prebuild": "npm run gen-queries-ts",
       "build": "npm run clean && tsc && copyfiles --flat src/generated/sql/*.sql dist/generated/sql",
       "preapp": "npm run build",
