@@ -1,5 +1,5 @@
 {
-  "propertySelectEntries": [
+  "selectEntries": [
     {
       "entryType": "field",
       "projectedName": "drugName",
@@ -16,13 +16,19 @@
       "entryType": "inline-parent-prop",
       "projectedName": "registeredByAnalyst",
       "parentAlias": "q",
-      "comment": "field(s) inlined from parent table 'analyst'"
+      "comment": "field(s) inlined from parent table 'analyst'",
+      "parentSelectEntry": {
+        "entryType": "field",
+        "projectedName": "registeredByAnalyst",
+        "fieldName": "short_name",
+        "tableAlias": "a"
+      }
     },
     {
       "entryType": "parent-ref",
       "projectedName": "primaryCompound",
       "parentRowObjectSql": {
-        "propertySelectEntries": [
+        "selectEntries": [
           {
             "entryType": "field",
             "projectedName": "compoundId",
@@ -36,7 +42,6 @@
             "tableAlias": "c"
           }
         ],
-        "hiddenPrimaryKeySelectEntries": [],
         "fromEntries": [
           {
             "entryType": "table",
@@ -66,7 +71,6 @@
       "comment": "reference 'primaryCompound' to parent table 'compound'"
     }
   ],
-  "hiddenPrimaryKeySelectEntries": [],
   "fromEntries": [
     {
       "entryType": "table",
@@ -79,18 +83,17 @@
     {
       "entryType": "query",
       "query": {
-        "propertySelectEntries": [
+        "selectEntries": [
+          {
+            "entryType": "hidden-pkf",
+            "pkFieldName": "id",
+            "projectedName": "_id",
+            "tableAlias": "a"
+          },
           {
             "entryType": "field",
             "projectedName": "registeredByAnalyst",
             "fieldName": "short_name",
-            "tableAlias": "a"
-          }
-        ],
-        "hiddenPrimaryKeySelectEntries": [
-          {
-            "pkFieldName": "id",
-            "projectedName": "_id",
             "tableAlias": "a"
           }
         ],

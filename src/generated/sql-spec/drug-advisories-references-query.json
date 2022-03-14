@@ -1,5 +1,5 @@
 {
-  "propertySelectEntries": [
+  "selectEntries": [
     {
       "entryType": "field",
       "projectedName": "drugName",
@@ -16,7 +16,7 @@
       "entryType": "parent-ref",
       "projectedName": "primaryCompound",
       "parentRowObjectSql": {
-        "propertySelectEntries": [
+        "selectEntries": [
           {
             "entryType": "field",
             "projectedName": "compoundId",
@@ -33,10 +33,15 @@
             "entryType": "inline-parent-prop",
             "projectedName": "enteredByAnalyst",
             "parentAlias": "q",
-            "comment": "field(s) inlined from parent table 'analyst'"
+            "comment": "field(s) inlined from parent table 'analyst'",
+            "parentSelectEntry": {
+              "entryType": "field",
+              "projectedName": "enteredByAnalyst",
+              "fieldName": "short_name",
+              "tableAlias": "a"
+            }
           }
         ],
-        "hiddenPrimaryKeySelectEntries": [],
         "fromEntries": [
           {
             "entryType": "table",
@@ -49,18 +54,17 @@
           {
             "entryType": "query",
             "query": {
-              "propertySelectEntries": [
+              "selectEntries": [
+                {
+                  "entryType": "hidden-pkf",
+                  "pkFieldName": "id",
+                  "projectedName": "_id",
+                  "tableAlias": "a"
+                },
                 {
                   "entryType": "field",
                   "projectedName": "enteredByAnalyst",
                   "fieldName": "short_name",
-                  "tableAlias": "a"
-                }
-              ],
-              "hiddenPrimaryKeySelectEntries": [
-                {
-                  "pkFieldName": "id",
-                  "projectedName": "_id",
                   "tableAlias": "a"
                 }
               ],
@@ -117,7 +121,7 @@
       "entryType": "child-coll",
       "projectedName": "advisories",
       "collectionSql": {
-        "propertySelectEntries": [
+        "selectEntries": [
           {
             "entryType": "field",
             "projectedName": "advisoryTypeId",
@@ -134,16 +138,33 @@
             "entryType": "inline-parent-prop",
             "projectedName": "advisoryTypeName",
             "parentAlias": "q",
-            "comment": "field(s) inlined from parent table 'advisory_type'"
+            "comment": "field(s) inlined from parent table 'advisory_type'",
+            "parentSelectEntry": {
+              "entryType": "field",
+              "projectedName": "advisoryTypeName",
+              "fieldName": "name",
+              "tableAlias": "at"
+            }
           },
           {
             "entryType": "inline-parent-prop",
             "projectedName": "advisoryTypeAuthorityName",
             "parentAlias": "q",
-            "comment": null
+            "comment": null,
+            "parentSelectEntry": {
+              "entryType": "inline-parent-prop",
+              "projectedName": "advisoryTypeAuthorityName",
+              "parentAlias": "q",
+              "comment": "field(s) inlined from parent table 'authority'",
+              "parentSelectEntry": {
+                "entryType": "field",
+                "projectedName": "advisoryTypeAuthorityName",
+                "fieldName": "name",
+                "tableAlias": "a"
+              }
+            }
           }
         ],
-        "hiddenPrimaryKeySelectEntries": [],
         "fromEntries": [
           {
             "entryType": "table",
@@ -156,7 +177,13 @@
           {
             "entryType": "query",
             "query": {
-              "propertySelectEntries": [
+              "selectEntries": [
+                {
+                  "entryType": "hidden-pkf",
+                  "pkFieldName": "id",
+                  "projectedName": "_id",
+                  "tableAlias": "at"
+                },
                 {
                   "entryType": "field",
                   "projectedName": "advisoryTypeName",
@@ -167,14 +194,13 @@
                   "entryType": "inline-parent-prop",
                   "projectedName": "advisoryTypeAuthorityName",
                   "parentAlias": "q",
-                  "comment": "field(s) inlined from parent table 'authority'"
-                }
-              ],
-              "hiddenPrimaryKeySelectEntries": [
-                {
-                  "pkFieldName": "id",
-                  "projectedName": "_id",
-                  "tableAlias": "at"
+                  "comment": "field(s) inlined from parent table 'authority'",
+                  "parentSelectEntry": {
+                    "entryType": "field",
+                    "projectedName": "advisoryTypeAuthorityName",
+                    "fieldName": "name",
+                    "tableAlias": "a"
+                  }
                 }
               ],
               "fromEntries": [
@@ -189,18 +215,17 @@
                 {
                   "entryType": "query",
                   "query": {
-                    "propertySelectEntries": [
+                    "selectEntries": [
+                      {
+                        "entryType": "hidden-pkf",
+                        "pkFieldName": "id",
+                        "projectedName": "_id",
+                        "tableAlias": "a"
+                      },
                       {
                         "entryType": "field",
                         "projectedName": "advisoryTypeAuthorityName",
                         "fieldName": "name",
-                        "tableAlias": "a"
-                      }
-                    ],
-                    "hiddenPrimaryKeySelectEntries": [
-                      {
-                        "pkFieldName": "id",
-                        "projectedName": "_id",
                         "tableAlias": "a"
                       }
                     ],
@@ -280,7 +305,7 @@
       "entryType": "child-coll",
       "projectedName": "prioritizedReferences",
       "collectionSql": {
-        "propertySelectEntries": [
+        "selectEntries": [
           {
             "entryType": "field",
             "projectedName": "priority",
@@ -291,10 +316,15 @@
             "entryType": "inline-parent-prop",
             "projectedName": "publication",
             "parentAlias": "q",
-            "comment": "field(s) inlined from parent table 'reference'"
+            "comment": "field(s) inlined from parent table 'reference'",
+            "parentSelectEntry": {
+              "entryType": "field",
+              "projectedName": "publication",
+              "fieldName": "publication",
+              "tableAlias": "r"
+            }
           }
         ],
-        "hiddenPrimaryKeySelectEntries": [],
         "fromEntries": [
           {
             "entryType": "table",
@@ -307,18 +337,17 @@
           {
             "entryType": "query",
             "query": {
-              "propertySelectEntries": [
+              "selectEntries": [
+                {
+                  "entryType": "hidden-pkf",
+                  "pkFieldName": "id",
+                  "projectedName": "_id",
+                  "tableAlias": "r"
+                },
                 {
                   "entryType": "field",
                   "projectedName": "publication",
                   "fieldName": "publication",
-                  "tableAlias": "r"
-                }
-              ],
-              "hiddenPrimaryKeySelectEntries": [
-                {
-                  "pkFieldName": "id",
-                  "projectedName": "_id",
                   "tableAlias": "r"
                 }
               ],
@@ -377,7 +406,6 @@
       "comment": "collection 'prioritizedReferences' of records from child table 'drug_reference'"
     }
   ],
-  "hiddenPrimaryKeySelectEntries": [],
   "fromEntries": [
     {
       "entryType": "table",

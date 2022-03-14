@@ -1,5 +1,5 @@
 {
-  "propertySelectEntries": [
+  "selectEntries": [
     {
       "entryType": "field",
       "projectedName": "drugName",
@@ -19,7 +19,6 @@
       "tableAlias": "d"
     }
   ],
-  "hiddenPrimaryKeySelectEntries": [],
   "fromEntries": [
     {
       "entryType": "table",
