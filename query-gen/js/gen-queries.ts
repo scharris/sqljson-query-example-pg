@@ -8,7 +8,6 @@ import * as minimist from 'minimist';
 import * as path from 'path';
 import { promises as fs } from 'fs';
 import { generateQuerySources } from 'sqljson-query';
-
 import { queryGroupSpec } from '../query-specs';
 import { parseArgs, parseBoolOption, replaceAll } from './utils';
 
