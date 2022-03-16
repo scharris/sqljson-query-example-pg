@@ -18,6 +18,8 @@ export async function generateRelationsMetadata(parsedArgs: minimist.ParsedArgs)
 
   if ( tsRelsMdOutputDir )
   {
+    await fs.mkdir(tsRelsMdOutputDir, {recursive: true});
+
     console.log(`Writing TS relation metadatas source file to ${tsRelsMdOutputDir}.`);
 
     await generateRelationsMetadataSource(dbmdPath, tsRelsMdOutputDir, 'TS');

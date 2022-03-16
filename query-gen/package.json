@@ -5,7 +5,7 @@
    "description": "Generate SQL queries and TypeScript result types for enclosing app.",
    "repository": {},
    "scripts": {
-      "compile": "tsc js/*.ts"
+      "compile": "tsc **/*.ts"
    },
    "devDependencies": {
       "@types/minimist": "^1.2.1",
