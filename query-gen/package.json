@@ -5,10 +5,7 @@
    "description": "Generate SQL queries and TypeScript result types for enclosing app.",
    "repository": {},
    "scripts": {
-      "pregen-queries": "tsc scripts/generate-queries.ts --outDir .build",
-      "gen-queries": "node .build/scripts/generate-queries.js \"--dbmd=dbmd/dbmd.json\"",
-      "pregen-rels-md": "tsc scripts/generate-relations-metadata.ts --outDir .build/scripts",
-      "gen-rels-md": "node .build/scripts/generate-relations-metadata.js \"--dbmd=dbmd/dbmd.json\""
+      "compile": "tsc js/*.ts"
    },
    "devDependencies": {
       "@types/minimist": "^1.2.1",
@@ -18,6 +15,6 @@
    },
    "dependencies": {
       "minimist": "^1.2.5",
-      "sqljson-query": "1.6.2"
+      "sqljson-query": "1.6.3"
    }
 }

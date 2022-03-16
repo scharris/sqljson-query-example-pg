@@ -184,7 +184,8 @@
           }
         ],
         "orderBy": null,
-        "wrapPropertiesInJsonObject": true
+        "objectWrapProperties": true,
+        "additionalObjectPropertyColumns": []
       },
       "comment": "reference 'primaryCompound' to parent table 'compound'"
     }
@@ -254,5 +255,6 @@
     }
   ],
   "orderBy": null,
-  "wrapPropertiesInJsonObject": true
+  "objectWrapProperties": true,
+  "additionalObjectPropertyColumns": []
 }

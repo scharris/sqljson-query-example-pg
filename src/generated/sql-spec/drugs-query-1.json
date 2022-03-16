@@ -37,5 +37,6 @@
     }
   ],
   "orderBy": null,
-  "wrapPropertiesInJsonObject": true
+  "objectWrapProperties": true,
+  "additionalObjectPropertyColumns": []
 }

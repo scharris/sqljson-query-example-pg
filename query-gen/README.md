@@ -13,22 +13,24 @@ queries via these instructions.
   is named `query-gen/` at the top level of your project, but this can be adjusted to suit.
 
 - Initialize the query-gen project:
-  ```
-  (cd query-gen && npm i)
+  ```console
+  cd query-gen
+  npm i && npm run compile
   ```
   This step only needs to be performed once to install npm dependencies.
 
   - Generate database metadata
 
-    Add a script or manually-triggered step to your build process to perform the following whenever
-    database metadata needs to be updated to reflect changes in the database:
-    ```console
-    query-gen/scripts/generate-dbmd.sh <jdbc-props> <pg|mysql|ora>
-    ```
-    If on Windows, call `query-gen/scripts/generated-dbmd.ps1` with the same arguments via PowerShell.
+    Add a step to your build process to perform the following whenever database metadata needs to be
+    updated to reflect changes in the database:
 
-    Here `<jdbc-props>` is the path to a properties file with JDBC connection information for
+    ```console
+    node query-gen/js/gen-dbmd.js --jdbcProps=<jdbc-props-file> --db=<pg|mysql|ora>
+    ```
+
+    Here `<jdbc-props-file>` is the path to a properties file with JDBC connection information for
     the database to be examined. The expected format of the jdbc properties file is:
+
     ```
     jdbc.driverClassName=...
     jdbc.url=...
@@ -52,5 +54,7 @@ queries via these instructions.
   To generate SQL and matching TypeScript result types:
 
   ```
-  npm run --prefix query-gen gen-queries -- --sqlDir=../gen-sql --tsQueriesDir=../gen-types
+  node query-gen/js/gen-queries.js --sqlDir=src/generated/sql --tsQueriesDir=src/generated/lib
   ```
+
+  Here output has been written to `src/generated/{sql,lib}`, these paths can be adjusted to suit.

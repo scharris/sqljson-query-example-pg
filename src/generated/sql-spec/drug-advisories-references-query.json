@@ -113,7 +113,8 @@
           }
         ],
         "orderBy": null,
-        "wrapPropertiesInJsonObject": true
+        "objectWrapProperties": true,
+        "additionalObjectPropertyColumns": []
       },
       "comment": "reference 'primaryCompound' to parent table 'compound'"
     },
@@ -296,7 +297,7 @@
         ],
         "orderBy": null,
         "aggregateToArray": true,
-        "wrapPropertiesInJsonObject": true,
+        "objectWrapProperties": true,
         "fromEntriesLeadingComment": "base query for table 'advisory'"
       },
       "comment": "collection 'advisories' of records from child table 'advisory'"
@@ -400,7 +401,7 @@
           "tableAlias": "dr"
         },
         "aggregateToArray": true,
-        "wrapPropertiesInJsonObject": true,
+        "objectWrapProperties": true,
         "fromEntriesLeadingComment": "base query for table 'drug_reference'"
       },
       "comment": "collection 'prioritizedReferences' of records from child table 'drug_reference'"
@@ -424,5 +425,6 @@
     }
   ],
   "orderBy": null,
-  "wrapPropertiesInJsonObject": true
+  "objectWrapProperties": true,
+  "additionalObjectPropertyColumns": []
 }

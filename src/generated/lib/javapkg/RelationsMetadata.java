@@ -12,6 +12,17 @@ public class RelationsMetadata
 {
   public static class Schema_drugs
   {
+    public static class authority // relation
+    {
+      public static String tableId() { return "drugs.authority"; }
+      public static String tableName() { return "authority"; }
+      public static final Field id = new Field("id", "int4", false, 1, null, 32, 2, 0);
+      public static final Field name = new Field("name", "varchar", false, null, 200, null, null, null);
+      public static final Field url = new Field("url", "varchar", true, null, 500, null, null, null);
+      public static final Field description = new Field("description", "varchar", true, null, 2000, null, null, null);
+      public static final Field weight = new Field("weight", "int4", true, null, null, 32, 2, 0);
+    }
+
     public static class analyst // relation
     {
       public static String tableId() { return "drugs.analyst"; }
@@ -37,13 +48,13 @@ public class RelationsMetadata
       public static final Field approved_by = new Field("approved_by", "int4", true, null, null, 32, 2, 0);
     }
 
-    public static class drug_reference // relation
+    public static class advisory_type // relation
     {
-      public static String tableId() { return "drugs.drug_reference"; }
-      public static String tableName() { return "drug_reference"; }
-      public static final Field drug_id = new Field("drug_id", "int4", false, 1, null, 32, 2, 0);
-      public static final Field reference_id = new Field("reference_id", "int4", false, 2, null, 32, 2, 0);
-      public static final Field priority = new Field("priority", "int4", true, null, null, 32, 2, 0);
+      public static String tableId() { return "drugs.advisory_type"; }
+      public static String tableName() { return "advisory_type"; }
+      public static final Field id = new Field("id", "int4", false, 1, null, 32, 2, 0);
+      public static final Field name = new Field("name", "varchar", false, null, 50, null, null, null);
+      public static final Field authority_id = new Field("authority_id", "int4", false, null, null, 32, 2, 0);
     }
 
     public static class drug // relation
@@ -64,32 +75,21 @@ public class RelationsMetadata
       public static final Field market_entry_date = new Field("market_entry_date", "date", true, null, null, null, null, null);
     }
 
+    public static class drug_reference // relation
+    {
+      public static String tableId() { return "drugs.drug_reference"; }
+      public static String tableName() { return "drug_reference"; }
+      public static final Field drug_id = new Field("drug_id", "int4", false, 1, null, 32, 2, 0);
+      public static final Field reference_id = new Field("reference_id", "int4", false, 2, null, 32, 2, 0);
+      public static final Field priority = new Field("priority", "int4", true, null, null, 32, 2, 0);
+    }
+
     public static class reference // relation
     {
       public static String tableId() { return "drugs.reference"; }
       public static String tableName() { return "reference"; }
       public static final Field id = new Field("id", "int4", false, 1, null, 32, 2, 0);
       public static final Field publication = new Field("publication", "varchar", false, null, 2000, null, null, null);
-    }
-
-    public static class authority // relation
-    {
-      public static String tableId() { return "drugs.authority"; }
-      public static String tableName() { return "authority"; }
-      public static final Field id = new Field("id", "int4", false, 1, null, 32, 2, 0);
-      public static final Field name = new Field("name", "varchar", false, null, 200, null, null, null);
-      public static final Field url = new Field("url", "varchar", true, null, 500, null, null, null);
-      public static final Field description = new Field("description", "varchar", true, null, 2000, null, null, null);
-      public static final Field weight = new Field("weight", "int4", true, null, null, 32, 2, 0);
-    }
-
-    public static class advisory_type // relation
-    {
-      public static String tableId() { return "drugs.advisory_type"; }
-      public static String tableName() { return "advisory_type"; }
-      public static final Field id = new Field("id", "int4", false, 1, null, 32, 2, 0);
-      public static final Field name = new Field("name", "varchar", false, null, 50, null, null, null);
-      public static final Field authority_id = new Field("authority_id", "int4", false, null, null, 32, 2, 0);
     }
 
     public static class advisory // relation

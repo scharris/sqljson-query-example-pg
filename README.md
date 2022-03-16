@@ -9,11 +9,11 @@ You can view the query definitions source code in file `query-gen/queries/query-
 - Install dependencies for the app and for the query-generation sub-project:
   ```
   npm i                 # (for the example app)
-  cd query-gen && npm i # (for the query generator)
+  cd query-gen && npm i && npm run compile # (for the query generator)
   ```
 
 - Next initialize the example (Postgres) database as described in `db`.
-  
+
   If Docker is installed, this may be as easy as just doing:
   ```
   npm run start-db

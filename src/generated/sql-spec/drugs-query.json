@@ -102,7 +102,8 @@
           }
         ],
         "orderBy": null,
-        "wrapPropertiesInJsonObject": true
+        "objectWrapProperties": true,
+        "additionalObjectPropertyColumns": []
       },
       "comment": "reference 'registeredByAnalyst' to parent table 'analyst'"
     },
@@ -177,7 +178,8 @@
                 }
               ],
               "orderBy": null,
-              "wrapPropertiesInJsonObject": true
+              "objectWrapProperties": true,
+              "additionalObjectPropertyColumns": []
             },
             "comment": "reference 'enteredByAnalyst' to parent table 'analyst'"
           },
@@ -223,7 +225,8 @@
                 }
               ],
               "orderBy": null,
-              "wrapPropertiesInJsonObject": true
+              "objectWrapProperties": true,
+              "additionalObjectPropertyColumns": []
             },
             "comment": "reference 'approvedByAnalyst' to parent table 'analyst'"
           }
@@ -252,7 +255,8 @@
           }
         ],
         "orderBy": null,
-        "wrapPropertiesInJsonObject": true
+        "objectWrapProperties": true,
+        "additionalObjectPropertyColumns": []
       },
       "comment": "reference 'compound' to parent table 'compound'"
     },
@@ -355,7 +359,7 @@
           "tableAlias": "dr"
         },
         "aggregateToArray": true,
-        "wrapPropertiesInJsonObject": true,
+        "objectWrapProperties": true,
         "fromEntriesLeadingComment": "base query for table 'drug_reference'"
       },
       "comment": "collection 'prioritizedReferences' of records from child table 'drug_reference'"
@@ -456,7 +460,7 @@
         ],
         "orderBy": null,
         "aggregateToArray": true,
-        "wrapPropertiesInJsonObject": true,
+        "objectWrapProperties": true,
         "fromEntriesLeadingComment": "base query for table 'brand'"
       },
       "comment": "collection 'brands' of records from child table 'brand'"
@@ -724,7 +728,7 @@
         ],
         "orderBy": null,
         "aggregateToArray": true,
-        "wrapPropertiesInJsonObject": true,
+        "objectWrapProperties": true,
         "fromEntriesLeadingComment": "base query for table 'advisory'"
       },
       "comment": "collection 'advisories' of records from child table 'advisory'"
@@ -932,7 +936,7 @@
         ],
         "orderBy": null,
         "aggregateToArray": true,
-        "wrapPropertiesInJsonObject": true,
+        "objectWrapProperties": true,
         "fromEntriesLeadingComment": "base query for table 'drug_functional_category'"
       },
       "comment": "collection 'functionalCategories' of records from child table 'drug_functional_category'"
@@ -959,5 +963,6 @@
     "orderBy": "$$.name",
     "tableAlias": "d"
   },
-  "wrapPropertiesInJsonObject": true
+  "objectWrapProperties": true,
+  "additionalObjectPropertyColumns": []
 }
