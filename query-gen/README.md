@@ -54,6 +54,7 @@ queries via these instructions.
   To generate SQL and matching TypeScript result types:
 
   ```
+  tsc query-gen/query-specs.ts
   node query-gen/js/gen-queries.js --sqlDir=src/generated/sql --tsQueriesDir=src/generated/lib
   ```
 
