@@ -1,5 +1,6 @@
 import * as minimist from 'minimist';
 import * as path from 'path';
+import { promises as fs } from 'fs';
 import { spawnSync } from 'child_process';
 import { parseArgs } from './utils';
 import { generateRelationsMetadata } from './gen-relsmd-lib';
@@ -14,6 +15,9 @@ async function generateDatabaseMetadata(parsedArgs: minimist.ParsedArgs)
   const dbType = parsedArgs['db'];
 
   console.log(`Generating database metadata to file ${dbmdPath}.`);
+
+  try { await fs.stat(jdbcPropsFile); }
+  catch { throw new Error(`JDBC properties file was not found at '${jdbcPropsFile}'.`); }
 
   const mvnProc = spawnSync(
     'mvn',
