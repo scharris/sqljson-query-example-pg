@@ -17,8 +17,9 @@
     <slf4j.version>1.7.32</slf4j.version>
     <ora.jdbc.version>21.1.0.0</ora.jdbc.version>
     <pg.jdbc.version>42.2.20</pg.jdbc.version>
-    <dbmd.table.pattern>^[^$].*</dbmd.table.pattern>
     <dbmd.file>${project.basedir}/dbmd.json</dbmd.file>
+    <dbmd.include.regex>^[^$].*</dbmd.include.regex>
+    <dbmd.exclude.regex>^$</dbmd.exclude.regex>
   </properties>
 
   <dependencyManagement>
@@ -102,8 +103,11 @@
           <arguments>
             <argument>${jdbcProps}</argument>
             <argument>${db}</argument>
-            <argument>${dbmd.table.pattern}</argument>
             <argument>${dbmd.file}</argument>
+            <argument>--include-regex</argument>
+            <argument>${dbmd.include.regex}</argument>
+            <argument>--exclude-regex</argument>
+            <argument>${dbmd.exclude.regex}</argument>
           </arguments>
         </configuration>
       </plugin>

@@ -7,6 +7,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import org.jdbi.v3.core.Jdbi;
@@ -19,12 +22,14 @@ public class DbmdFetcher
   private static String usage()
   {
     return
-      "Expected arguments: <jdbc-props-file> <database-type> <rel-pattern> <output-file>\n" +
+      "Expected arguments: [options] <jdbc-props-file> <database-type> <output-file>\n" +
       "  jdbc-props-file: JDBC properties file, with properties jdbc.driverClassName, jdbc.url, " +
       "jdbc.username, jdbc.password.\n" +
       "  database-type: database type, one of 'pg', 'ora', 'mysql'\n" +
-      "  rel-pattern: Table/view name pattern.\n" +
-      "  output-file: File to which to write query result json value.\n";
+      "  output-file: File to which to write query result json value.\n" +
+      "  [Options]\n" +
+      "     --include <table/view-name regex>: Regular expression for names of tables/views to be included, default to '.*'.\n" +
+      "     --exclude <table/view-name regex>: Regular expression for names of tables/views to be excluded, default '^$'.\n";
   }
 
   public static Jdbi createJdbi(Path propsFile)
@@ -93,7 +98,12 @@ public class DbmdFetcher
       return;
     }
 
-    if ( args.length != 4 )
+    List<String> remArgs = new ArrayList<>(Arrays.asList(args));
+
+    String includeRegex = Args.pluckStringOption(remArgs, "--include-regex").orElse(".*");
+    String excludeRegex = Args.pluckStringOption(remArgs, "--exclude-regex").orElse("^$");
+
+    if ( remArgs.size() != 3 )
     {
       log.error(usage());
       System.exit(1);
@@ -101,13 +111,13 @@ public class DbmdFetcher
 
     Path jdbcPropsFile = Paths.get(args[0]);
     String dbType = args[1];
-    String relPat = args[2];
-    Path outputFile = Paths.get(args[3]);
+    Path outputFile = Paths.get(args[2]);
 
     log.info("Generating database metadata.");
     log.info("JDBC connection properties: " + jdbcPropsFile);
     log.info("Database type: " + dbType);
-    log.info("Relations pattern: " + relPat);
+    log.info("Relations include pattern: " + includeRegex);
+    log.info("Relations exclude pattern: " + excludeRegex);
     log.info("Output file: " + outputFile);
 
     if ( !Files.isRegularFile(jdbcPropsFile) )
@@ -120,7 +130,8 @@ public class DbmdFetcher
 
       String resultJson = jdbi.withHandle(db ->
         db.createQuery(sql)
-        .bind("relPat", relPat)
+        .bind("relIncludePat", includeRegex)
+        .bind("relExcludePat", excludeRegex)
         .mapTo(String.class)
         .one()
       );

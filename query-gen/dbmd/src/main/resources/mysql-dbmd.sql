@@ -33,7 +33,8 @@ relationMetadatasQuery as (
     )), json_type('[]')) as json) json
   from information_schema.tables t
   where t.table_schema not in (select * from ignoreSchemasQuery)
-    and concat(t.table_schema, '.', t.table_name) regexp :relPat
+    and concat(t.table_schema, '.', t.table_name) regexp :relIncludePat
+    and not (concat(t.table_schema, '.', t.table_name) regexp :relExcludePat)
 ),
 foreignKeysQuery as (
   -- foreign keys
@@ -82,8 +83,10 @@ foreignKeysQuery as (
       and parent_pk_comp.ordinal_position = child_fk_comp.position_in_unique_constraint
     where child_tc.constraint_type = 'FOREIGN KEY'
       and child_fk_comp.table_schema not in (select * from ignoreSchemasQuery)
-      and concat(child_tc.table_schema, '.', child_tc.table_name) regexp :relPat
-      and concat(parent_tc.table_schema, '.', parent_tc.table_name) regexp :relPat
+      and concat(child_tc.table_schema, '.', child_tc.table_name) regexp :relIncludePat
+      and not (concat(child_tc.table_schema, '.', child_tc.table_name) regexp :relExcludePat)
+      and concat(parent_tc.table_schema, '.', parent_tc.table_name) regexp :relIncludePat
+      and not (concat(parent_tc.table_schema, '.', parent_tc.table_name) regexp :relExcludePat)
     group by
       child_tc.table_schema,
       child_tc.table_name,

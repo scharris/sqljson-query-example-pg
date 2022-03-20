@@ -23,7 +23,7 @@ fieldMetadatas as (
       returning clob
     ) fmds
   from user_tab_columns tc
-  where regexp_like(tc.table_name, :relPat)
+  where regexp_like(tc.table_name, :relIncludePat) and not regexp_like(tc.table_name, :relExcludePat)
   group by tc.table_name
 ),
 tableMetadatas as (
@@ -38,7 +38,7 @@ tableMetadatas as (
         returning clob
       ), to_clob('[]')) as json) tableMds
     from user_tables t
-    where regexp_like(t.table_name, :relPat)
+    where regexp_like(t.table_name, :relIncludePat) and not regexp_like(t.table_name, :relExcludePat)
 ),
 foreignKeys as (
 -- foreign keys
@@ -68,8 +68,8 @@ foreignKeys as (
       on pkcol.constraint_name = fkcon.r_constraint_name
       and pkcol.position = fkcol.position
     where fkcon.constraint_type = 'R'
-      and regexp_like(fkcon.table_name, :relPat)
-      and regexp_like(pkcon.table_name, :relPat)
+      and regexp_like(fkcon.table_name, :relIncludePat) and (not regexp_like(fkcon.table_name, :relExcludePat))
+      and regexp_like(pkcon.table_name, :relIncludePat) and (not regexp_like(pkcon.table_name, :relExcludePat))
     group by fkcon.constraint_name, fkcon.table_name, pkcon.table_name
   ) fk
 )

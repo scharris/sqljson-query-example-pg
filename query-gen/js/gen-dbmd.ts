@@ -13,20 +13,30 @@ async function generateDatabaseMetadata(parsedArgs: minimist.ParsedArgs)
   const projectDir = path.join(__dirname, '..', '..');
   const jdbcPropsFile = parsedArgs['jdbcProps'];
   const dbType = parsedArgs['db'];
+  const include = parsedArgs['include'] || '.*';
+  const exclude = parsedArgs['exclude'] || '^$';
 
   console.log(`Generating database metadata to file ${dbmdPath}.`);
+  console.log(`Including table/view pattern: '${include}'.`)
+  console.log(`Excluding table/view pattern: '${exclude}'.`)
 
   try { await fs.stat(jdbcPropsFile); }
   catch { throw new Error(`JDBC properties file was not found at '${jdbcPropsFile}'.`); }
 
   const mvnProc = spawnSync(
     'mvn',
-    ['-f', pomPath, 'compile', 'exec:java', `-DjdbcProps=${jdbcPropsFile}`, `-Ddb=${dbType}`],
+    ['-f', pomPath, 'compile', 'exec:java',
+     `-DjdbcProps=${jdbcPropsFile}`, `-Ddb=${dbType}`,
+     `-Ddbmd.include.regex=${include}`, `-Ddbmd.exclude.regex=${exclude}`],
     { cwd: projectDir, env: process.env, encoding: 'utf8' }
   );
 
   if (mvnProc.status !== 0)
-    throw new Error('Database generation failed: ' + mvnProc.stderr);
+  {
+    console.error('Maven command to generate database metadata failed:');
+    console.error(mvnProc);
+    throw new Error('Database metadata generation failed.');
+  }
 
   await generateRelationsMetadata({ dbmd: dbmdPath, tsRelsMdDir: internalDbmdDir, _: [] });
 }
@@ -41,6 +51,8 @@ const requiredParams = [
 ]
 const optionNames = [
   'dbmd',
+  'include',
+  'exclude',
 ];
 const parsedArgs = parseArgs(process.argv, requiredParams, optionNames, 0);
 

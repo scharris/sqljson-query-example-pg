@@ -39,7 +39,8 @@ relationMetadatasQuery as (
     )), '[]'::json) json
   from pg_tables t
   where t.schemaname not in (select * from ignoreSchemasQuery)
-    and t.schemaname || '.' || t.tablename ~ :relPat
+    and t.schemaname || '.' || t.tablename ~ :relIncludePat
+    and t.schemaname || '.' || t.tablename !~ :relExcludePat
 ),
 foreignKeysQuery as (
   select coalesce(json_agg(fk.obj), '[]'::json) json
@@ -86,8 +87,10 @@ foreignKeysQuery as (
       and child_fk_comp.position_in_unique_constraint = parent_pk_comp.ordinal_position
     where child_tc.constraint_type = 'FOREIGN KEY'
       and child_fk_comp.table_schema not in (select * from ignoreSchemasQuery)
-      and child_tc.table_schema || '.' || child_tc.table_name ~ :relPat
-      and parent_tc.table_schema || '.' || parent_tc.table_name ~ :relPat
+      and child_tc.table_schema || '.' || child_tc.table_name ~ :relIncludePat
+      and child_tc.table_schema || '.' || child_tc.table_name !~ :relExcludePat
+      and parent_tc.table_schema || '.' || parent_tc.table_name ~ :relIncludePat
+      and parent_tc.table_schema || '.' || parent_tc.table_name !~ :relExcludePat
     group by
       child_tc.table_schema,
       child_tc.table_name,
