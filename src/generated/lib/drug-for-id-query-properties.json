@@ -1,0 +1,427 @@
+{
+  "queryName": "drug for id query",
+  "table": {
+    "schema": "drugs",
+    "name": "drug"
+  },
+  "properties": [
+    {
+      "type": "field",
+      "propertyName": "id",
+      "sourceField": "id"
+    },
+    {
+      "type": "field",
+      "propertyName": "name",
+      "sourceField": "name"
+    },
+    {
+      "type": "field",
+      "propertyName": "description",
+      "sourceField": "descr"
+    },
+    {
+      "type": "field",
+      "propertyName": "category",
+      "sourceField": "category_code"
+    },
+    {
+      "type": "field",
+      "propertyName": "meshId",
+      "sourceField": "mesh_id"
+    },
+    {
+      "type": "field",
+      "propertyName": "cid",
+      "sourceField": "cid"
+    },
+    {
+      "type": "field",
+      "propertyName": "registered",
+      "sourceField": "registered"
+    },
+    {
+      "type": "field",
+      "propertyName": "marketEntryDate",
+      "sourceField": "market_entry_date"
+    },
+    {
+      "type": "field",
+      "propertyName": "therapeuticIndications",
+      "sourceField": "therapeutic_indications"
+    },
+    {
+      "type": "expr",
+      "propertyName": "cidPlus1000",
+      "sourceExpression": "$$.cid + 1000"
+    },
+    {
+      "type": "parent-ref",
+      "referencePropertyName": "registeredByAnalyst",
+      "table": {
+        "schema": "drugs",
+        "name": "analyst"
+      },
+      "properties": [
+        {
+          "type": "field",
+          "propertyName": "id",
+          "sourceField": "id"
+        },
+        {
+          "type": "field",
+          "propertyName": "shortName",
+          "sourceField": "short_name"
+        }
+      ]
+    },
+    {
+      "type": "parent-ref",
+      "referencePropertyName": "compound",
+      "table": {
+        "schema": "drugs",
+        "name": "compound"
+      },
+      "properties": [
+        {
+          "type": "field",
+          "propertyName": "displayName",
+          "sourceField": "display_name"
+        },
+        {
+          "type": "field",
+          "propertyName": "nctrIsisId",
+          "sourceField": "nctr_isis_id"
+        },
+        {
+          "type": "field",
+          "propertyName": "cas",
+          "sourceField": "cas"
+        },
+        {
+          "type": "field",
+          "propertyName": "entered",
+          "sourceField": "entered"
+        },
+        {
+          "type": "parent-ref",
+          "referencePropertyName": "enteredByAnalyst",
+          "table": {
+            "schema": "drugs",
+            "name": "analyst"
+          },
+          "properties": [
+            {
+              "type": "field",
+              "propertyName": "id",
+              "sourceField": "id"
+            },
+            {
+              "type": "field",
+              "propertyName": "shortName",
+              "sourceField": "short_name"
+            }
+          ]
+        },
+        {
+          "type": "parent-ref",
+          "referencePropertyName": "approvedByAnalyst",
+          "table": {
+            "schema": "drugs",
+            "name": "analyst"
+          },
+          "properties": [
+            {
+              "type": "field",
+              "propertyName": "id",
+              "sourceField": "id"
+            },
+            {
+              "type": "field",
+              "propertyName": "shortName",
+              "sourceField": "short_name"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "child-coll",
+      "collectionPropertyName": "prioritizedReferences",
+      "table": {
+        "schema": "drugs",
+        "name": "drug_reference"
+      },
+      "properties": [
+        {
+          "type": "field",
+          "propertyName": "priority",
+          "sourceField": "priority"
+        },
+        {
+          "type": "field",
+          "propertyName": "publication",
+          "sourceField": "publication",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "reference"
+              },
+              "viaFkFields": [
+                "reference_id"
+              ]
+            }
+          ]
+        }
+      ],
+      "unwrapped": false
+    },
+    {
+      "type": "child-coll",
+      "collectionPropertyName": "brands",
+      "table": {
+        "schema": "drugs",
+        "name": "brand"
+      },
+      "properties": [
+        {
+          "type": "field",
+          "propertyName": "brandName",
+          "sourceField": "brand_name"
+        },
+        {
+          "type": "field",
+          "propertyName": "manufacturer",
+          "sourceField": "name",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "manufacturer"
+              },
+              "viaFkFields": [
+                "manufacturer_id"
+              ]
+            }
+          ]
+        }
+      ],
+      "unwrapped": false
+    },
+    {
+      "type": "child-coll",
+      "collectionPropertyName": "advisories",
+      "table": {
+        "schema": "drugs",
+        "name": "advisory"
+      },
+      "properties": [
+        {
+          "type": "field",
+          "propertyName": "advisoryText",
+          "sourceField": "text"
+        },
+        {
+          "type": "field",
+          "propertyName": "advisoryType",
+          "sourceField": "name",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "advisory_type"
+              },
+              "viaFkFields": [
+                "advisory_type_id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "expr",
+          "propertyName": "exprYieldingTwo",
+          "sourceExpression": "(1 + 1)",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "advisory_type"
+              },
+              "viaFkFields": [
+                "advisory_type_id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "propertyName": "authorityName",
+          "sourceField": "name",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "advisory_type"
+              },
+              "viaFkFields": [
+                "advisory_type_id"
+              ]
+            },
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "authority"
+              },
+              "viaFkFields": [
+                "authority_id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "propertyName": "authorityUrl",
+          "sourceField": "url",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "advisory_type"
+              },
+              "viaFkFields": [
+                "advisory_type_id"
+              ]
+            },
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "authority"
+              },
+              "viaFkFields": [
+                "authority_id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "propertyName": "authorityDescription",
+          "sourceField": "description",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "advisory_type"
+              },
+              "viaFkFields": [
+                "advisory_type_id"
+              ]
+            },
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "authority"
+              },
+              "viaFkFields": [
+                "authority_id"
+              ]
+            }
+          ]
+        }
+      ],
+      "unwrapped": false
+    },
+    {
+      "type": "child-coll",
+      "collectionPropertyName": "functionalCategories",
+      "table": {
+        "schema": "drugs",
+        "name": "drug_functional_category"
+      },
+      "properties": [
+        {
+          "type": "field",
+          "propertyName": "categoryName",
+          "sourceField": "name",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "functional_category"
+              },
+              "viaFkFields": [
+                "functional_category_id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "propertyName": "description",
+          "sourceField": "description",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "functional_category"
+              },
+              "viaFkFields": [
+                "functional_category_id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "propertyName": "authorityName",
+          "sourceField": "name",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "authority"
+              },
+              "viaFkFields": [
+                "authority_id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "propertyName": "authorityUrl",
+          "sourceField": "url",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "authority"
+              },
+              "viaFkFields": [
+                "authority_id"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "propertyName": "authorityDescription",
+          "sourceField": "description",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "authority"
+              },
+              "viaFkFields": [
+                "authority_id"
+              ]
+            }
+          ]
+        }
+      ],
+      "unwrapped": false
+    }
+  ]
+}

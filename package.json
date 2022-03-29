@@ -19,7 +19,7 @@
       "pregen-queries-java": "tsc -b query-gen",
       "gen-queries-java": "node query-gen/js/gen-queries.js --sqlDir src/generated/sql --javaBaseDir src/generated/lib --javaQueriesPkg javapkg",
       "pregen-queries-ts": "tsc -b query-gen",
-      "gen-queries-ts": "node query-gen/js/gen-queries.js --sqlDir src/generated/sql --tsQueriesDir src/generated/lib",
+      "gen-queries-ts": "node query-gen/js/gen-queries.js --sqlDir src/generated/sql --tsQueriesDir src/generated/lib --propsMdDir src/generated/lib",
       "prebuild": "npm run gen-queries-ts",
       "build": "npm run clean && tsc && copyfiles --flat src/generated/sql/*.sql dist/generated/sql",
       "preapp": "npm run build",

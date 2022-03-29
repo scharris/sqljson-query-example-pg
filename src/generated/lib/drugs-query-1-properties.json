@@ -1,0 +1,24 @@
+{
+  "queryName": "drugs query 1",
+  "table": {
+    "schema": "drugs",
+    "name": "drug"
+  },
+  "properties": [
+    {
+      "type": "field",
+      "propertyName": "drugName",
+      "sourceField": "name"
+    },
+    {
+      "type": "field",
+      "propertyName": "categoryCode",
+      "sourceField": "category_code"
+    },
+    {
+      "type": "expr",
+      "propertyName": "cidPlus1000",
+      "sourceExpression": "$$.cid + 1000"
+    }
+  ]
+}

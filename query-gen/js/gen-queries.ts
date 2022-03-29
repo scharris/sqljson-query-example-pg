@@ -18,6 +18,7 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
   const dbmdPath = parsedArgs['dbmd'] || path.join(internalDbmdDir, 'dbmd.json');
   const sqlOutputDir = parsedArgs['sqlDir'];
   const sqlSpecOutputDir = parsedArgs['sqlSpecDir'];
+  const queryPropertiesOutputDir = parsedArgs['propsMdDir'];
   const tsOutputDir = parsedArgs['tsQueriesDir'];
   const javaBaseDir = parsedArgs['javaBaseDir'];
   const javaPackage = parsedArgs['javaQueriesPkg'] ?? '';
@@ -32,6 +33,8 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
   await fs.mkdir(sqlOutputDir, {recursive: true});
   if ( sqlSpecOutputDir)
     await fs.mkdir(sqlSpecOutputDir, {recursive: true});
+  if (queryPropertiesOutputDir)
+    await fs.mkdir(queryPropertiesOutputDir, {recursive: true});
 
   // Generate TS query/result-type source files if specified.
   if ( tsOutputDir )
@@ -40,14 +43,19 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
 
     console.log(`Writing TS source files to ${tsOutputDir}.`);
 
-    await generateQuerySources(queryGroupSpec, dbmdPath, {
-      sourceLanguage: 'TS',
-      resultTypesOutputDir: tsOutputDir,
-      sqlOutputDir,
-      sqlSpecOutputDir,
-      typesHeaderFile: parsedArgs['tsTypesHeader'],
-      sqlResourcePathPrefix: parsedArgs['sqlResourcePath']
-    });
+    await generateQuerySources(
+      queryGroupSpec,
+      dbmdPath,
+      {
+        sourceLanguage: 'TS',
+        resultTypesOutputDir: tsOutputDir,
+        sqlSpecOutputDir,
+        queryPropertiesOutputDir,
+        sqlOutputDir,
+        typesHeaderFile: parsedArgs['tsTypesHeader'],
+        sqlResourcePathPrefix: parsedArgs['sqlResourcePath']
+      }
+    );
   }
 
   // Generate Java sources if specified.
@@ -57,15 +65,20 @@ async function generateQueries(parsedArgs: minimist.ParsedArgs)
 
     console.log(`Writing Java query source files to ${javaOutputDir}.`);
 
-    await generateQuerySources(queryGroupSpec, dbmdPath, {
-      sourceLanguage: 'Java',
-      resultTypesOutputDir: javaOutputDir,
-      sqlOutputDir,
-      sqlSpecOutputDir,
-      javaOptions: { javaPackage, emitRecords: javaEmitRecords },
-      typesHeaderFile: parsedArgs['javaTypesHeader'],
-      sqlResourcePathPrefix: parsedArgs['sqlResourcePath'],
-    });
+    await generateQuerySources(
+      queryGroupSpec,
+      dbmdPath,
+      {
+        sourceLanguage: 'Java',
+        resultTypesOutputDir: javaOutputDir,
+        sqlSpecOutputDir,
+        queryPropertiesOutputDir,
+        sqlOutputDir,
+        javaOptions: { javaPackage, emitRecords: javaEmitRecords },
+        typesHeaderFile: parsedArgs['javaTypesHeader'],
+        sqlResourcePathPrefix: parsedArgs['sqlResourcePath'],
+      }
+    );
   }
 }
 
@@ -77,6 +90,7 @@ const optionNames = [
   'dbmd', // database metadata json file path
   'sqlDir',
   'sqlSpecDir',
+  'propsMdDir',
   'sqlResourcePath',
   'tsQueriesDir', 'tsTypesHeader',
   'javaBaseDir', 'javaQueriesPkg', 'javaTypesHeader', 'javaEmitRecords'

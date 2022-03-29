@@ -1,0 +1,87 @@
+{
+  "queryName": "drugs query 3",
+  "table": {
+    "schema": "drugs",
+    "name": "drug"
+  },
+  "properties": [
+    {
+      "type": "field",
+      "propertyName": "drugName",
+      "sourceField": "name"
+    },
+    {
+      "type": "field",
+      "propertyName": "categoryCode",
+      "sourceField": "category_code"
+    },
+    {
+      "type": "field",
+      "propertyName": "registeredByAnalyst",
+      "sourceField": "short_name",
+      "viaInlinedParentSteps": [
+        {
+          "parent": {
+            "schema": "drugs",
+            "name": "analyst"
+          },
+          "viaFkFields": [
+            "registered_by"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "parent-ref",
+      "referencePropertyName": "primaryCompound",
+      "table": {
+        "schema": "drugs",
+        "name": "compound"
+      },
+      "properties": [
+        {
+          "type": "field",
+          "propertyName": "compoundId",
+          "sourceField": "id"
+        },
+        {
+          "type": "field",
+          "propertyName": "compoundDisplayName",
+          "sourceField": "display_name"
+        },
+        {
+          "type": "field",
+          "propertyName": "enteredByAnalyst",
+          "sourceField": "short_name",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "analyst"
+              },
+              "viaFkFields": [
+                "entered_by"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "field",
+          "propertyName": "approvedByAnalyst",
+          "sourceField": "short_name",
+          "viaInlinedParentSteps": [
+            {
+              "parent": {
+                "schema": "drugs",
+                "name": "analyst"
+              },
+              "viaFkFields": [
+                "approved_by"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
