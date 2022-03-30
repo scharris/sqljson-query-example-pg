@@ -162,13 +162,13 @@
           "type": "field",
           "propertyName": "publication",
           "sourceField": "publication",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "reference"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "reference_id"
               ]
             }
@@ -194,13 +194,13 @@
           "type": "field",
           "propertyName": "manufacturer",
           "sourceField": "name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "manufacturer"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "manufacturer_id"
               ]
             }
@@ -226,13 +226,13 @@
           "type": "field",
           "propertyName": "advisoryType",
           "sourceField": "name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "advisory_type"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "advisory_type_id"
               ]
             }
@@ -242,13 +242,13 @@
           "type": "expr",
           "propertyName": "exprYieldingTwo",
           "sourceExpression": "(1 + 1)",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "advisory_type"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "advisory_type_id"
               ]
             }
@@ -258,13 +258,13 @@
           "type": "field",
           "propertyName": "authorityName",
           "sourceField": "name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "advisory_type"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "advisory_type_id"
               ]
             },
@@ -273,7 +273,7 @@
                 "schema": "drugs",
                 "name": "authority"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "authority_id"
               ]
             }
@@ -283,13 +283,13 @@
           "type": "field",
           "propertyName": "authorityUrl",
           "sourceField": "url",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "advisory_type"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "advisory_type_id"
               ]
             },
@@ -298,7 +298,7 @@
                 "schema": "drugs",
                 "name": "authority"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "authority_id"
               ]
             }
@@ -308,13 +308,13 @@
           "type": "field",
           "propertyName": "authorityDescription",
           "sourceField": "description",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "advisory_type"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "advisory_type_id"
               ]
             },
@@ -323,7 +323,7 @@
                 "schema": "drugs",
                 "name": "authority"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "authority_id"
               ]
             }
@@ -344,13 +344,13 @@
           "type": "field",
           "propertyName": "categoryName",
           "sourceField": "name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "functional_category"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "functional_category_id"
               ]
             }
@@ -360,13 +360,13 @@
           "type": "field",
           "propertyName": "description",
           "sourceField": "description",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "functional_category"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "functional_category_id"
               ]
             }
@@ -376,13 +376,13 @@
           "type": "field",
           "propertyName": "authorityName",
           "sourceField": "name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "authority"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "authority_id"
               ]
             }
@@ -392,13 +392,13 @@
           "type": "field",
           "propertyName": "authorityUrl",
           "sourceField": "url",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "authority"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "authority_id"
               ]
             }
@@ -408,13 +408,13 @@
           "type": "field",
           "propertyName": "authorityDescription",
           "sourceField": "description",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "authority"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "authority_id"
               ]
             }

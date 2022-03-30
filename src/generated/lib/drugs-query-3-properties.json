@@ -19,13 +19,13 @@
       "type": "field",
       "propertyName": "registeredByAnalyst",
       "sourceField": "short_name",
-      "viaInlinedParentSteps": [
+      "inlinedFromAncestorVia": [
         {
           "parent": {
             "schema": "drugs",
             "name": "analyst"
           },
-          "viaFkFields": [
+          "fkFields": [
             "registered_by"
           ]
         }
@@ -53,13 +53,13 @@
           "type": "field",
           "propertyName": "enteredByAnalyst",
           "sourceField": "short_name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "analyst"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "entered_by"
               ]
             }
@@ -69,13 +69,13 @@
           "type": "field",
           "propertyName": "approvedByAnalyst",
           "sourceField": "short_name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "analyst"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "approved_by"
               ]
             }

@@ -19,13 +19,13 @@
       "type": "field",
       "propertyName": "registeredByAnalyst",
       "sourceField": "short_name",
-      "viaInlinedParentSteps": [
+      "inlinedFromAncestorVia": [
         {
           "parent": {
             "schema": "drugs",
             "name": "analyst"
           },
-          "viaFkFields": [
+          "fkFields": [
             "registered_by"
           ]
         }

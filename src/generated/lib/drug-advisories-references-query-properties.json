@@ -37,13 +37,13 @@
           "type": "field",
           "propertyName": "enteredByAnalyst",
           "sourceField": "short_name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "analyst"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "entered_by"
               ]
             }
@@ -73,13 +73,13 @@
           "type": "field",
           "propertyName": "advisoryTypeName",
           "sourceField": "name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "advisory_type"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "advisory_type_id"
               ]
             }
@@ -89,13 +89,13 @@
           "type": "field",
           "propertyName": "advisoryTypeAuthorityName",
           "sourceField": "name",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "advisory_type"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "advisory_type_id"
               ]
             },
@@ -104,7 +104,7 @@
                 "schema": "drugs",
                 "name": "authority"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "authority_id"
               ]
             }
@@ -130,13 +130,13 @@
           "type": "field",
           "propertyName": "publication",
           "sourceField": "publication",
-          "viaInlinedParentSteps": [
+          "inlinedFromAncestorVia": [
             {
               "parent": {
                 "schema": "drugs",
                 "name": "reference"
               },
-              "viaFkFields": [
+              "fkFields": [
                 "reference_id"
               ]
             }
