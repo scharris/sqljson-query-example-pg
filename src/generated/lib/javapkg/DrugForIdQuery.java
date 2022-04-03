@@ -66,10 +66,10 @@ public class DrugForIdQuery
   public record Advisory(
     String advisoryText,
     String advisoryType,
+    int exprYieldingTwo,
     String authorityName,
     @Nullable String authorityUrl,
-    @Nullable String authorityDescription,
-    int exprYieldingTwo
+    @Nullable String authorityDescription
   ){}
 
   public record DrugFunctionalCategory(
