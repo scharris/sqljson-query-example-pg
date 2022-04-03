@@ -450,11 +450,11 @@ const drugsQuery7: QuerySpec = {
 };
 
 function fullDrugsQuery
-(
-name: string,
-drugCond: RecordCondition | undefined
-)
-: QuerySpec
+  (
+    name: string,
+    drugCond: RecordCondition | undefined
+  )
+  : QuerySpec
 {
   return {
     queryName: name,

@@ -6,17 +6,17 @@
   },
   "properties": [
     {
-      "type": "field",
+      "type": "qpm-field",
       "propertyName": "drugName",
       "sourceField": "name"
     },
     {
-      "type": "field",
+      "type": "qpm-field",
       "propertyName": "categoryCode",
       "sourceField": "category_code"
     },
     {
-      "type": "expr",
+      "type": "qpm-expr",
       "propertyName": "cidPlus1000",
       "sourceExpression": "$$.cid + 1000"
     }

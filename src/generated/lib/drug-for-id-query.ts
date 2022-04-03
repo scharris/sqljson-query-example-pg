@@ -60,10 +60,10 @@ export interface Advisory
 {
   advisoryText: string;
   advisoryType: string;
+  exprYieldingTwo: number;
   authorityName: string;
   authorityUrl: string | null;
   authorityDescription: string | null;
-  exprYieldingTwo: number;
 }
 
 export interface DrugFunctionalCategory
