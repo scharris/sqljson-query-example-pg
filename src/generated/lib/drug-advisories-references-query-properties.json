@@ -6,17 +6,17 @@
   },
   "properties": [
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "drugName",
       "sourceField": "name"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "categoryCode",
       "sourceField": "category_code"
     },
     {
-      "type": "qpm-parent-ref",
+      "type": "parent-ref",
       "referencePropertyName": "primaryCompound",
       "table": {
         "schema": "drugs",
@@ -24,17 +24,17 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "compoundId",
           "sourceField": "id"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "compoundDisplayName",
           "sourceField": "display_name"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "enteredByAnalyst",
           "sourceField": "short_name",
           "inlinedFromAncestorVia": [
@@ -52,7 +52,7 @@
       ]
     },
     {
-      "type": "qpm-child-coll",
+      "type": "child-coll",
       "collectionPropertyName": "advisories",
       "table": {
         "schema": "drugs",
@@ -60,17 +60,17 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "advisoryTypeId",
           "sourceField": "advisory_type_id"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "advisoryText",
           "sourceField": "text"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "advisoryTypeName",
           "sourceField": "name",
           "inlinedFromAncestorVia": [
@@ -86,7 +86,7 @@
           ]
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "advisoryTypeAuthorityName",
           "sourceField": "name",
           "inlinedFromAncestorVia": [
@@ -114,7 +114,7 @@
       "unwrapped": false
     },
     {
-      "type": "qpm-child-coll",
+      "type": "child-coll",
       "collectionPropertyName": "prioritizedReferences",
       "table": {
         "schema": "drugs",
@@ -122,12 +122,12 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "priority",
           "sourceField": "priority"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "publication",
           "sourceField": "publication",
           "inlinedFromAncestorVia": [

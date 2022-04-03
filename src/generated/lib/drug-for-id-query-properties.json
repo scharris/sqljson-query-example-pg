@@ -6,57 +6,57 @@
   },
   "properties": [
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "id",
       "sourceField": "id"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "name",
       "sourceField": "name"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "description",
       "sourceField": "descr"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "category",
       "sourceField": "category_code"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "meshId",
       "sourceField": "mesh_id"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "cid",
       "sourceField": "cid"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "registered",
       "sourceField": "registered"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "marketEntryDate",
       "sourceField": "market_entry_date"
     },
     {
-      "type": "qpm-field",
+      "type": "field",
       "propertyName": "therapeuticIndications",
       "sourceField": "therapeutic_indications"
     },
     {
-      "type": "qpm-expr",
+      "type": "expr",
       "propertyName": "cidPlus1000",
       "sourceExpression": "$$.cid + 1000"
     },
     {
-      "type": "qpm-parent-ref",
+      "type": "parent-ref",
       "referencePropertyName": "registeredByAnalyst",
       "table": {
         "schema": "drugs",
@@ -64,19 +64,19 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "id",
           "sourceField": "id"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "shortName",
           "sourceField": "short_name"
         }
       ]
     },
     {
-      "type": "qpm-parent-ref",
+      "type": "parent-ref",
       "referencePropertyName": "compound",
       "table": {
         "schema": "drugs",
@@ -84,27 +84,27 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "displayName",
           "sourceField": "display_name"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "nctrIsisId",
           "sourceField": "nctr_isis_id"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "cas",
           "sourceField": "cas"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "entered",
           "sourceField": "entered"
         },
         {
-          "type": "qpm-parent-ref",
+          "type": "parent-ref",
           "referencePropertyName": "enteredByAnalyst",
           "table": {
             "schema": "drugs",
@@ -112,19 +112,19 @@
           },
           "properties": [
             {
-              "type": "qpm-field",
+              "type": "field",
               "propertyName": "id",
               "sourceField": "id"
             },
             {
-              "type": "qpm-field",
+              "type": "field",
               "propertyName": "shortName",
               "sourceField": "short_name"
             }
           ]
         },
         {
-          "type": "qpm-parent-ref",
+          "type": "parent-ref",
           "referencePropertyName": "approvedByAnalyst",
           "table": {
             "schema": "drugs",
@@ -132,12 +132,12 @@
           },
           "properties": [
             {
-              "type": "qpm-field",
+              "type": "field",
               "propertyName": "id",
               "sourceField": "id"
             },
             {
-              "type": "qpm-field",
+              "type": "field",
               "propertyName": "shortName",
               "sourceField": "short_name"
             }
@@ -146,7 +146,7 @@
       ]
     },
     {
-      "type": "qpm-child-coll",
+      "type": "child-coll",
       "collectionPropertyName": "prioritizedReferences",
       "table": {
         "schema": "drugs",
@@ -154,12 +154,12 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "priority",
           "sourceField": "priority"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "publication",
           "sourceField": "publication",
           "inlinedFromAncestorVia": [
@@ -178,7 +178,7 @@
       "unwrapped": false
     },
     {
-      "type": "qpm-child-coll",
+      "type": "child-coll",
       "collectionPropertyName": "brands",
       "table": {
         "schema": "drugs",
@@ -186,12 +186,12 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "brandName",
           "sourceField": "brand_name"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "manufacturer",
           "sourceField": "name",
           "inlinedFromAncestorVia": [
@@ -210,7 +210,7 @@
       "unwrapped": false
     },
     {
-      "type": "qpm-child-coll",
+      "type": "child-coll",
       "collectionPropertyName": "advisories",
       "table": {
         "schema": "drugs",
@@ -218,12 +218,12 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "advisoryText",
           "sourceField": "text"
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "advisoryType",
           "sourceField": "name",
           "inlinedFromAncestorVia": [
@@ -239,7 +239,7 @@
           ]
         },
         {
-          "type": "qpm-expr",
+          "type": "expr",
           "propertyName": "exprYieldingTwo",
           "sourceExpression": "(1 + 1)",
           "inlinedFromAncestorVia": [
@@ -255,7 +255,7 @@
           ]
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "authorityName",
           "sourceField": "name",
           "inlinedFromAncestorVia": [
@@ -280,7 +280,7 @@
           ]
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "authorityUrl",
           "sourceField": "url",
           "inlinedFromAncestorVia": [
@@ -305,7 +305,7 @@
           ]
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "authorityDescription",
           "sourceField": "description",
           "inlinedFromAncestorVia": [
@@ -333,7 +333,7 @@
       "unwrapped": false
     },
     {
-      "type": "qpm-child-coll",
+      "type": "child-coll",
       "collectionPropertyName": "functionalCategories",
       "table": {
         "schema": "drugs",
@@ -341,7 +341,7 @@
       },
       "properties": [
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "categoryName",
           "sourceField": "name",
           "inlinedFromAncestorVia": [
@@ -357,7 +357,7 @@
           ]
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "description",
           "sourceField": "description",
           "inlinedFromAncestorVia": [
@@ -373,7 +373,7 @@
           ]
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "authorityName",
           "sourceField": "name",
           "inlinedFromAncestorVia": [
@@ -389,7 +389,7 @@
           ]
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "authorityUrl",
           "sourceField": "url",
           "inlinedFromAncestorVia": [
@@ -405,7 +405,7 @@
           ]
         },
         {
-          "type": "qpm-field",
+          "type": "field",
           "propertyName": "authorityDescription",
           "sourceField": "description",
           "inlinedFromAncestorVia": [
