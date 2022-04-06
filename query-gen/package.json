@@ -1,17 +1,24 @@
 {
-   "name": "query-sources-generator",
-   "version": "1.2.0",
-   "license": "MIT",
-   "description": "Generate SQL queries and TypeScript result types for enclosing app.",
-   "repository": {},
-   "devDependencies": {
-      "@types/minimist": "^1.2.1",
-      "@types/node": "^14.18.0",
-      "copyfiles": "^2.4.1",
-      "typescript": "^4.5.2"
-   },
-   "dependencies": {
-      "minimist": "^1.2.5",
-      "sqljson-query": "1.7.8"
-   }
+  "name": "query-sources-generator",
+  "version": "1.3.0",
+  "license": "MIT",
+  "description": "Generate database metadata, SQL queries, and TypeScript and Java result type sources.",
+  "repository": {},
+  "scripts": {
+    "gen-dbmd": "gen-dbmd --jdbcProps ../db/jdbc.props --db pg --outputDir .",
+    "gen-app-relsmd": "gen-relsmd --dbmd dbmd.json --tsOutputDir ../src/generated/lib",
+    "pregen-queries-java": "tsc -b .",
+    "gen-queries-java": "node gen-queries.js --dbmd dbmd.json --sqlDir ../src/generated/sql --javaBaseDir ../src/generated/lib --javaQueriesPkg javapkg",
+    "pregen-queries-ts": "tsc -b .",
+    "gen-queries-ts": "node gen-queries.js --dbmd dbmd.json --sqlDir ../src/generated/sql --tsDir ../src/generated/lib --propsMdDir ../src/generated/lib"
+  },
+  "devDependencies": {
+    "@types/minimist": "^1.2.1",
+    "@types/node": "^14.18.0",
+    "typescript": "^4.5.2"
+  },
+  "dependencies": {
+    "minimist": "^1.2.5",
+    "sqljson-query": "1.7.10"
+  }
 }
