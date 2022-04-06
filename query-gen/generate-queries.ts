@@ -1,5 +1,5 @@
-import {QueryGroupSpec, QuerySpec, RecordCondition} from 'sqljson-query';
-import {Schema_drugs as drugs, verifiedFieldNames} from './dbmd/relations-metadata';
+import { QueryGroupSpec, QuerySpec, RecordCondition, generateQueriesWithArgvOptions } from 'sqljson-query';
+import { Schema_drugs as drugs, verifiedFieldNames } from './relations-metadata';
 
 const drugAdvisoriesReferencesQuery: QuerySpec = {
   queryName: 'drug advisories references query',
@@ -603,3 +603,13 @@ export const queryGroupSpec: QueryGroupSpec = {
     fullDrugsQuery('drug for id query', { sql: '$$.id = $1' }),
   ]
 };
+
+// Run the query generator with options specified in arguments to this script.
+
+generateQueriesWithArgvOptions(queryGroupSpec, process.argv)
+  .then(() => { console.log("Query generation completed."); })
+  .catch((e) => {
+    console.error(e);
+    console.error("Query generation failed due to error - see error detail above.");
+    process.exit(1);
+  });

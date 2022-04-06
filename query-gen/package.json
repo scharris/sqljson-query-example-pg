@@ -4,9 +4,6 @@
    "license": "MIT",
    "description": "Generate SQL queries and TypeScript result types for enclosing app.",
    "repository": {},
-   "scripts": {
-      "compile": "tsc **/*.ts"
-   },
    "devDependencies": {
       "@types/minimist": "^1.2.1",
       "@types/node": "^14.18.0",
@@ -15,6 +12,6 @@
    },
    "dependencies": {
       "minimist": "^1.2.5",
-      "sqljson-query": "1.7.2"
+      "sqljson-query": "1.7.8"
    }
 }

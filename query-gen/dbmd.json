@@ -1,6 +1,6 @@
 {
     "dbmsName": "PostgreSQL",
-    "dbmsVersion": "13.6",
+    "dbmsVersion": "14.2",
     "foreignKeys": [
         {
             "constraintName": "advisory_advisory_type_fk",
