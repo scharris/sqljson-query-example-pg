@@ -7,7 +7,7 @@ import {Schema_drugs as drugsSchema} from './generated/lib/relations-metadata';
 import * as DrugsQuery from './generated/lib/drugs-query';
 import * as DrugForIdQuery from './generated/lib/drug-for-id-query';
 
-// Example run: node dist/app.js dist/generated/sql db/connection.env
+// Example run: node dist/app.js dist/generated/sql db/pg-conn.env
 
 const generatedSqlsDir = process.argv[2];
 const envFile = process.argv.length === 4 ? process.argv[3] : null;

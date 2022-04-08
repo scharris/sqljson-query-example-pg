@@ -21,7 +21,7 @@
       "prebuild": "npm run gen-queries-ts",
       "build": "npm run clean && tsc && copyfiles --flat src/generated/sql/*.sql dist/generated/sql",
       "preapp": "npm run build",
-      "app": "node dist/app.js dist/generated/sql db/connection.env",
+      "app": "node dist/app.js dist/generated/sql db/pg-conn.env",
       "clean": "rimraf dist"
    },
    "dependencies": {
