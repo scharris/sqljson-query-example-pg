@@ -9,7 +9,7 @@
     "gen-dbmd-mysql": "gen-dbmd --connProps ../db/mysql-conn.props --db mysql --outputDir /Users/sharris/tmp",
     "gen-app-relsmd": "gen-relsmd --dbmd dbmd.json --tsDir ../src/generated/lib",
     "pregen-queries-java": "tsc -b .",
-    "gen-queries-java": "node gen-queries.js --dbmd dbmd.json --sqlDir ../src/generated/sql --javaBaseDir ../src/generated/lib --javaQueriesPkg javapkg",
+    "gen-queries-java": "node gen-queries.js --dbmd dbmd.json --sqlDir ../src/generated/sql --javaBaseDir ../src/generated/lib --javaPackage javapkg",
     "pregen-queries-ts": "tsc -b .",
     "gen-queries-ts": "node gen-queries.js --dbmd dbmd.json --sqlDir ../src/generated/sql --tsDir ../src/generated/lib --propsMdDir ../src/generated/lib"
   },
@@ -20,6 +20,6 @@
   },
   "dependencies": {
     "minimist": "^1.2.5",
-    "sqljson-query": "1.7.11"
+    "sqljson-query": "1.7.16"
   }
 }
