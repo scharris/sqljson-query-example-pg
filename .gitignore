@@ -7,3 +7,4 @@ NOTES
 *.iml
 .DS_Store
 .vscode
+.direnv
